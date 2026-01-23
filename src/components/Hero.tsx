@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
 
 const roles = [
   "Cybersecurity Specialist",
@@ -91,6 +91,16 @@ const Hero = () => {
           >
             Get In Touch
           </Button>
+          <a href="/Ritik_Sharma_Resume.pdf" download>
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="gap-2 border-primary/50 text-primary hover:bg-primary/10 transition-all duration-300"
+            >
+              <Download className="w-4 h-4" />
+              Download CV
+            </Button>
+          </a>
         </div>
 
         {/* Social Links */}
