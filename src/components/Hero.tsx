@@ -104,7 +104,7 @@ const Hero = () => {
             <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
           </a>
           <a 
-            href="https://github.com" 
+            href="https://github.com/ERRROR22" 
             target="_blank" 
             rel="noopener noreferrer"
             className="p-3 glass glass-border rounded-xl hover:bg-secondary/50 transition-all duration-300 hover:scale-110 group"
