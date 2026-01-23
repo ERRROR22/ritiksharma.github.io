@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Shield, Image, Trophy, Vote } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Shield, Image, Trophy, Vote } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
@@ -152,17 +151,6 @@ const Projects = () => {
                     ))}
                   </div>
 
-                  {/* Links */}
-                  <div className="flex gap-3">
-                    <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-                      <Github className="w-4 h-4" />
-                      Code
-                    </Button>
-                    <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-                      <ExternalLink className="w-4 h-4" />
-                      Demo
-                    </Button>
-                  </div>
                 </motion.div>
               </StaggerItem>
             );
