@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Briefcase, MapPin, Calendar } from "lucide-react";
+import ScrollReveal from "./animations/ScrollReveal";
 
 const experiences = [
   {
@@ -44,26 +45,6 @@ const experiences = [
 ];
 
 const Experience = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const getColorClass = (color: string) => {
     const colors: Record<string, { bg: string; border: string; text: string; dot: string }> = {
       primary: {
@@ -89,10 +70,10 @@ const Experience = () => {
   };
 
   return (
-    <section id="experience" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="experience" className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal className="text-center mb-16">
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-experience glass glass-border rounded-full">
             {"<Experience />"}
           </span>
@@ -102,36 +83,55 @@ const Experience = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Building expertise through hands-on experience in leading tech organizations
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Timeline */}
         <div className="relative max-w-4xl mx-auto">
           {/* Vertical line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2" />
+          <motion.div 
+            className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2"
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            style={{ originY: 0 }}
+          />
 
           {experiences.map((exp, index) => {
             const colorClasses = getColorClass(exp.color);
             const isLeft = index % 2 === 0;
 
             return (
-              <div
+              <ScrollReveal
                 key={exp.title}
-                className={`relative mb-12 md:mb-16 pl-8 md:pl-0 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-                style={{ transitionDelay: `${index * 200}ms`, transition: 'all 0.7s ease-out' }}
+                delay={index * 0.2}
+                direction={isLeft ? "left" : "right"}
+                className="relative mb-12 md:mb-16 pl-8 md:pl-0"
               >
                 {/* Timeline dot */}
-                <div className={`absolute left-0 md:left-1/2 w-4 h-4 rounded-full ${colorClasses.dot} md:-translate-x-1/2 -translate-y-1 ring-4 ring-background`} />
+                <motion.div 
+                  className={`absolute left-0 md:left-1/2 w-4 h-4 rounded-full ${colorClasses.dot} md:-translate-x-1/2 -translate-y-1 ring-4 ring-background`}
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 + 0.3, type: "spring", stiffness: 300 }}
+                />
 
                 {/* Card */}
                 <div className={`md:w-[calc(50%-2rem)] ${isLeft ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'}`}>
-                  <div className={`p-6 glass glass-border rounded-2xl hover:shadow-elevated transition-all duration-300`}>
+                  <motion.div 
+                    className="p-6 glass glass-border rounded-2xl hover:shadow-elevated transition-shadow duration-300"
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     {/* Header */}
                     <div className="flex items-start gap-4 mb-4">
-                      <div className={`p-3 rounded-xl ${colorClasses.bg}`}>
+                      <motion.div 
+                        className={`p-3 rounded-xl ${colorClasses.bg}`}
+                        whileHover={{ rotate: 10 }}
+                      >
                         <Briefcase className={`w-5 h-5 ${colorClasses.text}`} />
-                      </div>
+                      </motion.div>
                       <div className="flex-1">
                         <h3 className="text-xl font-bold mb-1">{exp.title}</h3>
                         <p className={`font-medium ${colorClasses.text}`}>{exp.company}</p>
@@ -153,15 +153,22 @@ const Experience = () => {
                     {/* Highlights */}
                     <ul className="space-y-2">
                       {exp.highlights.map((highlight, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <motion.li 
+                          key={i} 
+                          className="flex items-start gap-2 text-sm text-muted-foreground"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: index * 0.2 + i * 0.1 }}
+                        >
                           <span className={`mt-2 w-1.5 h-1.5 rounded-full ${colorClasses.dot} flex-shrink-0`} />
                           {highlight}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
+              </ScrollReveal>
             );
           })}
         </div>
