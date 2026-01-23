@@ -1,45 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Calendar, Clock, ArrowRight, Tag } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const blogPosts = [
-  {
-    title: "Building AI-Powered Threat Detection Systems",
-    excerpt: "Learn how to leverage Hugging Face Transformers and machine learning to create intelligent security systems that detect anomalies in network traffic.",
-    date: "Jan 10, 2025",
-    readTime: "8 min read",
-    category: "Cybersecurity",
-    color: "primary",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop",
-  },
-  {
-    title: "Deep Dive into LSTM Networks for Time Series Prediction",
-    excerpt: "A comprehensive guide to building LSTM neural networks for predicting sequential data, with practical examples from sports analytics.",
-    date: "Dec 15, 2024",
-    readTime: "12 min read",
-    category: "Machine Learning",
-    color: "experience",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
-  },
-  {
-    title: "Securing Web Applications: A Developer's Guide to OWASP Top 10",
-    excerpt: "Essential security practices every developer should know to protect web applications from common vulnerabilities and attacks.",
-    date: "Nov 28, 2024",
-    readTime: "10 min read",
-    category: "Security",
-    color: "skill",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop",
-  },
-  {
-    title: "Text-to-Image Generation with Stable Diffusion",
-    excerpt: "Step-by-step tutorial on building a production-ready generative AI application using PyTorch and Stable Diffusion models.",
-    date: "Oct 20, 2024",
-    readTime: "15 min read",
-    category: "Generative AI",
-    color: "project",
-    image: "https://images.unsplash.com/photo-1686191128892-3b37add4bc4e?w=600&h=400&fit=crop",
-  },
-];
+import { blogPosts } from "@/data/blogPosts";
 
 const Blog = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -108,7 +71,10 @@ const Blog = () => {
         </div>
 
         {/* Featured post */}
-        <div className={`mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <Link 
+          to={`/blog/${blogPosts[0].slug}`}
+          className={`block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        >
           <div className="group relative overflow-hidden rounded-2xl glass glass-border hover:shadow-elevated transition-all duration-500">
             <div className="grid md:grid-cols-2 gap-0">
               {/* Image */}
@@ -149,17 +115,14 @@ const Blog = () => {
                   </span>
                 </div>
 
-                <Button 
-                  variant="ghost" 
-                  className="w-fit gap-2 text-primary hover:text-primary hover:bg-primary/10 group/btn"
-                >
+                <span className="w-fit gap-2 text-primary group-hover:underline flex items-center">
                   Read Article
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                </Button>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </span>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Blog grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -167,8 +130,9 @@ const Blog = () => {
             const colorClasses = getColorClass(post.color);
 
             return (
-              <article
-                key={post.title}
+              <Link
+                key={post.slug}
+                to={`/blog/${post.slug}`}
                 className={`group glass glass-border rounded-2xl overflow-hidden hover:shadow-elevated transition-all duration-500 ${
                   isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                 }`}
@@ -212,7 +176,7 @@ const Blog = () => {
                     </span>
                   </div>
                 </div>
-              </article>
+              </Link>
             );
           })}
         </div>
