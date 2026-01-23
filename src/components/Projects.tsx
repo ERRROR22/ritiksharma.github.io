@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { ExternalLink, Github, Shield, Image, Trophy, Vote } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "./animations/ScrollReveal";
+import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const projects = [
   {
@@ -42,26 +44,6 @@ const projects = [
 ];
 
 const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const getColorClass = (color: string) => {
     const colors: Record<string, { bg: string; border: string; text: string; glow: string }> = {
       primary: {
@@ -93,13 +75,13 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="projects" className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal className="text-center mb-16">
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-project glass glass-border rounded-full">
             {"<Projects />"}
           </span>
@@ -109,76 +91,83 @@ const Projects = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Innovative solutions showcasing expertise in AI, security, and full-stack development
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Projects grid */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {projects.map((project, index) => {
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto" staggerDelay={0.15}>
+          {projects.map((project) => {
             const colorClasses = getColorClass(project.color);
 
             return (
-              <div
-                key={project.title}
-                className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-xl ${colorClasses.bg} group-hover:scale-110 transition-transform`}>
-                    <project.icon className={`w-6 h-6 ${colorClasses.text}`} />
+              <StaggerItem key={project.title}>
+                <motion.div
+                  className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full`}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <motion.div 
+                      className={`p-3 rounded-xl ${colorClasses.bg}`}
+                      whileHover={{ scale: 1.1, rotate: 10 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
+                      <project.icon className={`w-6 h-6 ${colorClasses.text}`} />
+                    </motion.div>
+                    <span className="text-sm font-mono text-muted-foreground">{project.year}</span>
                   </div>
-                  <span className="text-sm font-mono text-muted-foreground">{project.year}</span>
-                </div>
 
-                {/* Title & Description */}
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                  {project.description}
-                </p>
+                  {/* Title & Description */}
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                    {project.description}
+                  </p>
 
-                {/* Highlights */}
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {project.highlights.map((highlight) => (
-                    <span
-                      key={highlight}
-                      className={`px-2 py-1 text-xs font-medium rounded-md ${colorClasses.bg} ${colorClasses.text}`}
-                    >
-                      {highlight}
-                    </span>
-                  ))}
-                </div>
+                  {/* Highlights */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {project.highlights.map((highlight, index) => (
+                      <motion.span
+                        key={highlight}
+                        className={`px-2 py-1 text-xs font-medium rounded-md ${colorClasses.bg} ${colorClasses.text}`}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        {highlight}
+                      </motion.span>
+                    ))}
+                  </div>
 
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 text-xs font-mono text-muted-foreground bg-secondary/50 rounded-md"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-xs font-mono text-muted-foreground bg-secondary/50 rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
 
-                {/* Links */}
-                <div className="flex gap-3">
-                  <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-                    <Github className="w-4 h-4" />
-                    Code
-                  </Button>
-                  <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-                    <ExternalLink className="w-4 h-4" />
-                    Demo
-                  </Button>
-                </div>
-              </div>
+                  {/* Links */}
+                  <div className="flex gap-3">
+                    <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
+                      <Github className="w-4 h-4" />
+                      Code
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
+                      <ExternalLink className="w-4 h-4" />
+                      Demo
+                    </Button>
+                  </div>
+                </motion.div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

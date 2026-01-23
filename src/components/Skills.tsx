@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Code, Shield, Brain, Database, Cloud, Cpu } from "lucide-react";
+import ScrollReveal from "./animations/ScrollReveal";
+import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const skillCategories = [
   {
@@ -41,26 +43,6 @@ const skillCategories = [
 ];
 
 const Skills = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const getColorClass = (color: string) => {
     const colors: Record<string, string> = {
       primary: "text-primary border-primary/30 bg-primary/5",
@@ -82,13 +64,13 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="skills" className="py-24 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal className="text-center mb-16">
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-primary glass glass-border rounded-full">
             {"<Skills />"}
           </span>
@@ -98,40 +80,47 @@ const Skills = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A diverse skill set spanning cybersecurity, machine learning, and full-stack development
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Skills grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories.map((category, index) => (
-            <div
-              key={category.title}
-              className={`group p-6 glass glass-border rounded-2xl hover:shadow-elevated transition-all duration-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {/* Category header */}
-              <div className="flex items-center gap-4 mb-5">
-                <div className={`p-3 rounded-xl ${getIconBg(category.color)} transition-transform group-hover:scale-110`}>
-                  <category.icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-semibold">{category.title}</h3>
-              </div>
-
-              {/* Skills tags */}
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-lg border ${getColorClass(category.color)} transition-all hover:scale-105`}
+        <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
+          {skillCategories.map((category) => (
+            <StaggerItem key={category.title}>
+              <motion.div
+                className="group p-6 glass glass-border rounded-2xl hover:shadow-elevated transition-shadow duration-500 h-full"
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              >
+                {/* Category header */}
+                <div className="flex items-center gap-4 mb-5">
+                  <motion.div 
+                    className={`p-3 rounded-xl ${getIconBg(category.color)}`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
                   >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
+                    <category.icon className="w-6 h-6" />
+                  </motion.div>
+                  <h3 className="text-lg font-semibold">{category.title}</h3>
+                </div>
+
+                {/* Skills tags */}
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill, skillIndex) => (
+                    <motion.span
+                      key={skill}
+                      className={`px-3 py-1.5 text-sm font-medium rounded-lg border ${getColorClass(category.color)}`}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: skillIndex * 0.05 }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );
