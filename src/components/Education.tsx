@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { GraduationCap, BookOpen, Trophy, Calendar } from "lucide-react";
+import { GraduationCap, BookOpen, Calendar } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
@@ -12,21 +12,6 @@ const courses = [
   "Operating Systems",
   "Web Development",
   "Artificial Intelligence",
-];
-
-const achievements = [
-  {
-    title: "Dean's List",
-    description: "Consistent academic excellence across semesters",
-  },
-  {
-    title: "Technical Paper Published",
-    description: "Research on ML-based intrusion detection systems",
-  },
-  {
-    title: "Hackathon Winner",
-    description: "1st place in university-level coding competition",
-  },
 ];
 
 const Education = () => {
@@ -51,11 +36,11 @@ const Education = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           {/* Main Education Card */}
-          <ScrollReveal direction="left">
+          <ScrollReveal>
             <motion.div
-              className="p-8 glass glass-border rounded-2xl h-full"
+              className="p-8 glass glass-border rounded-2xl"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
@@ -82,7 +67,7 @@ const Education = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground" />
-                  <span className="text-muted-foreground">2021 - 2025 (Expected)</span>
+                  <span className="text-muted-foreground">2022 - 2026 (Expected)</span>
                 </div>
               </div>
 
@@ -104,39 +89,11 @@ const Education = () => {
               </div>
             </motion.div>
           </ScrollReveal>
-
-          {/* Achievements */}
-          <ScrollReveal direction="right">
-            <div className="p-8 glass glass-border rounded-2xl h-full">
-              <div className="flex items-center gap-3 mb-6">
-                <Trophy className="w-6 h-6 text-experience" />
-                <h3 className="text-xl font-bold">Achievements</h3>
-              </div>
-
-              <StaggerContainer className="space-y-4">
-                {achievements.map((achievement, index) => (
-                  <StaggerItem key={index}>
-                    <motion.div
-                      className="p-4 rounded-xl bg-secondary/30 border border-border hover:border-experience/50 transition-colors"
-                      whileHover={{ x: 5 }}
-                    >
-                      <h4 className="font-semibold text-foreground mb-1">
-                        {achievement.title}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {achievement.description}
-                      </p>
-                    </motion.div>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-            </div>
-          </ScrollReveal>
         </div>
 
         {/* Relevant Courses */}
         <ScrollReveal delay={0.2}>
-          <div className="mt-8 p-8 glass glass-border rounded-2xl max-w-6xl mx-auto">
+          <div className="mt-8 p-8 glass glass-border rounded-2xl max-w-3xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
               <BookOpen className="w-6 h-6 text-project" />
               <h3 className="text-xl font-bold">Relevant Coursework</h3>
