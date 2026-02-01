@@ -114,7 +114,7 @@ const Contact = () => {
             {/* Social links */}
             <div className="flex gap-4">
               <a 
-                href="https://linkedin.com/in/ritik-sharma"
+                href="https://www.linkedin.com/in/ritik-sharma-323a2724a"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 p-4 glass glass-border rounded-xl hover:bg-secondary/30 transition-all group"
@@ -123,7 +123,7 @@ const Contact = () => {
                 <span className="font-medium">LinkedIn</span>
               </a>
               <a 
-                href="https://github.com"
+                href="https://github.com/ERRROR22"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 p-4 glass glass-border rounded-xl hover:bg-secondary/30 transition-all group"
