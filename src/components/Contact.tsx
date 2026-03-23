@@ -155,6 +155,24 @@ const Contact = () => {
                 ))}
               </div>
             </div>
+
+            {/* Extracurricular Activities */}
+            <div className="p-6 glass glass-border rounded-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <Award className="w-5 h-5 text-experience" />
+                <h3 className="font-semibold">Extracurricular Activities</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {extracurriculars.map((activity) => (
+                  <span
+                    key={activity}
+                    className="px-3 py-1.5 text-sm bg-experience/10 text-experience rounded-lg"
+                  >
+                    {activity}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Contact Form */}
