@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
 
 const roles = [
-  "Cybersecurity Specialist",
-  "Machine Learning Engineer",
+  "Software Engineer",
+  "AI-ML Engineer",
+  "Cybersecurity Analyst",
   "Full-Stack Developer",
-  "AI Enthusiast",
 ];
 
 const Hero = () => {

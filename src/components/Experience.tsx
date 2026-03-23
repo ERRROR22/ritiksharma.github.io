@@ -76,6 +76,12 @@ const Experience = () => {
         text: "text-project",
         dot: "bg-project",
       },
+      skill: {
+        bg: "bg-skill/10",
+        border: "border-skill/30",
+        text: "text-skill",
+        dot: "bg-skill",
+      },
     };
     return colors[color] || colors.primary;
   };

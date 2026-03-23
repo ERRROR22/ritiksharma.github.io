@@ -11,6 +11,11 @@ const certifications = [
   "TCS iON Career Edge",
 ];
 
+const extracurriculars = [
+  "Participant – Bharat Budget Quest Quiz",
+  "Technical Workshops & Coding Events",
+];
+
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
