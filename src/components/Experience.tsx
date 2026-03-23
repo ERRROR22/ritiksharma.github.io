@@ -4,17 +4,28 @@ import ScrollReveal from "./animations/ScrollReveal";
 
 const experiences = [
   {
+    title: "Software Development Engineer Intern",
+    company: "Bluestock Fintech",
+    location: "Remote, Pune",
+    period: "December 2025 – January 2026",
+    highlights: [
+      "Engineered scalable backend modules in an agile fintech environment, delivering 2 production-ready features within a 2-month sprint cycle",
+      "Reduced code defect rate by 25% through rigorous debugging practices and peer code reviews, improving overall system reliability",
+    ],
+    color: "experience",
+  },
+  {
     title: "Cyber Security Intern",
     company: "National Institute of Electronics & Information Technology (NIELIT)",
     location: "Jammu, J&K",
     period: "June 2025 – July 2025",
     highlights: [
-      "Spearheaded vulnerability assessments across network infrastructure, identifying and remediating 10 critical security vulnerabilities",
+      "Spearheaded vulnerability assessments across network infrastructure, identifying and remediating 10 critical security vulnerabilities, reducing attack surface by 40%",
       "Engineered AI-powered threat detection system using Hugging Face Transformers, improving anomaly detection accuracy by 25%",
       "Authored comprehensive quarterly security reports with actionable threat intelligence and risk mitigation strategies",
       "Collaborated with cross-functional teams to implement security best practices and incident response protocols",
     ],
-    color: "experience",
+    color: "primary",
   },
   {
     title: "Machine Learning Intern",
@@ -22,12 +33,12 @@ const experiences = [
     location: "Jammu, J&K",
     period: "June 2024 – July 2024",
     highlights: [
-      "Architected predictive maintenance ML pipeline using TensorFlow and Keras, achieving 15% increase in equipment uptime",
+      "Architected predictive maintenance ML pipeline using TensorFlow and Keras, achieving 15% increase in equipment uptime and 20% reduction in operational downtime",
       "Designed and optimized neural network models with hyperparameter tuning, achieving 92% prediction accuracy",
-      "Implemented robust data preprocessing pipeline including feature engineering and outlier detection",
-      "Deployed scalable ML models in production, reducing maintenance costs by $50K annually",
+      "Implemented robust data preprocessing pipeline including feature engineering, normalization, and outlier detection",
+      "Deployed scalable ML models in production environment, reducing maintenance costs by $50K annually",
     ],
-    color: "primary",
+    color: "project",
   },
   {
     title: "Data Science Intern",
@@ -35,12 +46,12 @@ const experiences = [
     location: "Remote, India",
     period: "May 2024 – July 2024",
     highlights: [
-      "Conducted exploratory data analysis on 1M+ user records, improving data quality by 35%",
-      "Built ML-driven recommendation system that increased user engagement by 20%",
+      "Conducted exploratory data analysis on 1M+ user records using Python (Pandas, NumPy), improving data quality by 35%",
+      "Built ML-driven recommendation system that increased user engagement by 20% and reduced churn rate by 12%",
       "Created interactive data visualization dashboards using Plotly and Seaborn",
-      "Performed statistical analysis and A/B testing to optimize platform features",
+      "Performed statistical analysis and A/B testing to validate hypotheses and optimize platform features",
     ],
-    color: "project",
+    color: "skill",
   },
 ];
 
@@ -64,6 +75,12 @@ const Experience = () => {
         border: "border-project/30",
         text: "text-project",
         dot: "bg-project",
+      },
+      skill: {
+        bg: "bg-skill/10",
+        border: "border-skill/30",
+        text: "text-skill",
+        dot: "bg-skill",
       },
     };
     return colors[color] || colors.primary;

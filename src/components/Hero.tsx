@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
 
 const roles = [
-  "Cybersecurity Specialist",
-  "Machine Learning Engineer",
+  "Software Engineer",
+  "AI-ML Engineer",
+  "Cybersecurity Analyst",
   "Full-Stack Developer",
-  "AI Enthusiast",
 ];
 
 const Hero = () => {
@@ -125,10 +125,10 @@ const Hero = () => {
           className="max-w-2xl mx-auto text-lg text-muted-foreground mb-10 leading-relaxed"
           variants={itemVariants}
         >
-          B.Tech CSE student at BGSBU crafting intelligent solutions at the intersection of{" "}
-          <span className="text-primary">Cybersecurity</span>,{" "}
-          <span className="text-project">Machine Learning</span>, and{" "}
-          <span className="text-experience">Full-Stack Development</span>.
+          Final-year CSE student at BGSBU with hands-on experience in{" "}
+          <span className="text-primary">AI & Machine Learning</span>,{" "}
+          <span className="text-project">Cybersecurity</span>, and{" "}
+          <span className="text-experience">Software Development</span>. Seeking entry-level roles as a Software Engineer / AI-ML Engineer / Cybersecurity Analyst.
         </motion.p>
 
         {/* CTA Buttons */}

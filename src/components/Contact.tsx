@@ -11,6 +11,11 @@ const certifications = [
   "TCS iON Career Edge",
 ];
 
+const extracurriculars = [
+  "Participant – Bharat Budget Quest Quiz",
+  "Technical Workshops & Coding Events",
+];
+
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -146,6 +151,24 @@ const Contact = () => {
                     className="px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-lg"
                   >
                     {cert}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Extracurricular Activities */}
+            <div className="p-6 glass glass-border rounded-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <Award className="w-5 h-5 text-experience" />
+                <h3 className="font-semibold">Extracurricular Activities</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {extracurriculars.map((activity) => (
+                  <span
+                    key={activity}
+                    className="px-3 py-1.5 text-sm bg-experience/10 text-experience rounded-lg"
+                  >
+                    {activity}
                   </span>
                 ))}
               </div>
