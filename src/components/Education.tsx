@@ -108,6 +108,10 @@ const Education = () => {
                     <Calendar className="w-5 h-5 text-muted-foreground" />
                     <span className="text-muted-foreground">2021 - 2022</span>
                   </div>
+                  <div className="mt-3 p-3 rounded-lg bg-experience/10 border border-experience/20 inline-block">
+                    <span className="text-sm text-muted-foreground">Percentage: </span>
+                    <span className="text-lg font-bold text-experience">89.6%</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -130,6 +134,10 @@ const Education = () => {
                   <div className="flex items-center gap-3 mt-3">
                     <Calendar className="w-5 h-5 text-muted-foreground" />
                     <span className="text-muted-foreground">2019 - 2020</span>
+                  </div>
+                  <div className="mt-3 p-3 rounded-lg bg-project/10 border border-project/20 inline-block">
+                    <span className="text-sm text-muted-foreground">Percentage: </span>
+                    <span className="text-lg font-bold text-project">82%</span>
                   </div>
                 </div>
               </div>
