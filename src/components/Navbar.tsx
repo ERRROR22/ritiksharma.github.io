@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 
 const navLinks = [
+  { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Education", href: "#education" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  
+  { label: "Certifications", href: "#certifications" },
   { label: "Contact", href: "#contact" },
 ];
 
