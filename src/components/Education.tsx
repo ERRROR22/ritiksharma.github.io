@@ -89,6 +89,52 @@ const Education = () => {
               </div>
             </motion.div>
           </ScrollReveal>
+
+          {/* 12th Class */}
+          <ScrollReveal delay={0.1}>
+            <motion.div
+              className="p-8 glass glass-border rounded-2xl mt-6"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex items-start gap-4">
+                <div className="p-4 rounded-xl bg-experience/10">
+                  <GraduationCap className="w-8 h-8 text-experience" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold mb-1">12th (Senior Secondary)</h3>
+                  <p className="text-lg text-experience font-medium">Panorama Public School, Rajouri</p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <Calendar className="w-5 h-5 text-muted-foreground" />
+                    <span className="text-muted-foreground">2021 - 2022</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </ScrollReveal>
+
+          {/* 10th Class */}
+          <ScrollReveal delay={0.2}>
+            <motion.div
+              className="p-8 glass glass-border rounded-2xl mt-6"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex items-start gap-4">
+                <div className="p-4 rounded-xl bg-project/10">
+                  <GraduationCap className="w-8 h-8 text-project" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold mb-1">10th (Secondary)</h3>
+                  <p className="text-lg text-project font-medium">Panorama Public School, Rajouri</p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <Calendar className="w-5 h-5 text-muted-foreground" />
+                    <span className="text-muted-foreground">2019 - 2020</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </ScrollReveal>
         </div>
 
         {/* Relevant Courses */}
