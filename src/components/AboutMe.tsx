@@ -68,7 +68,7 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Experience Highlights</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Gained practical expertise as Cyber Security Intern at NIELIT, tackling vulnerability assessments, threat detection, and AI-enhanced security protocols with Hugging Face tools. ML Intern at WinnoVation involved model development and predictive systems. Data Science Intern at LearnTube.ai focused on EDA, visualization, and ML-driven insights, boosting user engagement by 20%.
+                Gained practical expertise as Cyber Security Intern at NIELIT, tackling vulnerability assessments, threat detection, and AI-enhanced security protocols with Hugging Face tools. ML Intern at WinnoVation involved model development and predictive systems. Data Science Intern at LearnTube.ai focused on EDA, visualization, and ML-driven insights, boosting user engagement by 20%. As SDE Intern at Bluestock Fintech, engineered scalable backend modules in an agile fintech environment, delivering 2 production-ready features and reducing code defect rate by 25% through rigorous debugging and peer code reviews.
               </p>
             </div>
           </ScrollReveal>
