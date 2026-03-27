@@ -15,7 +15,7 @@ export const blogPosts: BlogPost[] = [
     slug: "ai-powered-threat-detection",
     title: "Building AI-Powered Threat Detection Systems",
     excerpt: "Learn how to leverage Hugging Face Transformers and machine learning to create intelligent security systems that detect anomalies in network traffic.",
-    date: "Jan 10, 2025",
+    date: "Mar 15, 2026",
     readTime: "8 min read",
     category: "Cybersecurity",
     color: "primary",
