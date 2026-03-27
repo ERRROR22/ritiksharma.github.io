@@ -594,6 +594,663 @@ trending on artstation"
 Stable Diffusion opens up incredible possibilities for creative applications. With this tutorial, you have the foundation to build production-ready image generation systems. Experiment with different prompts, fine-tune models for specific use cases, and explore the vast potential of generative AI.
     `,
   },
+  {
+    slug: "kubernetes-production-guide",
+    title: "Deploying Scalable Apps with Kubernetes: A Production Guide",
+    excerpt: "Master container orchestration with Kubernetes — from cluster setup to auto-scaling, service mesh, and zero-downtime deployments.",
+    date: "Apr 10, 2026",
+    readTime: "11 min read",
+    category: "DevOps",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=600&h=400&fit=crop",
+    content: `
+## Why Kubernetes?
+
+Kubernetes (K8s) has become the de facto standard for container orchestration. Whether you're running microservices or monoliths, K8s provides the tooling to deploy, scale, and manage applications reliably.
+
+## Core Concepts
+
+Before diving in, let's cover the essentials:
+
+- **Pods**: The smallest deployable unit — one or more containers
+- **Services**: Stable network endpoints for pods
+- **Deployments**: Declarative updates for pods and ReplicaSets
+- **Ingress**: HTTP routing and load balancing
+
+## Setting Up a Production Cluster
+
+### Infrastructure as Code with Terraform
+
+\`\`\`hcl
+resource "aws_eks_cluster" "production" {
+  name     = "prod-cluster"
+  role_arn = aws_iam_role.eks.arn
+  version  = "1.29"
+
+  vpc_config {
+    subnet_ids = var.subnet_ids
+    security_group_ids = [aws_security_group.eks.id]
+  }
+}
+\`\`\`
+
+### Namespace Strategy
+
+\`\`\`yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    env: production
+    team: platform
+\`\`\`
+
+## Deployment Best Practices
+
+### Rolling Updates with Zero Downtime
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:v2.1.0
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+\`\`\`
+
+## Auto-Scaling
+
+### Horizontal Pod Autoscaler
+
+\`\`\`yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+\`\`\`
+
+## Monitoring with Prometheus & Grafana
+
+Set up observability to track cluster health, pod metrics, and application performance. Use Prometheus for metrics collection and Grafana dashboards for visualization.
+
+## Conclusion
+
+Kubernetes is powerful but requires careful planning. Start with solid fundamentals — proper resource limits, health checks, and rolling updates — then layer on advanced features like service mesh and custom operators as your needs grow.
+    `,
+  },
+  {
+    slug: "serverless-cloud-architectures",
+    title: "Building Serverless Architectures on AWS & Azure",
+    excerpt: "Design event-driven, cost-efficient cloud applications using Lambda, API Gateway, DynamoDB, and Azure Functions.",
+    date: "May 5, 2026",
+    readTime: "9 min read",
+    category: "Cloud Computing",
+    color: "primary",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
+    content: `
+## The Serverless Revolution
+
+Serverless computing lets you build and run applications without thinking about servers. You pay only for what you use, and the cloud provider handles scaling, patching, and infrastructure management.
+
+## When to Go Serverless
+
+Serverless is ideal for:
+
+- **Event-driven workloads** — file processing, webhooks, IoT
+- **APIs with variable traffic** — pay-per-request pricing
+- **Rapid prototyping** — ship MVPs faster
+- **Background jobs** — scheduled tasks, data pipelines
+
+## AWS Lambda Example
+
+### API with Lambda + API Gateway
+
+\`\`\`python
+import json
+import boto3
+
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('Users')
+
+def handler(event, context):
+    http_method = event['httpMethod']
+    
+    if http_method == 'GET':
+        user_id = event['pathParameters']['id']
+        response = table.get_item(Key={'id': user_id})
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json'},
+            'body': json.dumps(response.get('Item', {}))
+        }
+    
+    elif http_method == 'POST':
+        body = json.loads(event['body'])
+        table.put_item(Item=body)
+        return {
+            'statusCode': 201,
+            'body': json.dumps({'message': 'User created'})
+        }
+\`\`\`
+
+### Infrastructure with AWS SAM
+
+\`\`\`yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  UserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.handler
+      Runtime: python3.12
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: get
+\`\`\`
+
+## Azure Functions
+
+\`\`\`javascript
+const { app } = require('@azure/functions');
+
+app.http('processOrder', {
+    methods: ['POST'],
+    handler: async (request, context) => {
+        const order = await request.json();
+        
+        // Process payment
+        const result = await processPayment(order);
+        
+        // Send confirmation email
+        await sendConfirmation(order.email, result);
+        
+        return { status: 200, body: JSON.stringify(result) };
+    }
+});
+\`\`\`
+
+## Cost Optimization Tips
+
+1. **Right-size memory** — more memory = faster execution = lower cost
+2. **Use provisioned concurrency** for latency-sensitive APIs
+3. **Implement caching** with CloudFront or Redis
+4. **Set billing alerts** to avoid surprises
+
+## Conclusion
+
+Serverless architectures dramatically reduce operational overhead and costs for the right workloads. Combine Lambda/Functions with managed databases and event buses to build robust, scalable systems.
+    `,
+  },
+  {
+    slug: "modern-web-dev-2026",
+    title: "Modern Web Development in 2026: Tools, Trends & Best Practices",
+    excerpt: "From React Server Components to Edge computing — explore the latest web development trends shaping how we build for the modern web.",
+    date: "Jun 1, 2026",
+    readTime: "10 min read",
+    category: "Web Development",
+    color: "project",
+    image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=600&h=400&fit=crop",
+    content: `
+## The Web in 2026
+
+The web platform continues to evolve rapidly. New APIs, frameworks, and paradigms are reshaping how we think about building applications. Here's what matters most in 2026.
+
+## Key Trends
+
+### 1. Edge-First Architecture
+
+Edge computing has gone mainstream. Deploying logic closer to users means:
+
+- **Sub-50ms response times** globally
+- **Reduced origin load** and bandwidth costs
+- **Better user experience** for real-time apps
+
+\`\`\`typescript
+// Edge function example (Cloudflare Workers)
+export default {
+  async fetch(request: Request): Promise<Response> {
+    const url = new URL(request.url);
+    const country = request.cf?.country || 'US';
+    
+    // Serve localized content from the edge
+    const content = await getLocalizedContent(country, url.pathname);
+    
+    return new Response(JSON.stringify(content), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=60',
+      },
+    });
+  },
+};
+\`\`\`
+
+### 2. AI-Powered Development
+
+AI coding assistants are now integral to the dev workflow:
+
+- **Code generation** — scaffolding components, writing tests
+- **Automated refactoring** — improving code quality at scale
+- **Intelligent debugging** — AI-assisted error diagnosis
+- **Design-to-code** — converting Figma to production components
+
+### 3. Web Components & Interoperability
+
+Framework-agnostic components are gaining traction:
+
+\`\`\`typescript
+class SmartCard extends HTMLElement {
+  static observedAttributes = ['title', 'variant'];
+  
+  connectedCallback() {
+    this.render();
+  }
+  
+  attributeChangedCallback() {
+    this.render();
+  }
+  
+  render() {
+    const title = this.getAttribute('title') || '';
+    const variant = this.getAttribute('variant') || 'default';
+    
+    this.shadowRoot!.innerHTML = \\\`
+      <style>
+        :host { display: block; }
+        .card { padding: 1.5rem; border-radius: 12px; }
+        .card--primary { background: var(--color-primary); }
+      </style>
+      <div class="card card--\\\${variant}">
+        <h3>\\\${title}</h3>
+        <slot></slot>
+      </div>
+    \\\`;
+  }
+}
+
+customElements.define('smart-card', SmartCard);
+\`\`\`
+
+### 4. Performance as a Feature
+
+Core Web Vitals remain critical:
+
+- **LCP** < 2.5s — optimize images, fonts, and critical path
+- **INP** < 200ms — minimize main thread blocking
+- **CLS** < 0.1 — reserve space for dynamic content
+
+\`\`\`typescript
+// Performance monitoring
+const observer = new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    if (entry.entryType === 'largest-contentful-paint') {
+      console.log('LCP:', entry.startTime);
+      analytics.track('web_vital', { metric: 'LCP', value: entry.startTime });
+    }
+  }
+});
+
+observer.observe({ type: 'largest-contentful-paint', buffered: true });
+\`\`\`
+
+## The Modern Stack
+
+A recommended 2026 web stack:
+
+- **Framework**: React 19 / Svelte 5 / Solid
+- **Styling**: Tailwind CSS v4 + CSS Container Queries
+- **Build**: Vite 6 / Turbopack
+- **Deployment**: Edge-first (Cloudflare / Vercel Edge)
+- **Database**: Serverless Postgres / PlanetScale
+- **Auth**: Passkeys + OAuth 2.1
+
+## Conclusion
+
+The modern web is faster, smarter, and more capable than ever. By embracing edge-first architectures, AI-assisted development, and performance-focused practices, you can build experiences that truly delight users.
+    `,
+  },
+  {
+    slug: "ci-cd-pipelines-github-actions",
+    title: "Building Robust CI/CD Pipelines with GitHub Actions",
+    excerpt: "Automate your entire software delivery lifecycle — from testing and security scanning to deployment — using GitHub Actions workflows.",
+    date: "Jul 15, 2026",
+    readTime: "8 min read",
+    category: "DevOps",
+    color: "skill",
+    image: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&h=400&fit=crop",
+    content: `
+## Why CI/CD Matters
+
+Continuous Integration and Continuous Deployment (CI/CD) pipelines are the backbone of modern software delivery. They catch bugs early, enforce quality standards, and ship features faster.
+
+## GitHub Actions Fundamentals
+
+### Basic Workflow Structure
+
+\`\`\`yaml
+name: CI/CD Pipeline
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test -- --coverage
+      - run: npm run build
+\`\`\`
+
+## Multi-Stage Pipeline
+
+### Stage 1: Quality Gates
+
+\`\`\`yaml
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ESLint
+        run: npm run lint
+      - name: Type Check
+        run: npx tsc --noEmit
+      - name: Run Tests
+        run: npm run test -- --coverage --reporter=json
+      - name: Check Coverage Threshold
+        run: |
+          COVERAGE=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+            echo "Coverage $COVERAGE% is below 80% threshold"
+            exit 1
+          fi
+\`\`\`
+
+### Stage 2: Security Scanning
+
+\`\`\`yaml
+  security:
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+      - name: SAST with CodeQL
+        uses: github/codeql-action/analyze@v3
+      - name: Container Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'myapp:latest'
+          severity: 'HIGH,CRITICAL'
+\`\`\`
+
+### Stage 3: Deploy
+
+\`\`\`yaml
+  deploy:
+    needs: [quality, security]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Production
+        run: |
+          echo "Deploying version $GITHUB_SHA"
+          # Your deployment commands here
+        env:
+          DEPLOY_TOKEN: \${{ secrets.DEPLOY_TOKEN }}
+\`\`\`
+
+## Advanced Patterns
+
+### Matrix Builds
+
+Test across multiple Node.js versions and operating systems simultaneously:
+
+\`\`\`yaml
+  test-matrix:
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: \${{ matrix.os }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: \${{ matrix.node-version }}
+      - run: npm test
+\`\`\`
+
+### Reusable Workflows
+
+\`\`\`yaml
+  deploy-staging:
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: staging
+      url: https://staging.myapp.com
+    secrets: inherit
+\`\`\`
+
+## Best Practices
+
+1. **Cache dependencies** to speed up builds
+2. **Use environment protection rules** for production
+3. **Pin action versions** to SHA hashes for security
+4. **Keep secrets in GitHub Secrets**, never in code
+5. **Add status badges** to your README
+
+## Conclusion
+
+A well-designed CI/CD pipeline is your safety net. It ensures every change is tested, scanned, and deployed consistently. GitHub Actions makes it accessible and deeply integrated with your development workflow.
+    `,
+  },
+  {
+    slug: "react-performance-optimization",
+    title: "React Performance Optimization: Advanced Techniques for 2026",
+    excerpt: "Eliminate unnecessary re-renders, optimize bundle size, and leverage React 19 features for blazing-fast web applications.",
+    date: "Aug 20, 2026",
+    readTime: "12 min read",
+    category: "Web Development",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop",
+    content: `
+## Why Performance Matters
+
+Every 100ms of latency costs 1% in revenue. In 2026, users expect instant interactions. Here's how to make your React apps fly.
+
+## Identifying Performance Bottlenecks
+
+### React DevTools Profiler
+
+Use the Profiler to identify components that re-render unnecessarily:
+
+\`\`\`tsx
+import { Profiler } from 'react';
+
+function onRender(id, phase, actualDuration) {
+  if (actualDuration > 16) { // Longer than one frame
+    console.warn(\\\`Slow render: \\\${id} took \\\${actualDuration}ms\\\`);
+  }
+}
+
+<Profiler id="Dashboard" onRender={onRender}>
+  <Dashboard />
+</Profiler>
+\`\`\`
+
+## Optimization Techniques
+
+### 1. Memoization Done Right
+
+\`\`\`tsx
+import { memo, useMemo, useCallback } from 'react';
+
+// Memoize expensive components
+const ExpensiveList = memo(({ items, onSelect }) => {
+  return items.map(item => (
+    <ListItem key={item.id} item={item} onSelect={onSelect} />
+  ));
+});
+
+// Memoize expensive computations
+function Dashboard({ data }) {
+  const processedData = useMemo(() => {
+    return data
+      .filter(item => item.active)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 100);
+  }, [data]);
+
+  const handleSelect = useCallback((id) => {
+    dispatch({ type: 'SELECT', payload: id });
+  }, [dispatch]);
+
+  return <ExpensiveList items={processedData} onSelect={handleSelect} />;
+}
+\`\`\`
+
+### 2. Virtualization for Large Lists
+
+\`\`\`tsx
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+function VirtualList({ items }) {
+  const parentRef = useRef(null);
+  
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 60,
+    overscan: 5,
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: '500px', overflow: 'auto' }}>
+      <div style={{ height: virtualizer.getTotalSize() }}>
+        {virtualizer.getVirtualItems().map(virtualRow => (
+          <div
+            key={virtualRow.key}
+            style={{
+              position: 'absolute',
+              top: virtualRow.start,
+              height: virtualRow.size,
+              width: '100%',
+            }}
+          >
+            {items[virtualRow.index].name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+\`\`\`
+
+### 3. Code Splitting & Lazy Loading
+
+\`\`\`tsx
+import { lazy, Suspense } from 'react';
+
+const AdminPanel = lazy(() => import('./AdminPanel'));
+const Analytics = lazy(() => import('./Analytics'));
+
+function App() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/analytics" element={<Analytics />} />
+      </Routes>
+    </Suspense>
+  );
+}
+\`\`\`
+
+### 4. Image Optimization
+
+\`\`\`tsx
+function OptimizedImage({ src, alt, width, height }) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      fetchPriority={isAboveFold ? 'high' : 'low'}
+      style={{ contentVisibility: 'auto' }}
+    />
+  );
+}
+\`\`\`
+
+## Bundle Size Optimization
+
+- **Tree shaking** — use ES modules, avoid barrel exports
+- **Dynamic imports** — load features on demand
+- **Analyze bundles** — use \\\`npx vite-bundle-visualizer\\\`
+- **Replace heavy libraries** — dayjs over moment, native fetch over axios
+
+## Conclusion
+
+Performance optimization is an ongoing process. Profile first, optimize where it matters, and measure the impact. Your users will thank you with engagement and conversions.
+    `,
+  },
 ];
 
 export const getBlogPostBySlug = (slug: string): BlogPost | undefined => {
