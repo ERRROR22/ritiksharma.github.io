@@ -433,7 +433,7 @@ Security is not a feature—it's a fundamental requirement. By following OWASP g
     slug: "stable-diffusion-tutorial",
     title: "Text-to-Image Generation with Stable Diffusion",
     excerpt: "Step-by-step tutorial on building a production-ready generative AI application using PyTorch and Stable Diffusion models.",
-    date: "Oct 20, 2024",
+    date: "Jan 5, 2026",
     readTime: "15 min read",
     category: "Generative AI",
     color: "project",
