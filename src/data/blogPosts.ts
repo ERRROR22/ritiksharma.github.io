@@ -267,7 +267,7 @@ LSTM networks are powerful tools for time series prediction. By understanding th
     slug: "owasp-security-guide",
     title: "Securing Web Applications: A Developer's Guide to OWASP Top 10",
     excerpt: "Essential security practices every developer should know to protect web applications from common vulnerabilities and attacks.",
-    date: "Nov 28, 2024",
+    date: "Jan 28, 2026",
     readTime: "10 min read",
     category: "Security",
     color: "skill",
