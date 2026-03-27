@@ -139,7 +139,7 @@ Remember to continuously retrain your models with new data and monitor their per
     slug: "lstm-networks-time-series",
     title: "Deep Dive into LSTM Networks for Time Series Prediction",
     excerpt: "A comprehensive guide to building LSTM neural networks for predicting sequential data, with practical examples from sports analytics.",
-    date: "Dec 15, 2024",
+    date: "Feb 20, 2026",
     readTime: "12 min read",
     category: "Machine Learning",
     color: "experience",
