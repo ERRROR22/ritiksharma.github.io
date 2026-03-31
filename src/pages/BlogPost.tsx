@@ -1,9 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
+import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getBlogPostBySlug, blogPosts } from "@/data/blogPosts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -42,7 +44,6 @@ const BlogPost = () => {
     );
   }
 
-  // Get related posts (excluding current)
   const relatedPosts = blogPosts
     .filter((p) => p.slug !== post.slug)
     .slice(0, 2);
@@ -50,7 +51,7 @@ const BlogPost = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero" />
@@ -60,7 +61,7 @@ const BlogPost = () => {
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
-          <Link 
+          <Link
             to="/#blog"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
           >
@@ -110,21 +111,10 @@ const BlogPost = () => {
 
       {/* Content */}
       <article className="container mx-auto px-6 py-16">
-        <div className="max-w-3xl mx-auto">
-          <div 
-            className="prose prose-invert prose-lg max-w-none
-              prose-headings:font-bold prose-headings:text-foreground
-              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-              prose-p:text-muted-foreground prose-p:leading-relaxed
-              prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-foreground
-              prose-code:text-primary prose-code:bg-secondary/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-              prose-pre:bg-secondary/30 prose-pre:border prose-pre:border-border prose-pre:rounded-xl
-              prose-ul:text-muted-foreground prose-ol:text-muted-foreground
-              prose-li:marker:text-primary"
-            dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
-          />
+        <div className="max-w-3xl mx-auto blog-content">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {post.content}
+          </ReactMarkdown>
         </div>
       </article>
 
@@ -167,23 +157,6 @@ const BlogPost = () => {
       <Footer />
     </div>
   );
-};
-
-// Simple markdown-like formatting
-const formatContent = (content: string): string => {
-  return content
-    .replace(/## (.*)/g, '<h2>$1</h2>')
-    .replace(/### (.*)/g, '<h3>$1</h3>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/- \[(x| )\] (.*)/g, '<li><input type="checkbox" $1 disabled /> $2</li>')
-    .replace(/- (.*)/g, '<li>$1</li>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(.+)$/gm, (match) => {
-      if (match.startsWith('<')) return match;
-      return `<p>${match}</p>`;
-    });
 };
 
 export default BlogPost;
