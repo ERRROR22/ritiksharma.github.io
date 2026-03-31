@@ -1251,8 +1251,6 @@ function OptimizedImage({ src, alt, width, height }) {
 Performance optimization is an ongoing process. Profile first, optimize where it matters, and measure the impact. Your users will thank you with engagement and conversions.
     `,
   },
-];
-
   {
     slug: "docker-containerization-best-practices",
     title: "Docker Containerization Best Practices for Production",
