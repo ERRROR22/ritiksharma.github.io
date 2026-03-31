@@ -1389,10 +1389,10 @@ type SingleUserResponse = ApiResponse<User>;
 \`\`\`typescript
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 type ApiRoute = '/users' | '/posts' | '/comments';
-type Endpoint = \\\`\\\${HttpMethod} \\\${ApiRoute}\\\`;
+type Endpoint = \`\${HttpMethod} \${ApiRoute}\`;
 // "GET /users" | "GET /posts" | "POST /users" | ...
 
-type EventName<T extends string> = \\\`on\\\${Capitalize<T>}\\\`;
+type EventName<T extends string> = \`on\${Capitalize<T>}\`;
 type ClickEvent = EventName<'click'>; // "onClick"
 \`\`\`
 
