@@ -1253,6 +1253,413 @@ Performance optimization is an ongoing process. Profile first, optimize where it
   },
 ];
 
+  {
+    slug: "docker-containerization-best-practices",
+    title: "Docker Containerization Best Practices for Production",
+    excerpt: "Master Docker multi-stage builds, security hardening, and orchestration patterns for deploying reliable containerized applications.",
+    date: "Sep 10, 2026",
+    readTime: "9 min read",
+    category: "DevOps",
+    color: "skill",
+    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=600&h=400&fit=crop",
+    content: `
+## Why Containers Matter
+
+Containers provide consistent, reproducible environments from development to production. Docker remains the industry standard for containerization in 2026.
+
+## Multi-Stage Builds
+
+Keep images lean by separating build and runtime stages:
+
+\`\`\`dockerfile
+# Stage 1: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2: Production
+FROM node:20-alpine AS runner
+WORKDIR /app
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+USER appuser
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+\`\`\`
+
+## Security Hardening
+
+### Scan for Vulnerabilities
+
+\`\`\`bash
+# Use Trivy for image scanning
+trivy image myapp:latest --severity HIGH,CRITICAL
+
+# Use Docker Scout
+docker scout cves myapp:latest
+\`\`\`
+
+### Best Practices
+
+- Never run containers as root
+- Use read-only file systems where possible
+- Pin base image versions with SHA digests
+- Minimize installed packages
+
+\`\`\`dockerfile
+FROM node:20-alpine@sha256:abc123...
+RUN apk add --no-cache dumb-init
+ENTRYPOINT ["dumb-init", "--"]
+\`\`\`
+
+## Docker Compose for Development
+
+\`\`\`yaml
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_PASSWORD: secret
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+\`\`\`
+
+## Conclusion
+
+Docker containerization, when done right, gives you portable, secure, and efficient deployments. Invest in multi-stage builds, security scanning, and proper orchestration for production-grade applications.
+    `,
+  },
+  {
+    slug: "typescript-advanced-patterns",
+    title: "Advanced TypeScript Patterns Every Developer Should Know",
+    excerpt: "Explore conditional types, template literal types, and type-safe API patterns that make TypeScript a powerhouse for large-scale applications.",
+    date: "Oct 5, 2026",
+    readTime: "11 min read",
+    category: "Web Development",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600&h=400&fit=crop",
+    content: `
+## Beyond Basic TypeScript
+
+TypeScript's type system is Turing-complete — here are patterns that unlock its full power.
+
+## Conditional Types
+
+\`\`\`typescript
+type ApiResponse<T> = T extends Array<infer U>
+  ? { data: U[]; total: number; page: number }
+  : { data: T; };
+
+type UserListResponse = ApiResponse<User[]>;
+// { data: User[]; total: number; page: number }
+
+type SingleUserResponse = ApiResponse<User>;
+// { data: User }
+\`\`\`
+
+## Template Literal Types
+
+\`\`\`typescript
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type ApiRoute = '/users' | '/posts' | '/comments';
+type Endpoint = \\\`\\\${HttpMethod} \\\${ApiRoute}\\\`;
+// "GET /users" | "GET /posts" | "POST /users" | ...
+
+type EventName<T extends string> = \\\`on\\\${Capitalize<T>}\\\`;
+type ClickEvent = EventName<'click'>; // "onClick"
+\`\`\`
+
+## Type-Safe Builder Pattern
+
+\`\`\`typescript
+class QueryBuilder<T extends Record<string, unknown>> {
+  private filters: Partial<T> = {};
+  
+  where<K extends keyof T>(key: K, value: T[K]): this {
+    this.filters[key] = value;
+    return this;
+  }
+  
+  build(): Partial<T> {
+    return { ...this.filters };
+  }
+}
+
+const query = new QueryBuilder<User>()
+  .where('name', 'Alice')     // ✅ type-safe
+  .where('age', 30)           // ✅ type-safe
+  // .where('name', 123)      // ❌ Type error
+  .build();
+\`\`\`
+
+## Branded Types for Domain Safety
+
+\`\`\`typescript
+type Brand<T, B> = T & { __brand: B };
+
+type UserId = Brand<string, 'UserId'>;
+type OrderId = Brand<string, 'OrderId'>;
+
+function getUser(id: UserId) { /* ... */ }
+function getOrder(id: OrderId) { /* ... */ }
+
+const userId = 'u-123' as UserId;
+const orderId = 'o-456' as OrderId;
+
+getUser(userId);    // ✅
+// getUser(orderId); // ❌ Type error — can't mix IDs
+\`\`\`
+
+## Conclusion
+
+Advanced TypeScript patterns help you catch bugs at compile time, improve developer experience, and build more maintainable codebases. Master these patterns to write truly robust applications.
+    `,
+  },
+  {
+    slug: "cloud-native-microservices",
+    title: "Designing Cloud-Native Microservices with Event-Driven Architecture",
+    excerpt: "Learn how to design scalable microservices using event sourcing, CQRS, and message brokers for resilient cloud-native applications.",
+    date: "Nov 12, 2026",
+    readTime: "14 min read",
+    category: "Cloud Computing",
+    color: "project",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
+    content: `
+## The Microservices Revolution
+
+Monoliths served us well, but modern cloud-native apps demand independent scaling, fault isolation, and team autonomy.
+
+## Event-Driven Architecture
+
+### Why Events?
+
+Events decouple services — producers don't need to know about consumers:
+
+\`\`\`typescript
+// Event definition
+interface OrderPlacedEvent {
+  type: 'ORDER_PLACED';
+  payload: {
+    orderId: string;
+    userId: string;
+    items: Array<{ productId: string; quantity: number }>;
+    totalAmount: number;
+  };
+  metadata: {
+    timestamp: string;
+    correlationId: string;
+  };
+}
+\`\`\`
+
+### Event Sourcing
+
+Store events as the source of truth:
+
+\`\`\`typescript
+class OrderAggregate {
+  private events: DomainEvent[] = [];
+  private state: OrderState = { status: 'pending', items: [] };
+
+  placeOrder(items: OrderItem[]) {
+    this.apply({
+      type: 'ORDER_PLACED',
+      payload: { items, totalAmount: this.calculateTotal(items) }
+    });
+  }
+
+  private apply(event: DomainEvent) {
+    this.state = this.reduce(this.state, event);
+    this.events.push(event);
+  }
+
+  private reduce(state: OrderState, event: DomainEvent): OrderState {
+    switch (event.type) {
+      case 'ORDER_PLACED':
+        return { ...state, status: 'placed', items: event.payload.items };
+      case 'ORDER_SHIPPED':
+        return { ...state, status: 'shipped' };
+      default:
+        return state;
+    }
+  }
+}
+\`\`\`
+
+## CQRS Pattern
+
+Separate reads and writes for optimal performance:
+
+\`\`\`typescript
+// Command side — handles writes
+class OrderCommandHandler {
+  async handle(command: PlaceOrderCommand) {
+    const order = new OrderAggregate();
+    order.placeOrder(command.items);
+    await this.eventStore.save(order.getUncommittedEvents());
+    await this.eventBus.publish(order.getUncommittedEvents());
+  }
+}
+
+// Query side — optimized reads
+class OrderQueryHandler {
+  async getOrderSummary(orderId: string) {
+    return this.readDb.query('SELECT * FROM order_summary WHERE id = $1', [orderId]);
+  }
+}
+\`\`\`
+
+## Service Communication
+
+Use message brokers for async communication:
+
+- **Apache Kafka** — high-throughput event streaming
+- **RabbitMQ** — flexible routing and queuing
+- **AWS SNS/SQS** — managed pub/sub with queuing
+
+## Conclusion
+
+Event-driven microservices offer unparalleled scalability and resilience. Start with clear domain boundaries, embrace eventual consistency, and invest in observability.
+    `,
+  },
+  {
+    slug: "ai-agents-langchain-2026",
+    title: "Building Autonomous AI Agents with LangChain in 2026",
+    excerpt: "Create intelligent AI agents that can reason, plan, and execute complex tasks using LangChain, tool-use patterns, and RAG pipelines.",
+    date: "Dec 1, 2026",
+    readTime: "13 min read",
+    category: "Generative AI",
+    color: "project",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
+    content: `
+## The Rise of AI Agents
+
+AI agents go beyond simple chatbots — they can reason, use tools, and accomplish complex multi-step tasks autonomously.
+
+## LangChain Agent Architecture
+
+\`\`\`python
+from langchain.agents import create_react_agent, AgentExecutor
+from langchain_openai import ChatOpenAI
+from langchain.tools import Tool
+
+# Define tools
+tools = [
+    Tool(
+        name="search",
+        func=search_api.run,
+        description="Search the web for current information"
+    ),
+    Tool(
+        name="calculator",
+        func=calculator.run,
+        description="Perform mathematical calculations"
+    ),
+    Tool(
+        name="database",
+        func=db_query.run,
+        description="Query the application database"
+    ),
+]
+
+# Create the agent
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
+agent = create_react_agent(llm, tools, prompt_template)
+executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+result = executor.invoke({"input": "Find the revenue growth rate and project next quarter"})
+\`\`\`
+
+## RAG Pipeline
+
+Retrieval-Augmented Generation grounds AI responses in your data:
+
+\`\`\`python
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+# Ingest documents
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks = text_splitter.split_documents(documents)
+
+# Create vector store
+vectorstore = Chroma.from_documents(chunks, OpenAIEmbeddings())
+retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+
+# RAG chain
+from langchain.chains import RetrievalQA
+
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever=retriever,
+    return_source_documents=True
+)
+\`\`\`
+
+## Multi-Agent Systems
+
+Coordinate specialized agents for complex workflows:
+
+\`\`\`python
+class ResearchTeam:
+    def __init__(self):
+        self.researcher = create_agent("researcher", research_tools)
+        self.analyst = create_agent("analyst", analysis_tools)
+        self.writer = create_agent("writer", writing_tools)
+    
+    async def execute(self, task: str):
+        research = await self.researcher.run(f"Research: {task}")
+        analysis = await self.analyst.run(f"Analyze: {research}")
+        report = await self.writer.run(f"Write report: {analysis}")
+        return report
+\`\`\`
+
+## Best Practices
+
+1. **Constrain tool access** — only give agents tools they need
+2. **Add guardrails** — validate outputs before acting
+3. **Use structured outputs** — JSON mode for reliable parsing
+4. **Monitor costs** — track token usage per agent step
+5. **Human-in-the-loop** — require approval for high-stakes actions
+
+## Conclusion
+
+AI agents represent the next frontier in automation. By combining LLMs with tool-use, RAG, and multi-agent orchestration, you can build systems that handle complex real-world tasks with minimal human intervention.
+    `,
+  },
+];
+
 export const getBlogPostBySlug = (slug: string): BlogPost | undefined => {
   return blogPosts.find((post) => post.slug === slug);
 };
