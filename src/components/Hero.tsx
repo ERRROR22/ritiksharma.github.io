@@ -163,7 +163,7 @@ const Hero = () => {
                 className="gap-2 border-primary/50 text-primary hover:bg-primary/10 transition-all duration-300"
               >
                 <Download className="w-4 h-4" />
-                Download CV
+                Download Resume
               </Button>
             </a>
           </motion.div>
