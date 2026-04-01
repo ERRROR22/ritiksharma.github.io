@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -112,7 +113,7 @@ const BlogPost = () => {
       {/* Content */}
       <article className="container mx-auto px-6 py-16">
         <div className="max-w-3xl mx-auto blog-content">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
             {post.content}
           </ReactMarkdown>
         </div>
