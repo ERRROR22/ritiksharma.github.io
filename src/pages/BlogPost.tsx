@@ -113,7 +113,7 @@ const BlogPost = () => {
       {/* Content */}
       <article className="container mx-auto px-6 py-16">
         <div className="max-w-3xl mx-auto blog-content">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
             {post.content}
           </ReactMarkdown>
         </div>
