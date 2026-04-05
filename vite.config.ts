@@ -4,8 +4,10 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-    export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }) => ({
+  // Keep the quotes and slashes exactly like this for GitHub Pages
   base: "/ritiksharma.github.io/", 
+  
   server: {
     host: "::",
     port: 8080,
@@ -19,6 +21,7 @@ import { componentTagger } from "lovable-tagger";
   ].filter(Boolean),
   resolve: {
     alias: {
+      // This is crucial for your imports like "@/components/..."
       "@": path.resolve(__dirname, "./src"),
     },
   },
