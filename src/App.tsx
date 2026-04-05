@@ -16,7 +16,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-          <BrowserRouter basename="/ritiksharma.github.io">
+          <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
