@@ -1,31 +1,35 @@
+import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import AboutMe from "@/components/AboutMe";
-import Summary from "@/components/Summary";
-import Skills from "@/components/Skills";
-import Education from "@/components/Education";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Certifications from "@/components/Certifications";
-import Blog from "@/components/Blog";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+
+const AboutMe = lazy(() => import("@/components/AboutMe"));
+const Summary = lazy(() => import("@/components/Summary"));
+const Skills = lazy(() => import("@/components/Skills"));
+const Education = lazy(() => import("@/components/Education"));
+const Experience = lazy(() => import("@/components/Experience"));
+const Projects = lazy(() => import("@/components/Projects"));
+const Certifications = lazy(() => import("@/components/Certifications"));
+const Blog = lazy(() => import("@/components/Blog"));
+const Contact = lazy(() => import("@/components/Contact"));
+const Footer = lazy(() => import("@/components/Footer"));
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <Hero />
-      <AboutMe />
-      <Summary />
-      <Skills />
-      <Education />
-      <Experience />
-      <Projects />
-      <Certifications />
-      <Blog />
-      <Contact />
-      <Footer />
+      <Suspense fallback={null}>
+        <AboutMe />
+        <Summary />
+        <Skills />
+        <Education />
+        <Experience />
+        <Projects />
+        <Certifications />
+        <Blog />
+        <Contact />
+        <Footer />
+      </Suspense>
     </div>
   );
 };
