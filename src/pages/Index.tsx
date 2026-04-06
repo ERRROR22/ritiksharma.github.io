@@ -1,35 +1,22 @@
-import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-
-const AboutMe = lazy(() => import("@/components/AboutMe"));
-const Summary = lazy(() => import("@/components/Summary"));
-const Skills = lazy(() => import("@/components/Skills"));
-const Education = lazy(() => import("@/components/Education"));
-const Experience = lazy(() => import("@/components/Experience"));
-const Projects = lazy(() => import("@/components/Projects"));
-const Certifications = lazy(() => import("@/components/Certifications"));
-const Blog = lazy(() => import("@/components/Blog"));
-const Contact = lazy(() => import("@/components/Contact"));
-const Footer = lazy(() => import("@/components/Footer"));
+import LazySection from "@/components/LazySection";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <Hero />
-      <Suspense fallback={null}>
-        <AboutMe />
-        <Summary />
-        <Skills />
-        <Education />
-        <Experience />
-        <Projects />
-        <Certifications />
-        <Blog />
-        <Contact />
-        <Footer />
-      </Suspense>
+      <LazySection factory={() => import("@/components/AboutMe")} />
+      <LazySection factory={() => import("@/components/Summary")} />
+      <LazySection factory={() => import("@/components/Skills")} />
+      <LazySection factory={() => import("@/components/Education")} />
+      <LazySection factory={() => import("@/components/Experience")} />
+      <LazySection factory={() => import("@/components/Projects")} />
+      <LazySection factory={() => import("@/components/Certifications")} />
+      <LazySection factory={() => import("@/components/Blog")} />
+      <LazySection factory={() => import("@/components/Contact")} />
+      <LazySection factory={() => import("@/components/Footer")} />
     </div>
   );
 };
