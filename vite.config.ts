@@ -5,8 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Keep the quotes and slashes exactly like this for GitHub Pages
-  base: "/ritiksharma.github.io/", 
+  base: "/",
   
   server: {
     host: "::",
