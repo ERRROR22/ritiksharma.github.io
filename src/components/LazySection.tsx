@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, Suspense, ComponentType, lazy } from "react";
+import { motion } from "framer-motion";
 
 interface LazySectionProps {
   factory: () => Promise<{ default: ComponentType }>;
@@ -32,7 +33,13 @@ const LazySection = ({ factory, rootMargin = "200px" }: LazySectionProps) => {
     <div ref={ref}>
       {Component && (
         <Suspense fallback={null}>
-          <Component />
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <Component />
+          </motion.div>
         </Suspense>
       )}
     </div>
