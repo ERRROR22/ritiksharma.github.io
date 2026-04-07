@@ -145,7 +145,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
+          <div className="md:hidden mt-4 pb-4 pt-4 animate-fade-in glass glass-border rounded-xl mx-[-8px] px-4">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <button
