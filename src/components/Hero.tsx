@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
 
 const roles = [
   "Software Engineer",
@@ -154,6 +154,18 @@ const Hero = () => {
             >
               Get In Touch
             </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <a href="/RitikResume.pdf" download="RitikResume.pdf">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="gap-2 border-primary/50 text-primary hover:bg-primary/10 transition-all duration-300"
+              >
+                <Download className="w-4 h-4" />
+                Download Resume
+              </Button>
+            </a>
           </motion.div>
         </motion.div>
 
