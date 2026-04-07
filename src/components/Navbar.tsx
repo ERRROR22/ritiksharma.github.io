@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, FileText } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
