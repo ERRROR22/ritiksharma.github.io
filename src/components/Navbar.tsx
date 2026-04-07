@@ -94,15 +94,6 @@ const Navbar = () => {
               </button>
             )}
             
-            <a
-              href="/RitikResume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <FileText className="w-4 h-4" />
-              Resume
-            </a>
             <Button 
               size="sm"
               onClick={() => scrollToSection("#contact")}
@@ -156,15 +147,6 @@ const Navbar = () => {
                   {link.label}
                 </button>
               ))}
-              <a
-                href="/RitikResume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <FileText className="w-4 h-4" />
-                Resume
-              </a>
               <Button 
                 size="sm"
                 onClick={() => scrollToSection("#contact")}
