@@ -86,8 +86,12 @@ const Hero = () => {
       >
         {/* Avatar */}
         <motion.div className="mb-6 mt-20 md:mt-12" variants={itemVariants}>
-          <div className="relative inline-block">
-            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto">
+          <motion.div 
+            className="relative inline-block cursor-pointer"
+            whileHover={{ scale: 1.08, rotate: 2 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          >
+            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto shadow-[0_0_30px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.4)] transition-shadow duration-500">
               <img 
                 src={ritikPhoto} 
                 alt="Ritik Sharma" 
@@ -95,7 +99,7 @@ const Hero = () => {
               />
             </div>
             <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-background animate-pulse" />
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Status badge */}
