@@ -85,7 +85,7 @@ const Hero = () => {
         animate="visible"
       >
         {/* Avatar */}
-        <motion.div className="mb-6" variants={itemVariants}>
+        <motion.div className="mb-6 mt-16 md:mt-8" variants={itemVariants}>
           <div className="relative inline-block">
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto">
               <img 
