@@ -11,15 +11,39 @@ const roles = [
   "Full-Stack Developer",
 ];
 
+const TYPING_SPEED = 80;
+const DELETING_SPEED = 50;
+const PAUSE_AFTER_TYPE = 2000;
+const PAUSE_AFTER_DELETE = 400;
+
 const Hero = () => {
+  const [displayText, setDisplayText] = useState("");
   const [currentRole, setCurrentRole] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    const role = roles[currentRole];
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText.length < role.length) {
+          setDisplayText(role.slice(0, displayText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), PAUSE_AFTER_TYPE);
+          return;
+        }
+      } else {
+        if (displayText.length > 0) {
+          setDisplayText(role.slice(0, displayText.length - 1));
+        } else {
+          setIsDeleting(false);
+          setCurrentRole((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, isDeleting ? DELETING_SPEED : TYPING_SPEED);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentRole]);
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -120,23 +144,15 @@ const Hero = () => {
           <span className="text-gradient">Sharma</span>
         </motion.h1>
 
-        {/* Animated roles */}
+        {/* Animated roles - typing effect */}
         <motion.div 
-          className="h-12 md:h-14 mb-8 overflow-hidden"
+          className="h-12 md:h-14 mb-8 flex items-center justify-center"
           variants={itemVariants}
         >
-          <AnimatePresence mode="wait">
-            <motion.p 
-              key={currentRole}
-              className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              {roles[currentRole]}
-            </motion.p>
-          </AnimatePresence>
+          <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium">
+            {displayText}
+            <span className="inline-block w-[3px] h-[1em] bg-primary ml-1 animate-[blink_1s_step-end_infinite] align-middle" />
+          </p>
         </motion.div>
 
         {/* Description */}
