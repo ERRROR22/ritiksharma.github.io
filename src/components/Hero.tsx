@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import ritikPhoto from "@/assets/ritik-photo.jpeg";
 
 const roles = [
   "Software Engineer",
@@ -83,6 +84,20 @@ const Hero = () => {
         initial="hidden"
         animate="visible"
       >
+        {/* Avatar */}
+        <motion.div className="mb-6" variants={itemVariants}>
+          <div className="relative inline-block">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto">
+              <img 
+                src={ritikPhoto} 
+                alt="Ritik Sharma" 
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-background animate-pulse" />
+          </div>
+        </motion.div>
+
         {/* Status badge */}
         <motion.div 
           className="inline-flex items-center gap-2 px-4 py-2 mb-8 glass glass-border rounded-full"
