@@ -376,3 +376,7 @@
 .blog-content input[type="checkbox"] {
   @apply mr-2 accent-primary;
 }
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
