@@ -83,3 +83,9 @@ const Certifications = () => {
             );
           })}
         </StaggerContainer>
+      </div>
+    </section>
+  );
+};
+
+export default Certifications;
