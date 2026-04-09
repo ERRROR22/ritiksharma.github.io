@@ -15,7 +15,7 @@ const StaggerContainer = ({
   once = true,
 }: StaggerContainerProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-50px" });
+  const isInView = useInView(ref, { once, margin: "-60px" });
 
   return (
     <motion.div
@@ -28,6 +28,7 @@ const StaggerContainer = ({
         visible: {
           transition: {
             staggerChildren: staggerDelay,
+            delayChildren: 0.1,
           },
         },
       }}
@@ -48,13 +49,20 @@ export const StaggerItem = ({
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: 30 },
+        hidden: {
+          opacity: 0,
+          y: 30,
+          filter: "blur(4px)",
+          scale: 0.96,
+        },
         visible: {
           opacity: 1,
           y: 0,
+          filter: "blur(0px)",
+          scale: 1,
           transition: {
-            duration: 0.5,
-            ease: "easeOut",
+            duration: 0.55,
+            ease: [0.25, 0.46, 0.45, 0.94],
           },
         },
       }}
