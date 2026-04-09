@@ -90,7 +90,7 @@ const Experience = () => {
     <section id="experience" className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <ScrollReveal className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16" scale>
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-experience glass glass-border rounded-full">
             {"<Experience />"}
           </span>
