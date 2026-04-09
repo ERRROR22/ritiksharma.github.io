@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send, Linkedin, Github, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ScrollReveal from "./animations/ScrollReveal";
 
 const certifications = [
   "Generative AI (Simplilearn)",
@@ -17,33 +18,13 @@ const extracurriculars = [
 ];
 
 const Contact = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
   const { toast } = useToast();
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     toast({
@@ -56,13 +37,13 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/30 to-background" />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal className="text-center mb-16" scale>
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-primary glass glass-border rounded-full">
             {"<Contact />"}
           </span>
@@ -72,11 +53,11 @@ const Contact = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind or want to discuss opportunities? I'd love to hear from you.
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Contact Info */}
-          <div className={`space-y-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+          <ScrollReveal direction="left" className="space-y-8">
             {/* Contact details */}
             <div className="space-y-4">
               <a 
@@ -173,10 +154,10 @@ const Contact = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Contact Form */}
-          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+          <ScrollReveal direction="right" delay={0.15}>
             <form onSubmit={handleSubmit} className="p-8 glass glass-border rounded-2xl space-y-6">
               <div className="space-y-2">
                 <label htmlFor="name" className="text-sm font-medium">
@@ -244,7 +225,7 @@ const Contact = () => {
                 )}
               </Button>
             </form>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
