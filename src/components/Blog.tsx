@@ -1,31 +1,14 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, ArrowRight, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { blogPosts } from "@/data/blogPosts";
+import ScrollReveal from "./animations/ScrollReveal";
+import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const Blog = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const categories = useMemo(() => {
     const cats = Array.from(new Set(blogPosts.map((p) => p.category)));
@@ -74,13 +57,13 @@ const Blog = () => {
   const gridPosts = filteredPosts.slice(1);
 
   return (
-    <section id="blog" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="blog" className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal className="text-center mb-12" scale>
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-skill glass glass-border rounded-full">
             {"<Blog />"}
           </span>
@@ -90,10 +73,10 @@ const Blog = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Sharing insights on cybersecurity, machine learning, and software development
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Search & Filter */}
-        <div className={`mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <ScrollReveal className="mb-12" delay={0.1}>
           {/* Search bar */}
           <div className="relative max-w-md mx-auto mb-6">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -130,7 +113,7 @@ const Blog = () => {
               </button>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* No results */}
         {filteredPosts.length === 0 && (
@@ -148,98 +131,95 @@ const Blog = () => {
 
         {/* Featured post */}
         {featured && (
-          <Link
-            to={`/blog/${featured.slug}`}
-            className={`block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-          >
-            <div className="group relative overflow-hidden rounded-2xl glass glass-border hover:shadow-elevated transition-all duration-500">
-              <div className="grid md:grid-cols-2 gap-0">
-                <div className="relative h-64 md:h-auto overflow-hidden">
-                  <img
-                    src={featured.image}
-                    alt={featured.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-background" />
-                </div>
-                <div className="p-8 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getColorClass(featured.color).badge}`}>
-                      {featured.category}
-                    </span>
-                    <span className="text-xs text-muted-foreground">Featured</span>
+          <ScrollReveal className="mb-12" delay={0.15}>
+            <Link to={`/blog/${featured.slug}`}>
+              <div className="group relative overflow-hidden rounded-2xl glass glass-border hover:shadow-elevated transition-all duration-500">
+                <div className="grid md:grid-cols-2 gap-0">
+                  <div className="relative h-64 md:h-auto overflow-hidden">
+                    <img
+                      src={featured.image}
+                      alt={featured.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-background" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
-                    {featured.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-6 line-clamp-3">{featured.excerpt}</p>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4" />
-                      {featured.date}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" />
-                      {featured.readTime}
+                  <div className="p-8 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getColorClass(featured.color).badge}`}>
+                        {featured.category}
+                      </span>
+                      <span className="text-xs text-muted-foreground">Featured</span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
+                      {featured.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-6 line-clamp-3">{featured.excerpt}</p>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4" />
+                        {featured.date}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="w-4 h-4" />
+                        {featured.readTime}
+                      </span>
+                    </div>
+                    <span className="w-fit gap-2 text-primary group-hover:underline flex items-center">
+                      Read Article
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
-                  <span className="w-fit gap-2 text-primary group-hover:underline flex items-center">
-                    Read Article
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </span>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </ScrollReveal>
         )}
 
         {/* Blog grid */}
         {gridPosts.length > 0 && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {gridPosts.map((post, index) => {
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.12}>
+            {gridPosts.map((post) => {
               const colorClasses = getColorClass(post.color);
               return (
-                <Link
-                  key={post.slug}
-                  to={`/blog/${post.slug}`}
-                  className={`group glass glass-border rounded-2xl overflow-hidden hover:shadow-elevated transition-all duration-500 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
-                  style={{ transitionDelay: `${(index + 1) * 150}ms` }}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <span className={`px-3 py-1 text-xs font-medium rounded-full border backdrop-blur-sm ${colorClasses.badge}`}>
-                        {post.category}
-                      </span>
+                <StaggerItem key={post.slug}>
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="group glass glass-border rounded-2xl overflow-hidden hover:shadow-elevated transition-all duration-500 block h-full"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                      <div className="absolute top-4 left-4">
+                        <span className={`px-3 py-1 text-xs font-medium rounded-full border backdrop-blur-sm ${colorClasses.badge}`}>
+                          {post.category}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{post.excerpt}</p>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5" />
-                        {post.date}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5" />
-                        {post.readTime}
-                      </span>
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{post.excerpt}</p>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {post.date}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5" />
+                          {post.readTime}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
         )}
       </div>
     </section>

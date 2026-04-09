@@ -1,5 +1,7 @@
-import { Award, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
+import { Award } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
+import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const certifications = [
   {
@@ -42,7 +44,7 @@ const Certifications = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <ScrollReveal>
+        <ScrollReveal scale>
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-experience glass glass-border rounded-full">
               {"<Certifications />"}
@@ -56,24 +58,31 @@ const Certifications = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {certifications.map((cert, index) => {
+        <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto" staggerDelay={0.12}>
+          {certifications.map((cert) => {
             const colors = colorMap[cert.color];
             return (
-              <ScrollReveal key={cert.title} delay={index * 0.1}>
-                <div className="glass glass-border rounded-2xl p-6 hover:shadow-elevated transition-all duration-300 h-full flex flex-col">
-                  <div className={`p-3 rounded-xl border w-fit mb-4 ${colors.icon}`}>
+              <StaggerItem key={cert.title}>
+                <motion.div
+                  className="glass glass-border rounded-2xl p-6 hover:shadow-elevated transition-all duration-300 h-full flex flex-col"
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                >
+                  <motion.div
+                    className={`p-3 rounded-xl border w-fit mb-4 ${colors.icon}`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     <Award className="w-6 h-6" />
-                  </div>
+                  </motion.div>
                   <h3 className="text-lg font-bold mb-2">{cert.title}</h3>
                   <span className={`inline-block w-fit px-3 py-1 text-xs font-medium rounded-full border mt-auto ${colors.badge}`}>
                     {cert.issuer}
                   </span>
-                </div>
-              </ScrollReveal>
+                </motion.div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );
