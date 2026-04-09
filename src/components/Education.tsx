@@ -22,7 +22,7 @@ const Education = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <ScrollReveal>
+        <ScrollReveal scale>
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-primary glass glass-border rounded-full">
               {"<Education />"}
@@ -38,7 +38,7 @@ const Education = () => {
 
         <div className="max-w-3xl mx-auto">
           {/* Main Education Card */}
-          <ScrollReveal>
+          <ScrollReveal scale>
             <motion.div
               className="p-8 glass glass-border rounded-2xl"
               whileHover={{ scale: 1.02 }}
