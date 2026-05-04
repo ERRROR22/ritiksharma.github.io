@@ -39,11 +39,14 @@ const ThemeSwitcher = () => {
       ? Sun
       : Moon;
 
+  const activeLabel =
+    theme === "system" ? "System" : theme === "light" ? "Light" : "Dark";
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="relative p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all overflow-hidden"
+          className="relative flex items-center gap-2 px-2.5 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all overflow-hidden"
           aria-label="Change theme"
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -56,6 +59,18 @@ const ThemeSwitcher = () => {
               className="block"
             >
               <ActiveIcon className="w-5 h-5" />
+            </motion.span>
+          </AnimatePresence>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={`label-${activeLabel}`}
+              initial={{ opacity: 0, x: -4 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 4 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="hidden sm:inline text-xs font-medium"
+            >
+              {activeLabel}
             </motion.span>
           </AnimatePresence>
         </button>
