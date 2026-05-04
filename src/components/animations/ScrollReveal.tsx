@@ -1,4 +1,4 @@
-import { motion, useInView, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useRef, ReactNode } from "react";
 
 interface ScrollRevealProps {
@@ -24,9 +24,11 @@ const ScrollReveal = ({
 }: ScrollRevealProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotion();
 
   const getInitial = () => {
     const pos: Record<string, number> = { x: 0, y: 0 };
+    if (prefersReducedMotion) return pos;
     switch (direction) {
       case "up": pos.y = distance; break;
       case "down": pos.y = -distance; break;
@@ -38,26 +40,34 @@ const ScrollReveal = ({
 
   const initial = getInitial();
 
-  const variants: Variants = {
-    hidden: {
-      opacity: 0,
-      filter: "blur(6px)",
-      ...initial,
-      ...(scale ? { scale: 0.95 } : {}),
-    },
-    visible: {
-      opacity: 1,
-      filter: "blur(0px)",
-      x: 0,
-      y: 0,
-      ...(scale ? { scale: 1 } : {}),
-      transition: {
-        duration,
-        delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
-    },
-  };
+  const variants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { duration: 0.3, delay, ease: "easeOut" },
+        },
+      }
+    : {
+        hidden: {
+          opacity: 0,
+          filter: "blur(6px)",
+          ...initial,
+          ...(scale ? { scale: 0.95 } : {}),
+        },
+        visible: {
+          opacity: 1,
+          filter: "blur(0px)",
+          x: 0,
+          y: 0,
+          ...(scale ? { scale: 1 } : {}),
+          transition: {
+            duration,
+            delay,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          },
+        },
+      };
 
   return (
     <motion.div

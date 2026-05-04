@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, ReactNode } from "react";
 
 interface StaggerContainerProps {
@@ -16,6 +16,7 @@ const StaggerContainer = ({
 }: StaggerContainerProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, margin: "-60px" });
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <motion.div
@@ -27,8 +28,8 @@ const StaggerContainer = ({
         hidden: {},
         visible: {
           transition: {
-            staggerChildren: staggerDelay,
-            delayChildren: 0.1,
+            staggerChildren: prefersReducedMotion ? 0.03 : staggerDelay,
+            delayChildren: prefersReducedMotion ? 0 : 0.1,
           },
         },
       }}
@@ -45,27 +46,39 @@ export const StaggerItem = ({
   children: ReactNode;
   className?: string;
 }) => {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.div
       className={className}
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: 30,
-          filter: "blur(4px)",
-          scale: 0.96,
-        },
-        visible: {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          scale: 1,
-          transition: {
-            duration: 0.55,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          },
-        },
-      }}
+      variants={
+        prefersReducedMotion
+          ? {
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { duration: 0.25, ease: "easeOut" },
+              },
+            }
+          : {
+              hidden: {
+                opacity: 0,
+                y: 30,
+                filter: "blur(4px)",
+                scale: 0.96,
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                scale: 1,
+                transition: {
+                  duration: 0.55,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                },
+              },
+            }
+      }
     >
       {children}
     </motion.div>
