@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
-import ritikPhoto from "@/assets/ritik-photo.jpeg";
+import ritikPhoto from "@/assets/ritik-photo.png";
 
 const roles = [
   "Software Engineer",
