@@ -139,7 +139,6 @@ const Hero = () => {
                 }`}
               />
             </div>
-            </div>
             <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-background animate-pulse" />
           </motion.div>
         </motion.div>
