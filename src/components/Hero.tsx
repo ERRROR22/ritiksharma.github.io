@@ -118,8 +118,14 @@ const Hero = () => {
             <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto shadow-[0_0_30px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.4)] transition-shadow duration-500">
               <img 
                 src={ritikPhoto} 
-                alt="Ritik Sharma" 
-                className="w-full h-full object-cover object-top"
+                alt="Portrait of Ritik Sharma, AI/ML engineer and full-stack developer, lit by red and blue studio lighting"
+                width={144}
+                height={144}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                draggable={false}
+                className="w-full h-full object-cover object-top select-none"
               />
             </div>
             <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-background animate-pulse" />
