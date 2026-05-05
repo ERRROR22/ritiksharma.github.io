@@ -24,9 +24,7 @@ const ThemeSwitcher = () => {
   }, []);
 
   if (!mounted) {
-    return (
-      <div className="p-2 w-9 h-9" aria-hidden="true" />
-    );
+    return <div className="h-10 w-10" aria-hidden="true" />;
   }
 
   // Show icon based on resolved theme so "system" displays the active appearance
