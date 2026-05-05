@@ -20,6 +20,7 @@ const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [currentRole, setCurrentRole] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [photoLoaded, setPhotoLoaded] = useState(false);
 
   useEffect(() => {
     const role = roles[currentRole];
