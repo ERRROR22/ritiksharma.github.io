@@ -24,9 +24,7 @@ const ThemeSwitcher = () => {
   }, []);
 
   if (!mounted) {
-    return (
-      <div className="p-2 w-9 h-9" aria-hidden="true" />
-    );
+    return <div className="h-10 w-10" aria-hidden="true" />;
   }
 
   // Show icon based on resolved theme so "system" displays the active appearance
@@ -46,7 +44,7 @@ const ThemeSwitcher = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="relative flex items-center gap-2 px-2.5 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all overflow-hidden"
+          className="relative flex h-10 items-center gap-2 px-2 sm:px-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all overflow-hidden"
           aria-label="Change theme"
         >
           <AnimatePresence mode="wait" initial={false}>
