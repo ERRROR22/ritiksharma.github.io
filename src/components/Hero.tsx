@@ -116,9 +116,16 @@ const Hero = () => {
             whileHover={{ scale: 1.08, rotate: 2 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
-            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto shadow-[0_0_30px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.4)] transition-shadow duration-500">
-              <img 
-                src={ritikPhoto} 
+            <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto shadow-[0_0_30px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.4)] transition-shadow duration-500">
+              {/* Skeleton/blur placeholder — preserves aspect ratio so layout never shifts */}
+              <div
+                aria-hidden="true"
+                className={`absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/40 to-accent/20 animate-pulse transition-opacity duration-500 ${
+                  photoLoaded ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <img
+                src={ritikPhoto}
                 alt="Portrait of Ritik Sharma, AI/ML engineer and full-stack developer, lit by red and blue studio lighting"
                 width={144}
                 height={144}
@@ -126,8 +133,12 @@ const Hero = () => {
                 fetchPriority="high"
                 decoding="async"
                 draggable={false}
-                className="w-full h-full object-cover object-top select-none"
+                onLoad={() => setPhotoLoaded(true)}
+                className={`w-full h-full object-cover object-top select-none transition-opacity duration-500 ${
+                  photoLoaded ? "opacity-100" : "opacity-0"
+                }`}
               />
+            </div>
             </div>
             <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-background animate-pulse" />
           </motion.div>
