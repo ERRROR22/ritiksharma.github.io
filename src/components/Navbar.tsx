@@ -76,10 +76,11 @@ const Navbar = () => {
           <div className="md:hidden flex items-center gap-2">
             <ThemeSwitcher />
             <button
-              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
