@@ -117,10 +117,12 @@ const Hero = () => {
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
             <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-4 ring-offset-background mx-auto shadow-[0_0_30px_hsl(var(--primary)/0.2)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.4)] transition-shadow duration-500">
-              {/* Skeleton/blur placeholder — preserves aspect ratio so layout never shifts */}
+              {/* Skeleton/blur placeholder — decorative only, hidden from assistive tech */}
               <div
                 aria-hidden="true"
-                className={`absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/40 to-accent/20 animate-pulse transition-opacity duration-500 ${
+                role="presentation"
+                tabIndex={-1}
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/40 to-accent/20 animate-pulse transition-opacity duration-500 ${
                   photoLoaded ? "opacity-0" : "opacity-100"
                 }`}
               />
