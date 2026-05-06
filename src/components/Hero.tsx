@@ -122,7 +122,7 @@ const Hero = () => {
                 aria-hidden="true"
                 role="presentation"
                 tabIndex={-1}
-                className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/40 to-accent/20 animate-pulse transition-opacity duration-500 ${
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/40 to-accent/20 motion-safe:animate-pulse transition-opacity duration-500 ${
                   photoLoaded ? "opacity-0" : "opacity-100"
                 }`}
               />
