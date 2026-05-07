@@ -142,7 +142,12 @@ const Accessibility = () => {
             rings are visible. Use Esc to close and confirm focus returns to
             the trigger.
           </p>
-        </header>
+          <div className="rounded-md border border-primary/30 bg-primary/5 p-3 text-sm text-foreground">
+            <strong className="font-medium">Focus-return verification:</strong>{" "}
+            After you close any overlay (Esc, arrow keys, or selecting an
+            item), its trigger briefly pulses with a primary-colored ring.
+            That visual confirms focus returned to the trigger element.
+          </div>
 
         <section className="rounded-xl border border-border bg-card/40 p-6 space-y-4">
           <div>
