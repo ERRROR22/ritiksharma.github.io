@@ -242,9 +242,9 @@ const Accessibility = () => {
           title="Dialog"
           description="Standard modal dialog. Tab cycles within content; Esc closes."
         >
-          <Dialog>
+          <Dialog open={dialog.open} onOpenChange={dialog.onOpenChange}>
             <DialogTrigger asChild>
-              <Button>Open Dialog</Button>
+              <Button className={dialog.flashClass}>Open Dialog</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
