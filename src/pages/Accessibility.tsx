@@ -117,7 +117,14 @@ const ChecklistItem = ({ label }: { label: string }) => (
 );
 
 const Accessibility = () => {
-  const [commandOpen, setCommandOpen] = useState(false);
+  const dialog = useFocusReturnFlash();
+  const alert = useFocusReturnFlash();
+  const dropdown = useFocusReturnFlash();
+  const context = useFocusReturnFlash();
+  const popover = useFocusReturnFlash();
+  const select = useFocusReturnFlash();
+  const sheet = useFocusReturnFlash();
+  const command = useFocusReturnFlash();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
