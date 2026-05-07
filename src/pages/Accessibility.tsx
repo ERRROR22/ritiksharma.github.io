@@ -266,9 +266,11 @@ const Accessibility = () => {
           title="Alert Dialog"
           description="Confirmation alert with action and cancel buttons."
         >
-          <AlertDialog>
+          <AlertDialog open={alert.open} onOpenChange={alert.onOpenChange}>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive">Open Alert Dialog</Button>
+              <Button variant="destructive" className={alert.flashClass}>
+                Open Alert Dialog
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -289,9 +291,11 @@ const Accessibility = () => {
           title="Dropdown Menu"
           description="Arrow keys move between items; highlighted item shows focus ring."
         >
-          <DropdownMenu>
+          <DropdownMenu open={dropdown.open} onOpenChange={dropdown.onOpenChange}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">Open Dropdown</Button>
+              <Button variant="outline" className={dropdown.flashClass}>
+                Open Dropdown
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -307,8 +311,10 @@ const Accessibility = () => {
           title="Context Menu"
           description="Right-click (or Shift+F10) on the target to open."
         >
-          <ContextMenu>
-            <ContextMenuTrigger className="flex h-24 w-full items-center justify-center rounded-md border border-dashed border-border text-sm text-muted-foreground">
+          <ContextMenu onOpenChange={context.onOpenChange}>
+            <ContextMenuTrigger
+              className={`flex h-24 w-full items-center justify-center rounded-md border border-dashed border-border text-sm text-muted-foreground ${context.flashClass}`}
+            >
               Right-click here
             </ContextMenuTrigger>
             <ContextMenuContent>
@@ -324,9 +330,11 @@ const Accessibility = () => {
           title="Popover"
           description="Inline overlay with focusable content."
         >
-          <Popover>
+          <Popover open={popover.open} onOpenChange={popover.onOpenChange}>
             <PopoverTrigger asChild>
-              <Button variant="outline">Open Popover</Button>
+              <Button variant="outline" className={popover.flashClass}>
+                Open Popover
+              </Button>
             </PopoverTrigger>
             <PopoverContent>
               <div className="space-y-2">
@@ -342,8 +350,8 @@ const Accessibility = () => {
           title="Select"
           description="Native-feeling select with keyboard support."
         >
-          <Select>
-            <SelectTrigger className="w-[220px]">
+          <Select onOpenChange={select.onOpenChange}>
+            <SelectTrigger className={`w-[220px] ${select.flashClass}`}>
               <SelectValue placeholder="Pick an option" />
             </SelectTrigger>
             <SelectContent>
@@ -358,9 +366,11 @@ const Accessibility = () => {
           title="Sheet"
           description="Side drawer overlay."
         >
-          <Sheet>
+          <Sheet open={sheet.open} onOpenChange={sheet.onOpenChange}>
             <SheetTrigger asChild>
-              <Button variant="outline">Open Sheet</Button>
+              <Button variant="outline" className={sheet.flashClass}>
+                Open Sheet
+              </Button>
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
@@ -382,10 +392,14 @@ const Accessibility = () => {
           title="Command Menu"
           description="Searchable command palette (cmdk)."
         >
-          <Button variant="outline" onClick={() => setCommandOpen((v) => !v)}>
-            {commandOpen ? "Hide" : "Show"} Command Menu
+          <Button
+            variant="outline"
+            className={command.flashClass}
+            onClick={() => command.onOpenChange(!command.open)}
+          >
+            {command.open ? "Hide" : "Show"} Command Menu
           </Button>
-          {commandOpen && (
+          {command.open && (
             <div className="w-full rounded-md border border-border">
               <Command>
                 <CommandInput placeholder="Search..." />
