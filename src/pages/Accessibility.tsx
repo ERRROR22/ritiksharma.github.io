@@ -148,6 +148,7 @@ const Accessibility = () => {
             item), its trigger briefly pulses with a primary-colored ring.
             That visual confirms focus returned to the trigger element.
           </div>
+        </header>
 
         <section className="rounded-xl border border-border bg-card/40 p-6 space-y-4">
           <div>
