@@ -84,6 +84,13 @@ const Section = ({
   </section>
 );
 
+const ChecklistItem = ({ label }: { label: string }) => (
+  <li className="flex items-start gap-2 text-sm text-muted-foreground">
+    <span className="mt-0.5 h-4 w-4 shrink-0 rounded border border-border" />
+    {label}
+  </li>
+);
+
 const Accessibility = () => {
   const [commandOpen, setCommandOpen] = useState(false);
 
@@ -104,6 +111,100 @@ const Accessibility = () => {
             the trigger.
           </p>
         </header>
+
+        <section className="rounded-xl border border-border bg-card/40 p-6 space-y-4">
+          <div>
+            <h2 className="text-xl font-semibold text-foreground">
+              Keyboard Test Checklist
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Follow these steps for each overlay to verify keyboard
+              accessibility.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">Dialog</h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Open Dialog button and press Enter/Space." />
+                <ChecklistItem label="Tab cycles only inside the dialog (input → Cancel → Confirm)." />
+                <ChecklistItem label="Press Esc to close the dialog." />
+                <ChecklistItem label="Focus returns to the Open Dialog button with a visible ring." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">
+                Alert Dialog
+              </h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Open Alert Dialog button and press Enter/Space." />
+                <ChecklistItem label="Tab cycles between Cancel and Continue only." />
+                <ChecklistItem label="Press Esc to close the alert." />
+                <ChecklistItem label="Focus returns to the trigger button with a visible ring." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">
+                Dropdown Menu
+              </h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Open Dropdown button and press Enter/Space." />
+                <ChecklistItem label="Use ↑ / ↓ arrows to move between items." />
+                <ChecklistItem label="Highlighted item shows a focus ring." />
+                <ChecklistItem label="Press Esc to close; focus returns to trigger." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">
+                Context Menu
+              </h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the target area and press Shift+F10 (or right-click)." />
+                <ChecklistItem label="Use ↑ / ↓ arrows to move between items." />
+                <ChecklistItem label="Press Esc to close the context menu." />
+                <ChecklistItem label="Focus returns to the target area." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">Popover</h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Open Popover button and press Enter/Space." />
+                <ChecklistItem label="Tab moves into the popover content (input → Submit)." />
+                <ChecklistItem label="Press Esc to close the popover." />
+                <ChecklistItem label="Focus returns to the Open Popover button." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">Select</h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Select trigger and press Enter/Space." />
+                <ChecklistItem label="Use ↑ / ↓ arrows to move between options." />
+                <ChecklistItem label="Press Enter to select; Esc closes without selecting." />
+                <ChecklistItem label="Focus returns to the Select trigger." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">Sheet</h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Open Sheet button and press Enter/Space." />
+                <ChecklistItem label="Tab cycles inside the sheet (Name → Email → Save)." />
+                <ChecklistItem label="Press Esc to close the sheet." />
+                <ChecklistItem label="Focus returns to the Open Sheet button." />
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground">
+                Command Menu
+              </h3>
+              <ul className="space-y-1">
+                <ChecklistItem label="Tab to the Show Command Menu button and press Enter/Space." />
+                <ChecklistItem label="Type to filter; use ↑ / ↓ arrows to navigate items." />
+                <ChecklistItem label="Press Esc to close the command menu." />
+                <ChecklistItem label="Focus returns to the Show Command Menu button." />
+              </ul>
+            </div>
+          </div>
+        </section>
 
         <Section
           title="Dialog"
