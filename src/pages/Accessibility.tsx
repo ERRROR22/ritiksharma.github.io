@@ -1,4 +1,29 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+/**
+ * Tracks an overlay's open state and briefly applies a highlight class
+ * to its trigger when it closes — visually confirming focus returned.
+ */
+function useFocusReturnFlash() {
+  const [open, setOpen] = useState(false);
+  const [flash, setFlash] = useState(false);
+  const wasOpen = useRef(false);
+
+  useEffect(() => {
+    if (wasOpen.current && !open) {
+      setFlash(true);
+      const t = window.setTimeout(() => setFlash(false), 1600);
+      return () => window.clearTimeout(t);
+    }
+    wasOpen.current = open;
+  }, [open]);
+
+  const flashClass = flash
+    ? "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
+    : "";
+
+  return { open, onOpenChange: setOpen, flashClass };
+}
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -92,7 +117,14 @@ const ChecklistItem = ({ label }: { label: string }) => (
 );
 
 const Accessibility = () => {
-  const [commandOpen, setCommandOpen] = useState(false);
+  const dialog = useFocusReturnFlash();
+  const alert = useFocusReturnFlash();
+  const dropdown = useFocusReturnFlash();
+  const context = useFocusReturnFlash();
+  const popover = useFocusReturnFlash();
+  const select = useFocusReturnFlash();
+  const sheet = useFocusReturnFlash();
+  const command = useFocusReturnFlash();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -110,6 +142,12 @@ const Accessibility = () => {
             rings are visible. Use Esc to close and confirm focus returns to
             the trigger.
           </p>
+          <div className="rounded-md border border-primary/30 bg-primary/5 p-3 text-sm text-foreground">
+            <strong className="font-medium">Focus-return verification:</strong>{" "}
+            After you close any overlay (Esc, arrow keys, or selecting an
+            item), its trigger briefly pulses with a primary-colored ring.
+            That visual confirms focus returned to the trigger element.
+          </div>
         </header>
 
         <section className="rounded-xl border border-border bg-card/40 p-6 space-y-4">
@@ -210,9 +248,9 @@ const Accessibility = () => {
           title="Dialog"
           description="Standard modal dialog. Tab cycles within content; Esc closes."
         >
-          <Dialog>
+          <Dialog open={dialog.open} onOpenChange={dialog.onOpenChange}>
             <DialogTrigger asChild>
-              <Button>Open Dialog</Button>
+              <Button className={dialog.flashClass}>Open Dialog</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -234,9 +272,11 @@ const Accessibility = () => {
           title="Alert Dialog"
           description="Confirmation alert with action and cancel buttons."
         >
-          <AlertDialog>
+          <AlertDialog open={alert.open} onOpenChange={alert.onOpenChange}>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive">Open Alert Dialog</Button>
+              <Button variant="destructive" className={alert.flashClass}>
+                Open Alert Dialog
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -257,9 +297,11 @@ const Accessibility = () => {
           title="Dropdown Menu"
           description="Arrow keys move between items; highlighted item shows focus ring."
         >
-          <DropdownMenu>
+          <DropdownMenu open={dropdown.open} onOpenChange={dropdown.onOpenChange}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">Open Dropdown</Button>
+              <Button variant="outline" className={dropdown.flashClass}>
+                Open Dropdown
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -275,8 +317,10 @@ const Accessibility = () => {
           title="Context Menu"
           description="Right-click (or Shift+F10) on the target to open."
         >
-          <ContextMenu>
-            <ContextMenuTrigger className="flex h-24 w-full items-center justify-center rounded-md border border-dashed border-border text-sm text-muted-foreground">
+          <ContextMenu onOpenChange={context.onOpenChange}>
+            <ContextMenuTrigger
+              className={`flex h-24 w-full items-center justify-center rounded-md border border-dashed border-border text-sm text-muted-foreground ${context.flashClass}`}
+            >
               Right-click here
             </ContextMenuTrigger>
             <ContextMenuContent>
@@ -292,9 +336,11 @@ const Accessibility = () => {
           title="Popover"
           description="Inline overlay with focusable content."
         >
-          <Popover>
+          <Popover open={popover.open} onOpenChange={popover.onOpenChange}>
             <PopoverTrigger asChild>
-              <Button variant="outline">Open Popover</Button>
+              <Button variant="outline" className={popover.flashClass}>
+                Open Popover
+              </Button>
             </PopoverTrigger>
             <PopoverContent>
               <div className="space-y-2">
@@ -310,8 +356,8 @@ const Accessibility = () => {
           title="Select"
           description="Native-feeling select with keyboard support."
         >
-          <Select>
-            <SelectTrigger className="w-[220px]">
+          <Select onOpenChange={select.onOpenChange}>
+            <SelectTrigger className={`w-[220px] ${select.flashClass}`}>
               <SelectValue placeholder="Pick an option" />
             </SelectTrigger>
             <SelectContent>
@@ -326,9 +372,11 @@ const Accessibility = () => {
           title="Sheet"
           description="Side drawer overlay."
         >
-          <Sheet>
+          <Sheet open={sheet.open} onOpenChange={sheet.onOpenChange}>
             <SheetTrigger asChild>
-              <Button variant="outline">Open Sheet</Button>
+              <Button variant="outline" className={sheet.flashClass}>
+                Open Sheet
+              </Button>
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
@@ -350,10 +398,14 @@ const Accessibility = () => {
           title="Command Menu"
           description="Searchable command palette (cmdk)."
         >
-          <Button variant="outline" onClick={() => setCommandOpen((v) => !v)}>
-            {commandOpen ? "Hide" : "Show"} Command Menu
+          <Button
+            variant="outline"
+            className={command.flashClass}
+            onClick={() => command.onOpenChange(!command.open)}
+          >
+            {command.open ? "Hide" : "Show"} Command Menu
           </Button>
-          {commandOpen && (
+          {command.open && (
             <div className="w-full rounded-md border border-border">
               <Command>
                 <CommandInput placeholder="Search..." />
