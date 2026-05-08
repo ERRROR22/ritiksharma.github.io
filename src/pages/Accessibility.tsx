@@ -119,40 +119,102 @@ const ChecklistItem = ({ label }: { label: string }) => (
   </li>
 );
 
-const SCREENSHOT_MODE_KEY = "a11y:screenshotMode";
+const OVERLAY_KEYS = [
+  "dialog",
+  "alert",
+  "dropdown",
+  "context",
+  "popover",
+  "select",
+  "sheet",
+  "command",
+] as const;
+type OverlayKey = (typeof OVERLAY_KEYS)[number];
 
-const Accessibility = () => {
-  const [screenshotMode, setScreenshotMode] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      return window.localStorage.getItem(SCREENSHOT_MODE_KEY) === "true";
-    } catch {
-      return false;
+const OVERLAY_LABELS: Record<OverlayKey, string> = {
+  dialog: "Dialog",
+  alert: "Alert Dialog",
+  dropdown: "Dropdown",
+  context: "Context Menu",
+  popover: "Popover",
+  select: "Select",
+  sheet: "Sheet",
+  command: "Command Menu",
+};
+
+const SCREENSHOT_MODE_KEY_PREFIX = "a11y:screenshotMode:";
+const storageKey = (k: OverlayKey) => `${SCREENSHOT_MODE_KEY_PREFIX}${k}`;
+
+function usePersistedScreenshotMode() {
+  const [modes, setModes] = useState<Record<OverlayKey, boolean>>(() => {
+    const initial = {} as Record<OverlayKey, boolean>;
+    for (const k of OVERLAY_KEYS) {
+      let v = false;
+      if (typeof window !== "undefined") {
+        try {
+          v = window.localStorage.getItem(storageKey(k)) === "true";
+        } catch {
+          /* ignore */
+        }
+      }
+      initial[k] = v;
     }
+    return initial;
   });
 
-  useEffect(() => {
+  const setMode = (k: OverlayKey, v: boolean) => {
+    setModes((prev) => ({ ...prev, [k]: v }));
     try {
-      window.localStorage.setItem(SCREENSHOT_MODE_KEY, String(screenshotMode));
+      window.localStorage.setItem(storageKey(k), String(v));
     } catch {
       /* ignore */
     }
-  }, [screenshotMode]);
+  };
 
-  const dialog = useFocusReturnFlash(screenshotMode);
-  const alert = useFocusReturnFlash(screenshotMode);
-  const dropdown = useFocusReturnFlash(screenshotMode);
-  const context = useFocusReturnFlash(screenshotMode);
-  const popover = useFocusReturnFlash(screenshotMode);
-  const select = useFocusReturnFlash(screenshotMode);
-  const sheet = useFocusReturnFlash(screenshotMode);
-  const command = useFocusReturnFlash(screenshotMode);
+  const setAll = (v: boolean) => {
+    const next = {} as Record<OverlayKey, boolean>;
+    for (const k of OVERLAY_KEYS) {
+      next[k] = v;
+      try {
+        window.localStorage.setItem(storageKey(k), String(v));
+      } catch {
+        /* ignore */
+      }
+    }
+    setModes(next);
+  };
+
+  return { modes, setMode, setAll };
+}
+
+const Accessibility = () => {
+  const { modes, setMode, setAll } = usePersistedScreenshotMode();
+
+  const dialog = useFocusReturnFlash(modes.dialog);
+  const alert = useFocusReturnFlash(modes.alert);
+  const dropdown = useFocusReturnFlash(modes.dropdown);
+  const context = useFocusReturnFlash(modes.context);
+  const popover = useFocusReturnFlash(modes.popover);
+  const select = useFocusReturnFlash(modes.select);
+  const sheet = useFocusReturnFlash(modes.sheet);
+  const command = useFocusReturnFlash(modes.command);
+
+  const overlays: Record<OverlayKey, { dismiss: () => void }> = {
+    dialog,
+    alert,
+    dropdown,
+    context,
+    popover,
+    select,
+    sheet,
+    command,
+  };
 
   const dismissAllRings = () => {
-    [dialog, alert, dropdown, context, popover, select, sheet, command].forEach(
-      (o) => o.dismiss(),
-    );
+    OVERLAY_KEYS.forEach((k) => overlays[k].dismiss());
   };
+
+  const anyOn = OVERLAY_KEYS.some((k) => modes[k]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -176,28 +238,46 @@ const Accessibility = () => {
             item), its trigger briefly pulses with a primary-colored ring.
             That visual confirms focus returned to the trigger element.
           </div>
-          <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-card/40 p-3 text-sm">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={screenshotMode}
-                onChange={(e) => setScreenshotMode(e.target.checked)}
-                className="h-4 w-4 rounded border-border accent-primary"
-              />
-              <span className="font-medium text-foreground">Screenshot mode</span>
-            </label>
-            <span className="text-muted-foreground">
-              Keeps focus-return rings visible until you dismiss them.
-            </span>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={dismissAllRings}
-              className="ml-auto"
-            >
-              Dismiss rings
-            </Button>
+          <div className="space-y-3 rounded-md border border-border bg-card/40 p-3 text-sm">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="font-medium text-foreground">
+                Screenshot mode (per overlay)
+              </span>
+              <span className="text-muted-foreground">
+                Keeps focus-return rings visible until dismissed. Saved per
+                overlay across refreshes.
+              </span>
+              <div className="ml-auto flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setAll(!anyOn)}
+                >
+                  {anyOn ? "Disable all" : "Enable all"}
+                </Button>
+                <Button size="sm" variant="outline" onClick={dismissAllRings}>
+                  Dismiss rings
+                </Button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {OVERLAY_KEYS.map((k) => (
+                <label
+                  key={k}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={modes[k]}
+                    onChange={(e) => setMode(k, e.target.checked)}
+                    className="h-4 w-4 rounded border-border accent-primary"
+                  />
+                  <span className="text-foreground">{OVERLAY_LABELS[k]}</span>
+                </label>
+              ))}
+            </div>
           </div>
+
         </header>
 
         <section className="rounded-xl border border-border bg-card/40 p-6 space-y-4">
