@@ -230,15 +230,16 @@ function usePersistedDurations() {
 
 const Accessibility = () => {
   const { modes, setMode, setAll } = usePersistedScreenshotMode();
+  const { durations, setDuration } = usePersistedDurations();
 
-  const dialog = useFocusReturnFlash(modes.dialog);
-  const alert = useFocusReturnFlash(modes.alert);
-  const dropdown = useFocusReturnFlash(modes.dropdown);
-  const context = useFocusReturnFlash(modes.context);
-  const popover = useFocusReturnFlash(modes.popover);
-  const select = useFocusReturnFlash(modes.select);
-  const sheet = useFocusReturnFlash(modes.sheet);
-  const command = useFocusReturnFlash(modes.command);
+  const dialog = useFocusReturnFlash(modes.dialog, durations.dialog);
+  const alert = useFocusReturnFlash(modes.alert, durations.alert);
+  const dropdown = useFocusReturnFlash(modes.dropdown, durations.dropdown);
+  const context = useFocusReturnFlash(modes.context, durations.context);
+  const popover = useFocusReturnFlash(modes.popover, durations.popover);
+  const select = useFocusReturnFlash(modes.select, durations.select);
+  const sheet = useFocusReturnFlash(modes.sheet, durations.sheet);
+  const command = useFocusReturnFlash(modes.command, durations.command);
 
   const overlays: Record<OverlayKey, { dismiss: () => void }> = {
     dialog,
