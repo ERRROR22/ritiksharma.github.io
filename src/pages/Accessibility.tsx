@@ -119,8 +119,26 @@ const ChecklistItem = ({ label }: { label: string }) => (
   </li>
 );
 
+const SCREENSHOT_MODE_KEY = "a11y:screenshotMode";
+
 const Accessibility = () => {
-  const [screenshotMode, setScreenshotMode] = useState(false);
+  const [screenshotMode, setScreenshotMode] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return window.localStorage.getItem(SCREENSHOT_MODE_KEY) === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(SCREENSHOT_MODE_KEY, String(screenshotMode));
+    } catch {
+      /* ignore */
+    }
+  }, [screenshotMode]);
+
   const dialog = useFocusReturnFlash(screenshotMode);
   const alert = useFocusReturnFlash(screenshotMode);
   const dropdown = useFocusReturnFlash(screenshotMode);
