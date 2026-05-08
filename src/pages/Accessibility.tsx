@@ -12,7 +12,7 @@ function useFocusReturnFlash() {
   useEffect(() => {
     if (wasOpen.current && !open) {
       setFlash(true);
-      const t = window.setTimeout(() => setFlash(false), 1600);
+      const t = window.setTimeout(() => setFlash(false), 3000);
       return () => window.clearTimeout(t);
     }
     wasOpen.current = open;
