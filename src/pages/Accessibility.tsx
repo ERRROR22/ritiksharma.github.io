@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
  * Tracks an overlay's open state and briefly applies a highlight class
  * to its trigger when it closes — visually confirming focus returned.
  */
-function useFocusReturnFlash(screenshotMode: boolean = false) {
+function useFocusReturnFlash(
+  screenshotMode: boolean = false,
+  durationMs: number = 3000,
+) {
   const [open, setOpen] = useState(false);
   const [flash, setFlash] = useState(false);
   const wasOpen = useRef(false);
@@ -13,13 +16,16 @@ function useFocusReturnFlash(screenshotMode: boolean = false) {
     if (wasOpen.current && !open) {
       setFlash(true);
       if (!screenshotMode) {
-        const t = window.setTimeout(() => setFlash(false), 3000);
+        const t = window.setTimeout(
+          () => setFlash(false),
+          Math.max(0, durationMs),
+        );
         wasOpen.current = open;
         return () => window.clearTimeout(t);
       }
     }
     wasOpen.current = open;
-  }, [open, screenshotMode]);
+  }, [open, screenshotMode, durationMs]);
 
   const flashClass = flash
     ? "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
