@@ -302,20 +302,40 @@ const Accessibility = () => {
                 </Button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {OVERLAY_KEYS.map((k) => (
-                <label
+                <div
                   key={k}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="flex items-center gap-2 rounded border border-border/50 bg-background/40 px-2 py-1.5"
                 >
-                  <input
-                    type="checkbox"
-                    checked={modes[k]}
-                    onChange={(e) => setMode(k, e.target.checked)}
-                    className="h-4 w-4 rounded border-border accent-primary"
-                  />
-                  <span className="text-foreground">{OVERLAY_LABELS[k]}</span>
-                </label>
+                  <label className="flex items-center gap-2 cursor-pointer flex-1 min-w-0">
+                    <input
+                      type="checkbox"
+                      checked={modes[k]}
+                      onChange={(e) => setMode(k, e.target.checked)}
+                      className="h-4 w-4 rounded border-border accent-primary"
+                    />
+                    <span className="text-foreground truncate">
+                      {OVERLAY_LABELS[k]}
+                    </span>
+                  </label>
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="number"
+                      min={0}
+                      max={60000}
+                      step={250}
+                      value={durations[k]}
+                      disabled={modes[k]}
+                      onChange={(e) =>
+                        setDuration(k, parseInt(e.target.value, 10) || 0)
+                      }
+                      className="w-20 rounded border border-border bg-background px-2 py-0.5 text-right text-xs text-foreground disabled:opacity-50"
+                      aria-label={`${OVERLAY_LABELS[k]} ring duration in milliseconds`}
+                    />
+                    <span className="text-xs text-muted-foreground">ms</span>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
