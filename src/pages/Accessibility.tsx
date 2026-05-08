@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
  * Tracks an overlay's open state and briefly applies a highlight class
  * to its trigger when it closes — visually confirming focus returned.
  */
-function useFocusReturnFlash(screenshotMode: boolean = false) {
+function useFocusReturnFlash(
+  screenshotMode: boolean = false,
+  durationMs: number = 3000,
+) {
   const [open, setOpen] = useState(false);
   const [flash, setFlash] = useState(false);
   const wasOpen = useRef(false);
@@ -13,13 +16,16 @@ function useFocusReturnFlash(screenshotMode: boolean = false) {
     if (wasOpen.current && !open) {
       setFlash(true);
       if (!screenshotMode) {
-        const t = window.setTimeout(() => setFlash(false), 3000);
+        const t = window.setTimeout(
+          () => setFlash(false),
+          Math.max(0, durationMs),
+        );
         wasOpen.current = open;
         return () => window.clearTimeout(t);
       }
     }
     wasOpen.current = open;
-  }, [open, screenshotMode]);
+  }, [open, screenshotMode, durationMs]);
 
   const flashClass = flash
     ? "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
@@ -143,7 +149,10 @@ const OVERLAY_LABELS: Record<OverlayKey, string> = {
 };
 
 const SCREENSHOT_MODE_KEY_PREFIX = "a11y:screenshotMode:";
+const DURATION_KEY_PREFIX = "a11y:flashDuration:";
+const DEFAULT_DURATION_MS = 3000;
 const storageKey = (k: OverlayKey) => `${SCREENSHOT_MODE_KEY_PREFIX}${k}`;
+const durationStorageKey = (k: OverlayKey) => `${DURATION_KEY_PREFIX}${k}`;
 
 function usePersistedScreenshotMode() {
   const [modes, setModes] = useState<Record<OverlayKey, boolean>>(() => {
@@ -187,17 +196,50 @@ function usePersistedScreenshotMode() {
   return { modes, setMode, setAll };
 }
 
+function usePersistedDurations() {
+  const [durations, setDurations] = useState<Record<OverlayKey, number>>(() => {
+    const initial = {} as Record<OverlayKey, number>;
+    for (const k of OVERLAY_KEYS) {
+      let v = DEFAULT_DURATION_MS;
+      if (typeof window !== "undefined") {
+        try {
+          const raw = window.localStorage.getItem(durationStorageKey(k));
+          const parsed = raw == null ? NaN : parseInt(raw, 10);
+          if (Number.isFinite(parsed) && parsed >= 0) v = parsed;
+        } catch {
+          /* ignore */
+        }
+      }
+      initial[k] = v;
+    }
+    return initial;
+  });
+
+  const setDuration = (k: OverlayKey, v: number) => {
+    const clamped = Math.max(0, Math.min(60000, Math.round(v)));
+    setDurations((prev) => ({ ...prev, [k]: clamped }));
+    try {
+      window.localStorage.setItem(durationStorageKey(k), String(clamped));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  return { durations, setDuration };
+}
+
 const Accessibility = () => {
   const { modes, setMode, setAll } = usePersistedScreenshotMode();
+  const { durations, setDuration } = usePersistedDurations();
 
-  const dialog = useFocusReturnFlash(modes.dialog);
-  const alert = useFocusReturnFlash(modes.alert);
-  const dropdown = useFocusReturnFlash(modes.dropdown);
-  const context = useFocusReturnFlash(modes.context);
-  const popover = useFocusReturnFlash(modes.popover);
-  const select = useFocusReturnFlash(modes.select);
-  const sheet = useFocusReturnFlash(modes.sheet);
-  const command = useFocusReturnFlash(modes.command);
+  const dialog = useFocusReturnFlash(modes.dialog, durations.dialog);
+  const alert = useFocusReturnFlash(modes.alert, durations.alert);
+  const dropdown = useFocusReturnFlash(modes.dropdown, durations.dropdown);
+  const context = useFocusReturnFlash(modes.context, durations.context);
+  const popover = useFocusReturnFlash(modes.popover, durations.popover);
+  const select = useFocusReturnFlash(modes.select, durations.select);
+  const sheet = useFocusReturnFlash(modes.sheet, durations.sheet);
+  const command = useFocusReturnFlash(modes.command, durations.command);
 
   const overlays: Record<OverlayKey, { dismiss: () => void }> = {
     dialog,
@@ -260,20 +302,40 @@ const Accessibility = () => {
                 </Button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {OVERLAY_KEYS.map((k) => (
-                <label
+                <div
                   key={k}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="flex items-center gap-2 rounded border border-border/50 bg-background/40 px-2 py-1.5"
                 >
-                  <input
-                    type="checkbox"
-                    checked={modes[k]}
-                    onChange={(e) => setMode(k, e.target.checked)}
-                    className="h-4 w-4 rounded border-border accent-primary"
-                  />
-                  <span className="text-foreground">{OVERLAY_LABELS[k]}</span>
-                </label>
+                  <label className="flex items-center gap-2 cursor-pointer flex-1 min-w-0">
+                    <input
+                      type="checkbox"
+                      checked={modes[k]}
+                      onChange={(e) => setMode(k, e.target.checked)}
+                      className="h-4 w-4 rounded border-border accent-primary"
+                    />
+                    <span className="text-foreground truncate">
+                      {OVERLAY_LABELS[k]}
+                    </span>
+                  </label>
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="number"
+                      min={0}
+                      max={60000}
+                      step={250}
+                      value={durations[k]}
+                      disabled={modes[k]}
+                      onChange={(e) =>
+                        setDuration(k, parseInt(e.target.value, 10) || 0)
+                      }
+                      className="w-20 rounded border border-border bg-background px-2 py-0.5 text-right text-xs text-foreground disabled:opacity-50"
+                      aria-label={`${OVERLAY_LABELS[k]} ring duration in milliseconds`}
+                    />
+                    <span className="text-xs text-muted-foreground">ms</span>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
