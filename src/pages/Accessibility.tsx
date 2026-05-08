@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
  * Tracks an overlay's open state and briefly applies a highlight class
  * to its trigger when it closes — visually confirming focus returned.
  */
-function useFocusReturnFlash() {
+function useFocusReturnFlash(screenshotMode: boolean = false) {
   const [open, setOpen] = useState(false);
   const [flash, setFlash] = useState(false);
   const wasOpen = useRef(false);
@@ -12,17 +12,20 @@ function useFocusReturnFlash() {
   useEffect(() => {
     if (wasOpen.current && !open) {
       setFlash(true);
-      const t = window.setTimeout(() => setFlash(false), 3000);
-      return () => window.clearTimeout(t);
+      if (!screenshotMode) {
+        const t = window.setTimeout(() => setFlash(false), 3000);
+        wasOpen.current = open;
+        return () => window.clearTimeout(t);
+      }
     }
     wasOpen.current = open;
-  }, [open]);
+  }, [open, screenshotMode]);
 
   const flashClass = flash
     ? "ring-2 ring-primary ring-offset-2 ring-offset-background animate-pulse"
     : "";
 
-  return { open, onOpenChange: setOpen, flashClass };
+  return { open, onOpenChange: setOpen, flashClass, dismiss: () => setFlash(false) };
 }
 import { Button } from "@/components/ui/button";
 import {
@@ -117,14 +120,21 @@ const ChecklistItem = ({ label }: { label: string }) => (
 );
 
 const Accessibility = () => {
-  const dialog = useFocusReturnFlash();
-  const alert = useFocusReturnFlash();
-  const dropdown = useFocusReturnFlash();
-  const context = useFocusReturnFlash();
-  const popover = useFocusReturnFlash();
-  const select = useFocusReturnFlash();
-  const sheet = useFocusReturnFlash();
-  const command = useFocusReturnFlash();
+  const [screenshotMode, setScreenshotMode] = useState(false);
+  const dialog = useFocusReturnFlash(screenshotMode);
+  const alert = useFocusReturnFlash(screenshotMode);
+  const dropdown = useFocusReturnFlash(screenshotMode);
+  const context = useFocusReturnFlash(screenshotMode);
+  const popover = useFocusReturnFlash(screenshotMode);
+  const select = useFocusReturnFlash(screenshotMode);
+  const sheet = useFocusReturnFlash(screenshotMode);
+  const command = useFocusReturnFlash(screenshotMode);
+
+  const dismissAllRings = () => {
+    [dialog, alert, dropdown, context, popover, select, sheet, command].forEach(
+      (o) => o.dismiss(),
+    );
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -147,6 +157,28 @@ const Accessibility = () => {
             After you close any overlay (Esc, arrow keys, or selecting an
             item), its trigger briefly pulses with a primary-colored ring.
             That visual confirms focus returned to the trigger element.
+          </div>
+          <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-card/40 p-3 text-sm">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={screenshotMode}
+                onChange={(e) => setScreenshotMode(e.target.checked)}
+                className="h-4 w-4 rounded border-border accent-primary"
+              />
+              <span className="font-medium text-foreground">Screenshot mode</span>
+            </label>
+            <span className="text-muted-foreground">
+              Keeps focus-return rings visible until you dismiss them.
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={dismissAllRings}
+              className="ml-auto"
+            >
+              Dismiss rings
+            </Button>
           </div>
         </header>
 
