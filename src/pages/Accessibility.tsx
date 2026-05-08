@@ -149,7 +149,10 @@ const OVERLAY_LABELS: Record<OverlayKey, string> = {
 };
 
 const SCREENSHOT_MODE_KEY_PREFIX = "a11y:screenshotMode:";
+const DURATION_KEY_PREFIX = "a11y:flashDuration:";
+const DEFAULT_DURATION_MS = 3000;
 const storageKey = (k: OverlayKey) => `${SCREENSHOT_MODE_KEY_PREFIX}${k}`;
+const durationStorageKey = (k: OverlayKey) => `${DURATION_KEY_PREFIX}${k}`;
 
 function usePersistedScreenshotMode() {
   const [modes, setModes] = useState<Record<OverlayKey, boolean>>(() => {
@@ -191,6 +194,38 @@ function usePersistedScreenshotMode() {
   };
 
   return { modes, setMode, setAll };
+}
+
+function usePersistedDurations() {
+  const [durations, setDurations] = useState<Record<OverlayKey, number>>(() => {
+    const initial = {} as Record<OverlayKey, number>;
+    for (const k of OVERLAY_KEYS) {
+      let v = DEFAULT_DURATION_MS;
+      if (typeof window !== "undefined") {
+        try {
+          const raw = window.localStorage.getItem(durationStorageKey(k));
+          const parsed = raw == null ? NaN : parseInt(raw, 10);
+          if (Number.isFinite(parsed) && parsed >= 0) v = parsed;
+        } catch {
+          /* ignore */
+        }
+      }
+      initial[k] = v;
+    }
+    return initial;
+  });
+
+  const setDuration = (k: OverlayKey, v: number) => {
+    const clamped = Math.max(0, Math.min(60000, Math.round(v)));
+    setDurations((prev) => ({ ...prev, [k]: clamped }));
+    try {
+      window.localStorage.setItem(durationStorageKey(k), String(clamped));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  return { durations, setDuration };
 }
 
 const Accessibility = () => {
