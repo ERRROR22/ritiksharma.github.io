@@ -352,6 +352,27 @@ const Accessibility = () => {
                       />
                       <span className="text-xs text-muted-foreground">ms</span>
                     </div>
+                    <div className="flex items-center gap-1">
+                      {DURATION_PRESETS.map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          disabled={modes[k]}
+                          onClick={() => {
+                            setDurationErrors((prev) => ({ ...prev, [k]: false }));
+                            setDuration(k, preset);
+                          }}
+                          className={cn(
+                            "rounded border px-1.5 py-0.5 text-[10px] leading-none transition-colors",
+                            modes[k]
+                              ? "border-border/30 text-muted-foreground/40 cursor-not-allowed"
+                              : "border-border/60 bg-background text-muted-foreground hover:border-primary hover:text-primary",
+                          )}
+                        >
+                          {preset === 0 ? "0ms" : preset === 60000 ? "60s" : `${preset}ms`}
+                        </button>
+                      ))}
+                    </div>
                     {durationErrors[k] && (
                       <span className="text-[10px] leading-none text-destructive">
                         0–60000 ms
