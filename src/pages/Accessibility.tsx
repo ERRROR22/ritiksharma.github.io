@@ -263,6 +263,13 @@ const Accessibility = () => {
     OVERLAY_KEYS.forEach((k) => overlays[k].dismiss());
   };
 
+  const resetDurations = () => {
+    OVERLAY_KEYS.forEach((k) => setDuration(k, DEFAULT_DURATION_MS));
+    const cleared = {} as Record<OverlayKey, boolean>;
+    for (const k of OVERLAY_KEYS) cleared[k] = false;
+    setDurationErrors(cleared);
+  };
+
   const anyOn = OVERLAY_KEYS.some((k) => modes[k]);
 
   return (
@@ -306,6 +313,9 @@ const Accessibility = () => {
                 </Button>
                 <Button size="sm" variant="outline" onClick={dismissAllRings}>
                   Dismiss rings
+                </Button>
+                <Button size="sm" variant="outline" onClick={resetDurations}>
+                  Reset to defaults
                 </Button>
               </div>
             </div>
