@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Tracks an overlay's open state and briefly applies a highlight class
@@ -231,6 +232,11 @@ function usePersistedDurations() {
 const Accessibility = () => {
   const { modes, setMode, setAll } = usePersistedScreenshotMode();
   const { durations, setDuration } = usePersistedDurations();
+  const [durationErrors, setDurationErrors] = useState<Record<OverlayKey, boolean>>(() => {
+    const initial = {} as Record<OverlayKey, boolean>;
+    for (const k of OVERLAY_KEYS) initial[k] = false;
+    return initial;
+  });
 
   const dialog = useFocusReturnFlash(modes.dialog, durations.dialog);
   const alert = useFocusReturnFlash(modes.alert, durations.alert);
@@ -319,21 +325,37 @@ const Accessibility = () => {
                       {OVERLAY_LABELS[k]}
                     </span>
                   </label>
-                  <div className="flex items-center gap-1">
-                    <input
-                      type="number"
-                      min={0}
-                      max={60000}
-                      step={250}
-                      value={durations[k]}
-                      disabled={modes[k]}
-                      onChange={(e) =>
-                        setDuration(k, parseInt(e.target.value, 10) || 0)
-                      }
-                      className="w-20 rounded border border-border bg-background px-2 py-0.5 text-right text-xs text-foreground disabled:opacity-50"
-                      aria-label={`${OVERLAY_LABELS[k]} ring duration in milliseconds`}
-                    />
-                    <span className="text-xs text-muted-foreground">ms</span>
+                  <div className="flex flex-col items-end gap-0.5">
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="number"
+                        min={0}
+                        max={60000}
+                        step={250}
+                        value={durations[k]}
+                        disabled={modes[k]}
+                        onChange={(e) => {
+                          const raw = e.target.value;
+                          const val = parseInt(raw, 10);
+                          const invalid = !Number.isNaN(val) && (val < 0 || val > 60000);
+                          setDurationErrors((prev) => ({ ...prev, [k]: invalid }));
+                          setDuration(k, Number.isNaN(val) ? 0 : val);
+                        }}
+                        onBlur={() => setDurationErrors((prev) => ({ ...prev, [k]: false }))}
+                        className={cn(
+                          "w-20 rounded border bg-background px-2 py-0.5 text-right text-xs text-foreground disabled:opacity-50",
+                          durationErrors[k] ? "border-destructive" : "border-border",
+                        )}
+                        aria-label={`${OVERLAY_LABELS[k]} ring duration in milliseconds`}
+                        aria-invalid={durationErrors[k] || undefined}
+                      />
+                      <span className="text-xs text-muted-foreground">ms</span>
+                    </div>
+                    {durationErrors[k] && (
+                      <span className="text-[10px] leading-none text-destructive">
+                        0–60000 ms
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
