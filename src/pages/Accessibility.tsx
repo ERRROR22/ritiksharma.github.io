@@ -152,6 +152,7 @@ const OVERLAY_LABELS: Record<OverlayKey, string> = {
 const SCREENSHOT_MODE_KEY_PREFIX = "a11y:screenshotMode:";
 const DURATION_KEY_PREFIX = "a11y:flashDuration:";
 const DEFAULT_DURATION_MS = 3000;
+const DURATION_PRESETS = [0, 1000, 3000, 60000] as const;
 const storageKey = (k: OverlayKey) => `${SCREENSHOT_MODE_KEY_PREFIX}${k}`;
 const durationStorageKey = (k: OverlayKey) => `${DURATION_KEY_PREFIX}${k}`;
 
