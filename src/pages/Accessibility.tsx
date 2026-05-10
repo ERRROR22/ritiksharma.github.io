@@ -314,6 +314,9 @@ const Accessibility = () => {
                 <Button size="sm" variant="outline" onClick={dismissAllRings}>
                   Dismiss rings
                 </Button>
+                <Button size="sm" variant="outline" onClick={resetDurations}>
+                  Reset to defaults
+                </Button>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
