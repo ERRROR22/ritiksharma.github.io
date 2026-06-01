@@ -153,8 +153,27 @@ const SCREENSHOT_MODE_KEY_PREFIX = "a11y:screenshotMode:";
 const DURATION_KEY_PREFIX = "a11y:flashDuration:";
 const DEFAULT_DURATION_MS = 3000;
 const DURATION_PRESETS = [0, 1000, 3000, 60000] as const;
+const SAVED_PRESETS_KEY = "a11y:flashDuration:savedPresets";
 const storageKey = (k: OverlayKey) => `${SCREENSHOT_MODE_KEY_PREFIX}${k}`;
 const durationStorageKey = (k: OverlayKey) => `${DURATION_KEY_PREFIX}${k}`;
+
+type SavedPreset = { name: string; durations: Record<OverlayKey, number> };
+
+function loadSavedPresets(): SavedPreset[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(SAVED_PRESETS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (p): p is SavedPreset =>
+        p && typeof p.name === "string" && p.durations && typeof p.durations === "object",
+    );
+  } catch {
+    return [];
+  }
+}
 
 function usePersistedScreenshotMode() {
   const [modes, setModes] = useState<Record<OverlayKey, boolean>>(() => {
