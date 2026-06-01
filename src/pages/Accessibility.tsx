@@ -289,6 +289,47 @@ const Accessibility = () => {
     setDurationErrors(cleared);
   };
 
+  const [savedPresets, setSavedPresets] = useState<SavedPreset[]>(() => loadSavedPresets());
+
+  const persistPresets = (next: SavedPreset[]) => {
+    setSavedPresets(next);
+    try {
+      window.localStorage.setItem(SAVED_PRESETS_KEY, JSON.stringify(next));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const saveCurrentPreset = () => {
+    const name = window.prompt("Name this preset:");
+    if (!name) return;
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    const snapshot: Record<OverlayKey, number> = { ...durations };
+    const existing = savedPresets.findIndex((p) => p.name === trimmed);
+    const next =
+      existing >= 0
+        ? savedPresets.map((p, i) => (i === existing ? { name: trimmed, durations: snapshot } : p))
+        : [...savedPresets, { name: trimmed, durations: snapshot }];
+    persistPresets(next);
+  };
+
+  const loadPreset = (name: string) => {
+    const preset = savedPresets.find((p) => p.name === name);
+    if (!preset) return;
+    OVERLAY_KEYS.forEach((k) => {
+      const v = preset.durations[k];
+      if (typeof v === "number" && Number.isFinite(v)) setDuration(k, v);
+    });
+    const cleared = {} as Record<OverlayKey, boolean>;
+    for (const k of OVERLAY_KEYS) cleared[k] = false;
+    setDurationErrors(cleared);
+  };
+
+  const deletePreset = (name: string) => {
+    persistPresets(savedPresets.filter((p) => p.name !== name));
+  };
+
   const anyOn = OVERLAY_KEYS.some((k) => modes[k]);
 
   return (
