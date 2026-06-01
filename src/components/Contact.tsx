@@ -8,13 +8,17 @@ import ScrollReveal from "./animations/ScrollReveal";
 
 const certifications = [
   "Generative AI (Simplilearn)",
+  "Prompt Engineering Masterclass",
   "Python for Data Science",
+  "Model Context Protocol: Advanced Topics",
+  "Cloud Computing Fundamentals",
+  "Google Analytics",
   "TCS iON Career Edge",
 ];
 
-const extracurriculars = [
-  "Participant – Bharat Budget Quest Quiz",
-  "Technical Workshops & Coding Events",
+const achievements = [
+  "Rank 293 (Top 6%) — Elite Coders Winter of Code",
+  "National Finalist — MY Bharat Budget Quest (Essay Stage)",
 ];
 
 const Contact = () => {
