@@ -153,8 +153,27 @@ const SCREENSHOT_MODE_KEY_PREFIX = "a11y:screenshotMode:";
 const DURATION_KEY_PREFIX = "a11y:flashDuration:";
 const DEFAULT_DURATION_MS = 3000;
 const DURATION_PRESETS = [0, 1000, 3000, 60000] as const;
+const SAVED_PRESETS_KEY = "a11y:flashDuration:savedPresets";
 const storageKey = (k: OverlayKey) => `${SCREENSHOT_MODE_KEY_PREFIX}${k}`;
 const durationStorageKey = (k: OverlayKey) => `${DURATION_KEY_PREFIX}${k}`;
+
+type SavedPreset = { name: string; durations: Record<OverlayKey, number> };
+
+function loadSavedPresets(): SavedPreset[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(SAVED_PRESETS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (p): p is SavedPreset =>
+        p && typeof p.name === "string" && p.durations && typeof p.durations === "object",
+    );
+  } catch {
+    return [];
+  }
+}
 
 function usePersistedScreenshotMode() {
   const [modes, setModes] = useState<Record<OverlayKey, boolean>>(() => {
@@ -270,6 +289,47 @@ const Accessibility = () => {
     setDurationErrors(cleared);
   };
 
+  const [savedPresets, setSavedPresets] = useState<SavedPreset[]>(() => loadSavedPresets());
+
+  const persistPresets = (next: SavedPreset[]) => {
+    setSavedPresets(next);
+    try {
+      window.localStorage.setItem(SAVED_PRESETS_KEY, JSON.stringify(next));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const saveCurrentPreset = () => {
+    const name = window.prompt("Name this preset:");
+    if (!name) return;
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    const snapshot: Record<OverlayKey, number> = { ...durations };
+    const existing = savedPresets.findIndex((p) => p.name === trimmed);
+    const next =
+      existing >= 0
+        ? savedPresets.map((p, i) => (i === existing ? { name: trimmed, durations: snapshot } : p))
+        : [...savedPresets, { name: trimmed, durations: snapshot }];
+    persistPresets(next);
+  };
+
+  const loadPreset = (name: string) => {
+    const preset = savedPresets.find((p) => p.name === name);
+    if (!preset) return;
+    OVERLAY_KEYS.forEach((k) => {
+      const v = preset.durations[k];
+      if (typeof v === "number" && Number.isFinite(v)) setDuration(k, v);
+    });
+    const cleared = {} as Record<OverlayKey, boolean>;
+    for (const k of OVERLAY_KEYS) cleared[k] = false;
+    setDurationErrors(cleared);
+  };
+
+  const deletePreset = (name: string) => {
+    persistPresets(savedPresets.filter((p) => p.name !== name));
+  };
+
   const anyOn = OVERLAY_KEYS.some((k) => modes[k]);
 
   return (
@@ -317,8 +377,41 @@ const Accessibility = () => {
                 <Button size="sm" variant="outline" onClick={resetDurations}>
                   Reset to defaults
                 </Button>
+                <Button size="sm" variant="outline" onClick={saveCurrentPreset}>
+                  Save preset
+                </Button>
               </div>
             </div>
+            {savedPresets.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 border-t border-border/50 pt-2">
+                <span className="text-xs font-medium text-muted-foreground">
+                  Saved presets:
+                </span>
+                {savedPresets.map((p) => (
+                  <span
+                    key={p.name}
+                    className="inline-flex items-center gap-1 rounded border border-border/60 bg-background px-1.5 py-0.5 text-xs"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => loadPreset(p.name)}
+                      className="text-foreground hover:text-primary"
+                      title="Load preset"
+                    >
+                      {p.name}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deletePreset(p.name)}
+                      className="text-muted-foreground hover:text-destructive"
+                      aria-label={`Delete preset ${p.name}`}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {OVERLAY_KEYS.map((k) => (
                 <div
