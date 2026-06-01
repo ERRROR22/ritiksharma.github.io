@@ -377,8 +377,41 @@ const Accessibility = () => {
                 <Button size="sm" variant="outline" onClick={resetDurations}>
                   Reset to defaults
                 </Button>
+                <Button size="sm" variant="outline" onClick={saveCurrentPreset}>
+                  Save preset
+                </Button>
               </div>
             </div>
+            {savedPresets.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 border-t border-border/50 pt-2">
+                <span className="text-xs font-medium text-muted-foreground">
+                  Saved presets:
+                </span>
+                {savedPresets.map((p) => (
+                  <span
+                    key={p.name}
+                    className="inline-flex items-center gap-1 rounded border border-border/60 bg-background px-1.5 py-0.5 text-xs"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => loadPreset(p.name)}
+                      className="text-foreground hover:text-primary"
+                      title="Load preset"
+                    >
+                      {p.name}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deletePreset(p.name)}
+                      className="text-muted-foreground hover:text-destructive"
+                      aria-label={`Delete preset ${p.name}`}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {OVERLAY_KEYS.map((k) => (
                 <div
