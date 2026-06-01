@@ -5,28 +5,48 @@ import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const certifications = [
   {
-    title: "TCS iON Career Edge - Young Professional",
-    issuer: "TCS iON",
+    title: "Generative AI for Beginners",
+    issuer: "Simplilearn",
     color: "primary" as const,
   },
   {
-    title: "TCS iON Career Edge - Interview and Job Readiness",
-    issuer: "TCS iON",
+    title: "Prompt Engineering Masterclass",
+    issuer: "Simplilearn",
     color: "experience" as const,
+  },
+  {
+    title: "Python for Data Science",
+    issuer: "SkillUp",
+    color: "project" as const,
+  },
+  {
+    title: "Model Context Protocol: Advanced Topics",
+    issuer: "Anthropic",
+    color: "skill" as const,
+  },
+  {
+    title: "Cloud Computing Fundamentals",
+    issuer: "Cloud Academy",
+    color: "primary" as const,
+  },
+  {
+    title: "Cloud Essentials",
+    issuer: "Cloud Academy",
+    color: "experience" as const,
+  },
+  {
+    title: "Google Analytics Certification",
+    issuer: "Google",
+    color: "project" as const,
+  },
+  {
+    title: "TCS iON Career Edge - Young Professional",
+    issuer: "TCS iON",
+    color: "skill" as const,
   },
   {
     title: "Master Data Management for Beginners",
     issuer: "TCS",
-    color: "project" as const,
-  },
-  {
-    title: "Python Libraries for Data Science",
-    issuer: "SkillUp",
-    color: "skill" as const,
-  },
-  {
-    title: "Generative AI for Beginners",
-    issuer: "Simplilearn",
     color: "primary" as const,
   },
 ];

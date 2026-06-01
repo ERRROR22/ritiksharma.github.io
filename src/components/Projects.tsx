@@ -1,44 +1,53 @@
 import { motion } from "framer-motion";
-import { Shield, Image, Trophy, Vote } from "lucide-react";
+import { Shield, Image, Trophy, Vote, Newspaper } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const projects = [
   {
-    title: "WAFinity - Advanced Web Application Firewall",
-    description: "An advanced WAF that safeguards web apps from SQL injection and XSS attacks by filtering and monitoring HTTP traffic. Combines signature-based detection with machine learning to identify both known and unknown threats. Its anomaly detection system spots obfuscated and zero-day attacks by analyzing request patterns and behaviors.",
-    tech: ["Python", "Flask", "Machine Learning", "JavaScript", "HTML/CSS"],
-    icon: Shield,
+    title: "NewsVerify — NLP Misinformation Detection Platform",
+    description: "Led a 4-person engineering team building a news verification platform with React, Node.js/Express, and the Gemini API, producing credibility scores in under 2 seconds per article. Integrated NLP source-reliability scoring into a 3-stage fact-verification pipeline covering 5 distinct news categories to minimize false-negative misinformation rates.",
+    tech: ["React", "Node.js", "Express", "Gemini API", "NLP"],
+    icon: Newspaper,
     color: "primary",
+    year: "2026",
+    highlights: ["Team Lead (4 engineers)", "<2s credibility scoring", "3-stage fact-verification"],
+  },
+  {
+    title: "WAFinity - Advanced Web Application Firewall",
+    description: "An advanced WAF that safeguards web apps from SQL injection, XSS, CSRF, and zero-day payloads by filtering and monitoring HTTP traffic. Combines signature-based detection with a Random Forest classifier trained on 50K labeled HTTP traffic samples to score every incoming request. Its anomaly detection system spots obfuscated and zero-day attacks by analyzing request patterns and behaviors.",
+    tech: ["Python", "Flask", "scikit-learn", "Machine Learning", "JavaScript"],
+    icon: Shield,
+    color: "experience",
     year: "2025",
-    highlights: ["Signature + ML detection", "Zero-day attack detection", "Anomaly pattern analysis"],
+    highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
   },
   {
     title: "Text-to-Image Generator with Stable Diffusion",
-    description: "Production-ready generative AI application leveraging Stable Diffusion models for text-to-image synthesis. Built scalable Flask API with asynchronous processing, serving 100+ requests/hour with 2-second response time. Implemented prompt engineering techniques and model fine-tuning to enhance image quality and relevance.",
-    tech: ["PyTorch", "Stable Diffusion", "Flask", "REST API"],
+    description: "Production-ready generative AI application leveraging Stable Diffusion v1.5 for text-to-image synthesis. Built a scalable Flask API with an asynchronous 4-worker queue, sustaining 100+ requests/hour at 2s average latency. Fine-tuned on a 2,000-image domain dataset with LoRA-based prompt calibration to lift output visual fidelity by 20%.",
+    tech: ["PyTorch", "Stable Diffusion", "Flask", "LoRA", "REST API"],
     icon: Image,
-    color: "experience",
+    color: "project",
     year: "2024",
-    highlights: ["100+ requests/hour", "2s response time", "Prompt engineering"],
+    highlights: ["100+ requests/hour", "2s avg latency", "+20% visual fidelity"],
   },
   {
     title: "IPL Score Prediction System",
-    description: "End-to-end ML system predicting cricket match scores with 85% accuracy using LSTM neural networks. Performed extensive feature engineering on 500+ matches, extracting temporal patterns and player statistics. Deployed real-time prediction API with model versioning and A/B testing capabilities.",
-    tech: ["TensorFlow", "Keras", "scikit-learn", "Feature Engineering"],
+    description: "End-to-end ML system predicting cricket match scores with 85% accuracy using a 3-layer LSTM trained on 500+ IPL records with 18 engineered features spanning venue, over number, and player form. Released a FastAPI endpoint with semantic version tagging, Prometheus metrics, and weekly automated retraining triggers.",
+    tech: ["TensorFlow", "Keras", "scikit-learn", "FastAPI", "Prometheus"],
     icon: Trophy,
-    color: "project",
+    color: "skill",
     year: "2024",
-    highlights: ["85% prediction accuracy", "500+ matches analyzed", "Real-time prediction API"],
+    highlights: ["85% prediction accuracy", "18 engineered features", "Weekly auto-retraining"],
   },
   {
     title: "Secure Web-Based E-Voting Platform",
-    description: "Architected secure voting platform with end-to-end encryption, OAuth 2.0 authentication, and SQL injection prevention. Implemented role-based access control (RBAC), audit logging, and blockchain-inspired vote verification system. Ensured OWASP Top 10 compliance and conducted penetration testing to validate security posture.",
-    tech: ["PHP", "MySQL", "JavaScript", "Security Architecture"],
+    description: "Architected a secure voting platform with AES-256 encryption, OAuth 2.0 authentication, RBAC across 3 privilege tiers, and a Merkle-tree-inspired tamper-proof audit log. Certified zero OWASP Top 10 vulnerabilities by conducting manual and scripted penetration tests with Burp Suite and OWASP ZAP prior to release.",
+    tech: ["PHP", "MySQL", "JavaScript", "OAuth 2.0", "Security Architecture"],
     icon: Vote,
-    color: "skill",
+    color: "primary",
     year: "2023",
-    highlights: ["OWASP Top 10 compliant", "RBAC + audit logging", "Penetration tested"],
+    highlights: ["AES-256 + OAuth 2.0", "3-tier RBAC", "Zero OWASP Top 10"],
   },
 ];
 
