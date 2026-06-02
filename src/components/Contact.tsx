@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Send, Linkedin, Github, Award } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Linkedin, Github, Award, Trophy, Medal, Users, Shield, Target, Sparkles, type LucideIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./animations/ScrollReveal";
 
