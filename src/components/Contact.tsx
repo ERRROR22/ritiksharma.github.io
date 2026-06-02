@@ -234,22 +234,49 @@ const Contact = () => {
             </div>
 
             {/* Achievements */}
-            <div className="p-6 glass glass-border rounded-xl">
-              <div className="flex items-center gap-2 mb-4">
+            <div className="p-6 glass glass-border rounded-xl space-y-6">
+              <div className="flex items-center gap-2">
                 <Award className="w-5 h-5 text-experience" />
                 <h3 className="font-semibold">Achievements</h3>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {achievements.map((item) => (
-                  <span
-                    key={item}
-                    className="px-3 py-1.5 text-sm bg-experience/10 text-experience rounded-lg"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+
+              {achievementGroups.map((group) => {
+                const GroupIcon = group.icon;
+                return (
+                  <div key={group.heading} className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <GroupIcon className="w-4 h-4 text-muted-foreground" />
+                      <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                        {group.heading}
+                      </h4>
+                    </div>
+                    <ul className="space-y-2">
+                      {group.items.map((item) => {
+                        const ItemIcon = item.icon;
+                        const c = colorMap[item.color];
+                        return (
+                          <li
+                            key={item.title}
+                            className={`flex items-start gap-3 p-3 rounded-lg border ${c.border} ${c.bg} hover:bg-secondary/30 transition-colors`}
+                          >
+                            <div className={`p-1.5 rounded-md ${c.bg} ${c.text} flex-shrink-0 mt-0.5`}>
+                              <ItemIcon className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className={`text-sm font-semibold ${c.text}`}>{item.title}</p>
+                              <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">
+                                {item.detail}
+                              </p>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
+
           </ScrollReveal>
 
           {/* Contact Form */}
