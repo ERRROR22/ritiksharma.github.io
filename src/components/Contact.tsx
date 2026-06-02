@@ -16,10 +16,102 @@ const certifications = [
   "TCS iON Career Edge",
 ];
 
-const achievements = [
-  "Rank 293 (Top 6%) — Elite Coders Winter of Code",
-  "National Finalist — MY Bharat Budget Quest (Essay Stage)",
+type AchievementColor = "experience" | "primary" | "project" | "skill";
+
+type Achievement = {
+  icon: LucideIcon;
+  title: string;
+  detail: string;
+  color: AchievementColor;
+};
+
+type AchievementGroup = {
+  heading: string;
+  icon: LucideIcon;
+  items: Achievement[];
+};
+
+const achievementGroups: AchievementGroup[] = [
+  {
+    heading: "Awards & Rankings",
+    icon: Trophy,
+    items: [
+      {
+        icon: Trophy,
+        title: "Rank 293 — Top 6% Nationally",
+        detail: "Elite Coders Winter of Code (WOC) — out of 5,000+ participants across DSA & competitive programming",
+        color: "experience",
+      },
+      {
+        icon: Medal,
+        title: "National Finalist — Essay Stage",
+        detail: "MY Bharat Budget Quest — shortlisted for the final round on Union Budget & macroeconomic policy",
+        color: "primary",
+      },
+    ],
+  },
+  {
+    heading: "Leadership",
+    icon: Users,
+    items: [
+      {
+        icon: Users,
+        title: "Team Lead — NewsVerify",
+        detail: "Directed a 4-person engineering team building an NLP misinformation-detection platform (<2s credibility scoring)",
+        color: "project",
+      },
+    ],
+  },
+  {
+    heading: "Project & Engineering Milestones",
+    icon: Sparkles,
+    items: [
+      {
+        icon: Shield,
+        title: "Zero OWASP Top 10 Vulnerabilities",
+        detail: "Secure E-Voting Platform — hardened with AES-256, OAuth 2.0, RBAC, and Burp Suite / OWASP ZAP audits",
+        color: "primary",
+      },
+      {
+        icon: Target,
+        title: "92% Prediction Accuracy",
+        detail: "WinnoVation predictive maintenance ML pipeline — grid-search tuning across 3 neural architectures",
+        color: "skill",
+      },
+      {
+        icon: Sparkles,
+        title: "85% Match Score Accuracy",
+        detail: "IPL Score Prediction — 3-layer LSTM on 500+ records with 18 engineered features",
+        color: "experience",
+      },
+      {
+        icon: Target,
+        title: "+20% User Engagement, -12% Churn",
+        detail: "LearnTube.ai recommendation engine validated via a 4-week A/B experiment on 1M+ user records",
+        color: "project",
+      },
+      {
+        icon: Shield,
+        title: "10 Critical Vulnerabilities Remediated",
+        detail: "NIELIT — reduced attack surface by 40% and lifted anomaly detection accuracy by 25% via Hugging Face Transformers",
+        color: "primary",
+      },
+      {
+        icon: Sparkles,
+        title: "$50K Annual Cost Reduction",
+        detail: "Shipped scalable ML models to production at WinnoVation, cutting maintenance overhead",
+        color: "skill",
+      },
+    ],
+  },
 ];
+
+const colorMap: Record<AchievementColor, { bg: string; text: string; border: string }> = {
+  primary: { bg: "bg-primary/10", text: "text-primary", border: "border-primary/20" },
+  experience: { bg: "bg-experience/10", text: "text-experience", border: "border-experience/20" },
+  project: { bg: "bg-project/10", text: "text-project", border: "border-project/20" },
+  skill: { bg: "bg-skill/10", text: "text-skill", border: "border-skill/20" },
+};
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
