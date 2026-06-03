@@ -179,7 +179,7 @@ const Hero = () => {
           className="max-w-2xl mx-auto text-lg text-muted-foreground mb-10 leading-relaxed"
           variants={itemVariants}
         >
-          Final-year CSE student at BGSBU with hands-on experience in{" "}
+          B.Tech CSE graduate from BGSBU (2022–2026) with hands-on experience in{" "}
           <span className="text-primary">AI & Machine Learning</span>,{" "}
           <span className="text-project">Cybersecurity</span>, and{" "}
           <span className="text-experience">Software Development</span>. Seeking entry-level roles as a Software Engineer / AI-ML Engineer / Cybersecurity Analyst.

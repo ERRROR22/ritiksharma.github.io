@@ -30,7 +30,7 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Who I Am</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Currently pursuing B.Tech in Computer Science Engineering at Baba Ghulam Shah Badshah University (BGSBU), Rajouri, with expected graduation in 2026. Passionate about cybersecurity, machine learning, AI, and emerging technologies like Stable Diffusion and generative models.
+                Completed B.Tech in Computer Science Engineering at Baba Ghulam Shah Badshah University (BGSBU), Rajouri (2022–2026). Passionate about cybersecurity, machine learning, AI, and emerging technologies like Stable Diffusion and generative models.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Excelled in academics with hands-on projects in image processing, data analysis using Python, TensorFlow, and scikit-learn, while earning certifications in Generative AI (Simplilearn), Python for Data Science, and TCS iON Career Edge. Actively explore gaming (BGMI) and tech innovations to fuel creative problem-solving.
