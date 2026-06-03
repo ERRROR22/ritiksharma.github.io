@@ -12,6 +12,7 @@ const projects = [
     color: "primary",
     year: "2026",
     highlights: ["96% PAC accuracy on 30K+ articles", "Gemini 2.5 Flash + Search grounding", "Text · URL · Image input modes"],
+    appLink: "https://truth-verifier--Techtitans999.replit.app",
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
