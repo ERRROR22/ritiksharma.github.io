@@ -5,13 +5,13 @@ import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const projects = [
   {
-    title: "NewsVerify — Fake News Detector (ML + Gemini 2.5 Flash)",
-    description: "B.Tech CSE final-year capstone (Team Tech Titans, BGSBU Rajouri) led as Team Lead & Backend. Dual-engine fake-news detector pairing a Passive Aggressive Classifier on TF-IDF features (~96% accuracy on 30K+ Kaggle articles, 80/20 stratified split) with Gemini 2.5 Flash + Google Search grounding for live fact-checking, claim-by-claim reasoning, and 0–100 truth scoring. Cross-platform Expo / React Native app supports Text, URL, and Image (OCR) inputs through a typed Node.js/Express + Zod backend in a pnpm monorepo.",
-    tech: ["React Native", "Expo", "TypeScript", "Node.js", "Express", "Gemini 2.5 Flash", "scikit-learn", "NLTK", "Python"],
+    title: "NewsVerify — Multimodal Fake News Detection (ML + Gemini 2.5 Flash)",
+    description: "B.Tech CSE capstone (Team Tech Titans, BGSBU Rajouri, 2022–2026) led as Team Lead & Backend. Dual-engine system pairing a Passive Aggressive Classifier on TF-IDF features with Gemini 2.5 Flash + Google Search grounding for live fact-checking. The 7-stage NLP pipeline (regex cleaning → lowercasing → NLTK tokenization → stopword removal → lemmatization → TF-IDF → PAC) reaches ~96% accuracy on 30K+ Kaggle articles supplemented by the LIAR dataset (Precision 95.1%, Recall 97.0%, F1 96.0% on 6K test set). Gemini extracts claims, verifies them via live web search, and returns 0–100 truth scores with claim-by-claim reasoning and source citations. Cross-platform Expo / React Native app supports Text, URL, and Image (OCR) inputs through a typed Node.js/Express + Zod backend in a pnpm monorepo deployed on Replit Cloud.",
+    tech: ["React Native", "Expo SDK 52", "TypeScript", "Node.js", "Express", "Gemini 2.5 Flash", "scikit-learn", "NLTK", "Pandas", "Python"],
     icon: Newspaper,
     color: "primary",
     year: "2026",
-    highlights: ["96% PAC accuracy on 30K+ articles", "Gemini 2.5 Flash + Search grounding", "Text · URL · Image input modes"],
+    highlights: ["~96% accuracy · F1 96.0 on 6K test set", "Gemini 2.5 Flash + live Search grounding", "Text · URL · Image (OCR) input modes", "Phase-I → Phase-II real-time upgrade"],
     appLink: "https://truth-verifier--Techtitans999.replit.app",
   },
   {
