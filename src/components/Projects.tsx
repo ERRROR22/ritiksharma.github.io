@@ -5,13 +5,13 @@ import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const projects = [
   {
-    title: "NewsVerify — NLP Misinformation Detection Platform",
-    description: "Led a 4-person engineering team building a news verification platform with React, Node.js/Express, and the Gemini API, producing credibility scores in under 2 seconds per article. Integrated NLP source-reliability scoring into a 3-stage fact-verification pipeline covering 5 distinct news categories to minimize false-negative misinformation rates.",
-    tech: ["React", "Node.js", "Express", "Gemini API", "NLP"],
+    title: "NewsVerify — Fake News Detector (ML + Gemini 2.5 Flash)",
+    description: "B.Tech CSE final-year capstone (Team Tech Titans, BGSBU Rajouri) led as Team Lead & Backend. Dual-engine fake-news detector pairing a Passive Aggressive Classifier on TF-IDF features (~96% accuracy on 30K+ Kaggle articles, 80/20 stratified split) with Gemini 2.5 Flash + Google Search grounding for live fact-checking, claim-by-claim reasoning, and 0–100 truth scoring. Cross-platform Expo / React Native app supports Text, URL, and Image (OCR) inputs through a typed Node.js/Express + Zod backend in a pnpm monorepo.",
+    tech: ["React Native", "Expo", "TypeScript", "Node.js", "Express", "Gemini 2.5 Flash", "scikit-learn", "NLTK", "Python"],
     icon: Newspaper,
     color: "primary",
     year: "2026",
-    highlights: ["Team Lead (4 engineers)", "<2s credibility scoring", "3-stage fact-verification"],
+    highlights: ["96% PAC accuracy on 30K+ articles", "Gemini 2.5 Flash + Search grounding", "Text · URL · Image input modes"],
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
