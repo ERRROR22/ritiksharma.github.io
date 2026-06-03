@@ -34,7 +34,7 @@ const Summary = () => {
             Professional <span className="text-gradient">Summary</span>
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg leading-relaxed">
-            Final-year B.Tech CSE student at Baba Ghulam Shah Badshah University with a strong foundation in 
+            B.Tech CSE graduate from Baba Ghulam Shah Badshah University (2022–2026) with a strong foundation in 
             software engineering, artificial intelligence, and cybersecurity. Experienced through multiple internships 
             at NIELIT, WinnoVation Labs, Bluestock Fintech, and LearnTube.ai — delivering production-ready solutions 
             in machine learning, web development, and security analysis.
