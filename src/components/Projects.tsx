@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper } from "lucide-react";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
@@ -12,6 +12,7 @@ const projects = [
     color: "primary",
     year: "2026",
     highlights: ["96% PAC accuracy on 30K+ articles", "Gemini 2.5 Flash + Search grounding", "Text · URL · Image input modes"],
+    appLink: "https://truth-verifier--Techtitans999.replit.app",
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
@@ -160,6 +161,18 @@ const Projects = () => {
                     ))}
                   </div>
 
+                  {/* App Link */}
+                  {project.appLink && (
+                    <a
+                      href={project.appLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Open App (Expo Go)
+                    </a>
+                  )}
                 </motion.div>
               </StaggerItem>
             );

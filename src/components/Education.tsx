@@ -67,7 +67,7 @@ const Education = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-muted-foreground" />
-                  <span className="text-muted-foreground">2022 - 2026 (Expected)</span>
+                  <span className="text-muted-foreground">2022 - 2026</span>
                 </div>
               </div>
 
@@ -75,13 +75,13 @@ const Education = () => {
               <div className="p-4 rounded-xl bg-gradient-to-r from-primary/10 to-project/10 border border-primary/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-muted-foreground">Current CGPA</span>
-                  <span className="text-2xl font-bold text-primary">7.7/10</span>
+                  <span className="text-2xl font-bold text-primary">7.8/10</span>
                 </div>
                 <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-primary rounded-full"
                     initial={{ width: 0 }}
-                    whileInView={{ width: "85%" }}
+                    whileInView={{ width: "78%" }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.5 }}
                   />
