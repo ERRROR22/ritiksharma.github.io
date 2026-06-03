@@ -161,6 +161,18 @@ const Projects = () => {
                     ))}
                   </div>
 
+                  {/* App Link */}
+                  {project.appLink && (
+                    <a
+                      href={project.appLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Open App (Expo Go)
+                    </a>
+                  )}
                 </motion.div>
               </StaggerItem>
             );
