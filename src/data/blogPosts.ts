@@ -12,6 +12,135 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "newsverify-multimodal-fake-news-2026",
+    title: "Inside NewsVerify: Shipping a Multimodal Fake-News Detector with PAC + Gemini 2.5 Flash",
+    excerpt: "How our Tech Titans team designed a dual-engine system pairing a 96%-accurate Passive Aggressive Classifier with Gemini 2.5 Flash live search grounding across text, URL, and image inputs.",
+    date: "Jun 02, 2026",
+    readTime: "11 min read",
+    category: "Machine Learning",
+    color: "primary",
+    image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600&h=400&fit=crop",
+    content: `
+## Why a Dual Engine
+
+Static ML classifiers are fast but blind to anything outside their training distribution. LLMs reason well but hallucinate. NewsVerify pairs both — a Passive Aggressive Classifier for instant pattern recognition and Gemini 2.5 Flash with Google Search grounding for live, cited verification.
+
+## The 7-Stage NLP Pipeline
+
+1. Regex cleaning (strip URLs, punctuation, symbols)
+2. Lowercasing
+3. NLTK tokenization
+4. Stopword removal (170+ tokens)
+5. Lemmatization
+6. TF-IDF vectorization
+7. PAC classification
+
+Trained on 30K+ Kaggle articles + the LIAR dataset, the model lands at ~96% accuracy, F1 96.0, with TP 2,910 / TN 2,850 / FP 150 / FN 90 on a 6K test set.
+
+## Gemini as the Reasoning Layer
+
+Gemini 2.5 Flash extracts claims, runs live web searches, and emits a 0–100 truth score with claim-by-claim reasoning and source citations.
+
+## Multimodal Inputs
+
+Text (≥15 chars), URL (fetch + analyze), Image (OCR from screenshots) — all routed through a typed Node.js/Express + Zod backend in a pnpm monorepo deployed on Replit Cloud.
+
+## What's Next
+
+Multi-language (Hindi, Urdu, regional), a browser extension, and push alerts for trending misinformation.
+    `,
+  },
+  {
+    slug: "rag-with-gemini-flash-2026",
+    title: "Production RAG with Gemini 2.5 Flash and Search Grounding",
+    excerpt: "Patterns for combining vector retrieval with live web grounding to ship factual, low-latency AI features in 2026.",
+    date: "May 18, 2026",
+    readTime: "9 min read",
+    category: "Generative AI",
+    color: "project",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop",
+    content: `
+## Beyond Vanilla RAG
+
+Pure vector RAG breaks on freshness. Pure search grounding breaks on private data. The 2026 pattern is a hybrid: retrieve internal context from a vector store, then ask the model to verify time-sensitive claims with live search.
+
+## Architecture
+
+\`\`\`text
+User → Query Rewrite → Hybrid Retrieve (vectors + BM25)
+     → Gemini 2.5 Flash w/ Search Grounding
+     → Cited Answer + Confidence Score
+\`\`\`
+
+## Latency Budget
+
+- Retrieval: < 120ms
+- LLM + grounding: < 1.4s
+- End-to-end p95: < 2s
+
+## Eval Loop
+
+Track groundedness, citation accuracy, and answer F1 against a golden set. Re-run nightly in CI.
+    `,
+  },
+  {
+    slug: "ai-firewall-llm-waf-2026",
+    title: "Beyond WAFinity: Defending Web Apps Against LLM-Generated Attacks",
+    excerpt: "Attackers now use LLMs to mutate payloads. Here's how to evolve a Random Forest WAF into a behavior-aware AI firewall.",
+    date: "Apr 22, 2026",
+    readTime: "10 min read",
+    category: "Cybersecurity",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop",
+    content: `
+## The New Threat Model
+
+LLMs let attackers generate polymorphic SQLi, XSS, and SSRF payloads at scale. Signature-only WAFs are blind to them.
+
+## Layered Defense
+
+1. **Signature layer** — block known CVE patterns at the edge
+2. **ML layer** — Random Forest on 50K+ labeled requests (WAFinity baseline)
+3. **Embedding layer** — score requests by semantic similarity to known attacks
+4. **Behavior layer** — per-session anomaly detection on path, params, and timing
+
+## Online Learning
+
+Feed analyst verdicts back into the model nightly. Track precision and recall on a held-out red-team set.
+    `,
+  },
+  {
+    slug: "ai-engineer-roadmap-2027",
+    title: "The AI Engineer Roadmap for 2027",
+    excerpt: "Skills, tools, and projects to focus on over the next 12 months as agents, multimodal models, and on-device inference reshape the stack.",
+    date: "Jan 10, 2027",
+    readTime: "8 min read",
+    category: "Career",
+    color: "skill",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop",
+    content: `
+## The Shift
+
+The 2026 stack was prompts + RAG. The 2027 stack is agents + tools + evals + on-device inference.
+
+## Core Skills
+
+- **Agent design** — planning loops, tool use, memory, guardrails
+- **Evals** — golden sets, LLM-as-judge, regression gates in CI
+- **Multimodal** — text, image, audio, video pipelines
+- **On-device** — quantized models on phones and edge boxes
+- **Security** — prompt injection, data exfiltration, supply-chain risk
+
+## Ship Projects, Not Tutorials
+
+Pick one vertical (legal, health, education, security), ship an end-to-end agent with measurable outcomes, and write about the eval gaps you found.
+
+## Tools Worth Learning
+
+LangGraph or your own orchestrator, vector DBs, OpenTelemetry for LLM traces, and at least one fine-tuning framework.
+    `,
+  },
+
     slug: "ai-powered-threat-detection",
     title: "Building AI-Powered Threat Detection Systems",
     excerpt: "Learn how to leverage Hugging Face Transformers and machine learning to create intelligent security systems that detect anomalies in network traffic.",
