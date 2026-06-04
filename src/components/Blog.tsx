@@ -140,6 +140,24 @@ const Blog = () => {
               </button>
             ))}
           </div>
+
+          {/* Sort options */}
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <ArrowDownUp className="w-3.5 h-3.5 text-muted-foreground" />
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => setSortBy(opt.key)}
+                className={`px-3 py-1 rounded-full text-xs font-medium border transition-all duration-300 ${
+                  sortBy === opt.key
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "glass glass-border text-muted-foreground hover:text-foreground hover:border-primary/40"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </ScrollReveal>
 
         {/* No results */}
