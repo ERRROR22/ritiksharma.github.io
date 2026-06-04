@@ -140,7 +140,7 @@ Pick one vertical (legal, health, education, security), ship an end-to-end agent
 LangGraph or your own orchestrator, vector DBs, OpenTelemetry for LLM traces, and at least one fine-tuning framework.
     `,
   },
-
+  {
     slug: "ai-powered-threat-detection",
     title: "Building AI-Powered Threat Detection Systems",
     excerpt: "Learn how to leverage Hugging Face Transformers and machine learning to create intelligent security systems that detect anomalies in network traffic.",
