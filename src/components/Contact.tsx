@@ -56,8 +56,8 @@ const achievementGroups: AchievementGroup[] = [
     items: [
       {
         icon: Users,
-        title: "Team Lead — NewsVerify",
-        detail: "Directed a 4-person engineering team building an NLP misinformation-detection platform (<2s credibility scoring)",
+        title: "Team Lead & Backend — NewsVerify (Tech Titans)",
+        detail: "Led a 4-person B.Tech CSE capstone team (BGSBU Rajouri, 2022–2026) — owned AI pipeline and API architecture, delivering a dual-engine (PAC + Gemini 2.5 Flash) multimodal fake-news detector at ~96% accuracy with sub-2s credibility scoring",
         color: "project",
       },
     ],
