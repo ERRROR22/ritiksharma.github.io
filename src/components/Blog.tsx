@@ -1,14 +1,23 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, Clock, ArrowRight, Search, X } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Search, X, ArrowDownUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { blogPosts } from "@/data/blogPosts";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
+const SORT_OPTIONS = [
+  { key: "newest", label: "Newest" },
+  { key: "oldest", label: "Oldest" },
+  { key: "trending", label: "Trending" },
+] as const;
+
+const parseDate = (dateStr: string) => new Date(dateStr);
+
 const Blog = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [sortBy, setSortBy] = useState<(typeof SORT_OPTIONS)[number]["key"]>("newest");
 
   const categories = useMemo(() => {
     const cats = Array.from(new Set(blogPosts.map((p) => p.category)));
@@ -16,7 +25,7 @@ const Blog = () => {
   }, []);
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    const posts = blogPosts.filter((post) => {
       const matchesCategory = activeCategory === "All" || post.category === activeCategory;
       const matchesSearch =
         !searchQuery ||
@@ -25,7 +34,25 @@ const Blog = () => {
         post.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [searchQuery, activeCategory]);
+
+    return [...posts].sort((a, b) => {
+      const dateA = parseDate(a.date).getTime();
+      const dateB = parseDate(b.date).getTime();
+
+      if (sortBy === "newest") return dateB - dateA;
+      if (sortBy === "oldest") return dateA - dateB;
+
+      // Trending: recency-weighted score with a small boost for primary/project posts
+      const score = (post: typeof a) => {
+        const ageDays = (Date.now() - parseDate(post.date).getTime()) / (1000 * 60 * 60 * 24);
+        const recency = Math.max(0, 365 - ageDays);
+        const boost = post.color === "primary" ? 60 : post.color === "project" ? 30 : 0;
+        return recency + boost;
+      };
+
+      return score(b) - score(a);
+    });
+  }, [searchQuery, activeCategory, sortBy]);
 
   const getColorClass = (color: string) => {
     const colors: Record<string, { bg: string; text: string; badge: string }> = {
