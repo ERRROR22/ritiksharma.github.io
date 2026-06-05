@@ -54,6 +54,36 @@ const certifications = [
     issuer: "TCS",
     color: "primary" as const,
   },
+  {
+    title: "Generative AI Engineering: Foundations, RAG & Deployment",
+    issuer: "HCL GUVI",
+    color: "project" as const,
+  },
+  {
+    title: "Amazon Interview Preparation",
+    issuer: "Unstop",
+    color: "skill" as const,
+  },
+  {
+    title: "How to Start a UI/UX Design Career Without Prior Experience",
+    issuer: "HCL GUVI",
+    color: "primary" as const,
+  },
+  {
+    title: "Introduction to Model Context Protocol",
+    issuer: "Anthropic",
+    color: "experience" as const,
+  },
+  {
+    title: "Artificial Intelligence Fundamentals",
+    issuer: "IBM",
+    color: "project" as const,
+  },
+  {
+    title: "Cloud Computing Fundamentals",
+    issuer: "IBM",
+    color: "skill" as const,
+  },
 ];
 
 const colorMap = {
