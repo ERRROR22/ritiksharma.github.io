@@ -6,22 +6,9 @@ import { Mail, Phone, MapPin, Send, Linkedin, Github, Award, Trophy, Medal, User
 import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "./animations/ScrollReveal";
 
-const certifications = [
-  "Generative AI (Simplilearn)",
-  "Prompt Engineering Masterclass",
-  "Prompt Engineering Masterclass (Great Learning)",
-  "Python for Data Science",
-  "Model Context Protocol: Advanced Topics",
-  "Introduction to Model Context Protocol (Anthropic)",
-  "Cloud Computing Fundamentals",
-  "Cloud Computing Fundamentals (IBM)",
-  "Google Analytics",
-  "TCS iON Career Edge",
-  "Generative AI Engineering: Foundations, RAG & Deployment (HCL GUVI)",
-  "Amazon Interview Preparation (Unstop)",
-  "How to Start a UI/UX Design Career Without Prior Experience (HCL GUVI)",
-  "Artificial Intelligence Fundamentals (IBM)",
-];
+import { getCertLabels } from "@/data/certifications";
+
+const certifications = getCertLabels();
 
 type AchievementColor = "experience" | "primary" | "project" | "skill";
 
