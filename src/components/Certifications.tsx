@@ -34,8 +34,9 @@ const Certifications = () => {
         <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto" staggerDelay={0.12}>
           {certifications.map((cert) => {
             const colors = colorMap[cert.color];
+            const label = formatCertLabel(cert);
             return (
-              <StaggerItem key={cert.title}>
+              <StaggerItem key={`${cert.title}-${cert.issuer}`}>
                 <motion.div
                   className="glass glass-border rounded-2xl p-6 hover:shadow-elevated transition-all duration-300 h-full flex flex-col"
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
@@ -47,7 +48,7 @@ const Certifications = () => {
                   >
                     <Award className="w-6 h-6" />
                   </motion.div>
-                  <h3 className="text-lg font-bold mb-2">{cert.title}</h3>
+                  <h3 className="text-lg font-bold mb-2">{label}</h3>
                   <span className={`inline-block w-fit px-3 py-1 text-xs font-medium rounded-full border mt-auto ${colors.badge}`}>
                     {cert.issuer}
                   </span>
