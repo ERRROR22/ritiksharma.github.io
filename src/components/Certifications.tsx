@@ -2,89 +2,7 @@ import { motion } from "framer-motion";
 import { Award } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
-
-const certifications = [
-  {
-    title: "Generative AI for Beginners",
-    issuer: "Simplilearn",
-    color: "primary" as const,
-  },
-  {
-    title: "Prompt Engineering Masterclass",
-    issuer: "Simplilearn",
-    color: "experience" as const,
-  },
-  {
-    title: "Prompt Engineering Masterclass",
-    issuer: "Great Learning",
-    color: "experience" as const,
-  },
-  {
-    title: "Python for Data Science",
-    issuer: "SkillUp",
-    color: "project" as const,
-  },
-  {
-    title: "Model Context Protocol: Advanced Topics",
-    issuer: "Anthropic",
-    color: "skill" as const,
-  },
-  {
-    title: "Cloud Computing Fundamentals",
-    issuer: "Cloud Academy",
-    color: "primary" as const,
-  },
-  {
-    title: "Cloud Essentials",
-    issuer: "Cloud Academy",
-    color: "experience" as const,
-  },
-  {
-    title: "Google Analytics Certification",
-    issuer: "Google",
-    color: "project" as const,
-  },
-  {
-    title: "TCS iON Career Edge - Young Professional",
-    issuer: "TCS iON",
-    color: "skill" as const,
-  },
-  {
-    title: "Master Data Management for Beginners",
-    issuer: "TCS",
-    color: "primary" as const,
-  },
-  {
-    title: "Generative AI Engineering: Foundations, RAG & Deployment",
-    issuer: "HCL GUVI",
-    color: "project" as const,
-  },
-  {
-    title: "Amazon Interview Preparation",
-    issuer: "Unstop",
-    color: "skill" as const,
-  },
-  {
-    title: "How to Start a UI/UX Design Career Without Prior Experience",
-    issuer: "HCL GUVI",
-    color: "primary" as const,
-  },
-  {
-    title: "Introduction to Model Context Protocol",
-    issuer: "Anthropic",
-    color: "experience" as const,
-  },
-  {
-    title: "Artificial Intelligence Fundamentals",
-    issuer: "IBM",
-    color: "project" as const,
-  },
-  {
-    title: "Cloud Computing Fundamentals",
-    issuer: "IBM",
-    color: "skill" as const,
-  },
-];
+import { certifications, formatCertLabel } from "@/data/certifications";
 
 const colorMap = {
   primary: { icon: "bg-primary/10 border-primary/20 text-primary", badge: "bg-primary/10 text-primary border-primary/20" },
@@ -116,8 +34,9 @@ const Certifications = () => {
         <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto" staggerDelay={0.12}>
           {certifications.map((cert) => {
             const colors = colorMap[cert.color];
+            const label = formatCertLabel(cert);
             return (
-              <StaggerItem key={cert.title}>
+              <StaggerItem key={`${cert.title}-${cert.issuer}`}>
                 <motion.div
                   className="glass glass-border rounded-2xl p-6 hover:shadow-elevated transition-all duration-300 h-full flex flex-col"
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
@@ -129,7 +48,7 @@ const Certifications = () => {
                   >
                     <Award className="w-6 h-6" />
                   </motion.div>
-                  <h3 className="text-lg font-bold mb-2">{cert.title}</h3>
+                  <h3 className="text-lg font-bold mb-2">{label}</h3>
                   <span className={`inline-block w-fit px-3 py-1 text-xs font-medium rounded-full border mt-auto ${colors.badge}`}>
                     {cert.issuer}
                   </span>
