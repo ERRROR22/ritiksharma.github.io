@@ -15,6 +15,11 @@ const certifications = [
     color: "experience" as const,
   },
   {
+    title: "Prompt Engineering Masterclass",
+    issuer: "Great Learning",
+    color: "experience" as const,
+  },
+  {
     title: "Python for Data Science",
     issuer: "SkillUp",
     color: "project" as const,
