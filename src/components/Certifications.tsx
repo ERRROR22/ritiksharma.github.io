@@ -57,6 +57,46 @@ const Certifications = () => {
             );
           })}
         </StaggerContainer>
+
+        {/* Stats strip + CTA below the grid */}
+        <ScrollReveal delay={0.1}>
+          <div className="mt-16 max-w-5xl mx-auto">
+            <div className="glass glass-border rounded-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              {[
+                { label: "Certifications", value: certifications.length },
+                { label: "Unique Issuers", value: new Set(certifications.map((c) => c.issuer)).size },
+                { label: "Focus Areas", value: 6 },
+                { label: "Hours Invested", value: "200+" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs md:text-sm text-muted-foreground uppercase tracking-wider">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 glass glass-border rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-1">Always learning, always shipping</h3>
+                <p className="text-sm text-muted-foreground">
+                  Credentials are verifiable on LinkedIn. New certifications added as I complete them.
+                </p>
+              </div>
+              <a
+                href="https://www.linkedin.com/in/ritik-sharma-323a2724a/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/30 text-primary text-sm font-medium hover:bg-primary/20 transition-colors whitespace-nowrap"
+              >
+                Verify on LinkedIn →
+              </a>
+            </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
