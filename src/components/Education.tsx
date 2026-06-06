@@ -5,13 +5,29 @@ import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const courses = [
   "Data Structures & Algorithms",
+  "Design & Analysis of Algorithms",
   "Machine Learning",
+  "Deep Learning",
+  "Artificial Intelligence",
+  "Natural Language Processing",
+  "Computer Vision",
   "Cybersecurity",
-  "Database Management",
+  "Cryptography & Network Security",
+  "Ethical Hacking",
+  "Database Management Systems",
+  "Big Data Analytics",
   "Computer Networks",
   "Operating Systems",
+  "Computer Organization & Architecture",
+  "Theory of Computation",
+  "Compiler Design",
+  "Software Engineering",
+  "Object-Oriented Programming",
   "Web Development",
-  "Artificial Intelligence",
+  "Cloud Computing",
+  "Discrete Mathematics",
+  "Probability & Statistics",
+  "Linear Algebra",
 ];
 
 const Education = () => {
