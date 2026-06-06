@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Award } from "lucide-react";
+import { Award, Tag } from "lucide-react";
+import { formatCertLabel, type Certification } from "@/data/certifications";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 import { certifications, formatCertLabel } from "@/data/certifications";
