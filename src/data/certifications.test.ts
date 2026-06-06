@@ -131,9 +131,9 @@ describe("edge cases", () => {
     expect(formatCertLabel(list[0], list)).toBe("Solo Course");
   });
 
-  it("handles an empty list by treating the cert as unique", () => {
+  it("handles an empty list by treating the cert as unique (bare title)", () => {
     const cert: Certification = { title: "Orphan", issuer: "Acme", color: "primary" };
-    expect(formatCertLabel(cert, [])).toBe("Orphan (Acme)");
+    expect(formatCertLabel(cert, [])).toBe("Orphan");
   });
 
   it("getCertLabels output stays in the same order as the source list", () => {
