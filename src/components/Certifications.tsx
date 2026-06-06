@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { Award, Tag } from "lucide-react";
-import { formatCertLabel, type Certification } from "@/data/certifications";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
-import { certifications, formatCertLabel } from "@/data/certifications";
+import { certifications, formatCertLabel, type Certification } from "@/data/certifications";
 
 const colorMap = {
   primary: { icon: "bg-primary/10 border-primary/20 text-primary", badge: "bg-primary/10 text-primary border-primary/20" },
