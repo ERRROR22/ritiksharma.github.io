@@ -95,6 +95,62 @@ const Certifications = () => {
                 Verify on LinkedIn →
               </a>
             </div>
+
+            {/* Normalized label preview — mirrors unit-test edge cases */}
+            <div className="mt-6 glass glass-border rounded-2xl p-6 md:p-8">
+              <div className="flex items-center gap-2 mb-4">
+                <Tag className="w-4 h-4 text-experience" />
+                <h3 className="text-sm font-semibold uppercase tracking-wider">Normalized Label Preview</h3>
+              </div>
+              <div className="grid gap-3 text-sm">
+                {[
+                  {
+                    case: "Unique title",
+                    list: [
+                      { title: "Google Analytics Certification", issuer: "Google", color: "project" },
+                      { title: "Amazon Interview Preparation", issuer: "Unstop", color: "skill" },
+                    ] as Certification[],
+                  },
+                  {
+                    case: "Duplicate title → append issuer",
+                    list: [
+                      { title: "Prompt Engineering Masterclass", issuer: "Simplilearn", color: "primary" },
+                      { title: "Prompt Engineering Masterclass", issuer: "Great Learning", color: "experience" },
+                    ] as Certification[],
+                  },
+                  {
+                    case: "Same issuer, distinct titles → bare",
+                    list: [
+                      { title: "Intro to MCP", issuer: "Anthropic", color: "experience" },
+                      { title: "Advanced MCP", issuer: "Anthropic", color: "skill" },
+                    ] as Certification[],
+                  },
+                  {
+                    case: "Unicode dashes treated as ASCII hyphen",
+                    list: [
+                      { title: "AI–Security", issuer: "Acme", color: "primary" },
+                      { title: "AI-Security", issuer: "Beta", color: "skill" },
+                      { title: "AI—Security", issuer: "Gamma", color: "experience" },
+                    ] as Certification[],
+                  },
+                ].map(({ case: label, list }) => (
+                  <div key={label} className="border-b border-border/40 last:border-0 pb-3 last:pb-0">
+                    <div className="text-xs text-muted-foreground mb-1.5 font-mono">{label}</div>
+                    <div className="flex flex-wrap gap-2">
+                      {list.map((c) => (
+                        <span
+                          key={`${c.title}-${c.issuer}`}
+                          className="inline-flex items-center px-2.5 py-1 rounded-md bg-secondary border border-border/60"
+                          title={`${c.title} — ${c.issuer}`}
+                        >
+                          <span className="text-foreground font-medium">{formatCertLabel(c, list)}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </ScrollReveal>
       </div>
