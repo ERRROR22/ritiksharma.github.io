@@ -73,6 +73,7 @@ describe("getCertLabels (cross-section consistency)", () => {
         expect(label).toBe(cert.title);
       }
     }
+  });
 });
 
 describe("edge cases", () => {
