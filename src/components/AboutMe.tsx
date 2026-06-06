@@ -68,7 +68,7 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Experience Highlights</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Gained practical expertise as Cyber Security Intern at NIELIT, tackling vulnerability assessments, threat detection, and AI-enhanced security protocols with Hugging Face tools. ML Intern at WinnoVation involved model development and predictive systems. Data Science Intern at LearnTube.ai focused on EDA, visualization, and ML-driven insights, boosting user engagement by 20%. As SDE Intern at Bluestock Fintech, engineered scalable backend modules in an agile fintech environment, delivering 2 production-ready features and reducing code defect rate by 25% through rigorous debugging and peer code reviews.
+                Built deep, cross-disciplinary experience across security, ML, data, and product engineering. As Cyber Security Intern at NIELIT, ran vulnerability assessments, threat-detection pipelines, and AI-enhanced security workflows with Hugging Face tooling, hardening reference apps against OWASP Top-10 risks. As ML Intern at WinnoVation, designed and trained predictive models end-to-end — from feature engineering to evaluation — and shipped reproducible notebooks. As Data Science Intern at LearnTube.ai, owned EDA, dashboarding, and ML-driven recommendations that lifted user engagement by 20%. As SDE Intern at Bluestock Fintech, engineered scalable backend modules in an agile fintech squad, delivered 2 production-ready features, cut defect rate by 25% through rigorous testing and peer review, and contributed to API design, observability, and CI/CD improvements. Alongside internships, built RAG systems, prompt-engineered LLM agents, and explored MCP-based tool orchestration for real-world automation.
               </p>
             </div>
           </ScrollReveal>
@@ -83,7 +83,7 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Future Goals</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Aspiring to transition into a Cybersecurity Analyst or ML Engineer role at innovative firms, contributing to AI-powered threat mitigation and scalable solutions. Eager to pursue advanced studies or roles leveraging blockchain, neural networks, and data governance. Let's connect to innovate in Cybersecurity and AI!
+                Targeting roles as a Cybersecurity Analyst, ML Engineer, or AI/Full-Stack Engineer at product-led companies where I can ship AI-powered threat detection, agentic LLM systems, and scalable, well-tested platforms. Actively going deeper into MLOps, RAG and agent architectures (LangChain, MCP), cloud security on AWS/GCP, and applied research at the intersection of generative AI and trust & safety. Long-term, I want to contribute to open-source AI security tooling, mentor early-career engineers, and pursue advanced study in AI systems, blockchain-backed data governance, and neural networks. Let's connect to build the next generation of secure, intelligent products.
               </p>
             </div>
           </ScrollReveal>
