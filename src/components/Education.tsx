@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { GraduationCap, BookOpen, Calendar } from "lucide-react";
+import { formatCgpa, getCgpaPercentage } from "@/lib/cgpa";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
+
 
 const courses = [
   "Data Structures & Algorithms",
