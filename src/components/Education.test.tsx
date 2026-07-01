@@ -19,5 +19,4 @@ describe("Education CGPA display", () => {
     expect(queryByText("7.8/10")).not.toBeInTheDocument();
     expect(queryByText("8.0/10")).not.toBeInTheDocument();
   });
-
 });
