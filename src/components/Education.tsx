@@ -95,7 +95,7 @@ const Education = () => {
               <div className="p-4 rounded-xl bg-gradient-to-r from-primary/10 to-project/10 border border-primary/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-muted-foreground">Current CGPA</span>
-                  <span className="text-2xl font-bold text-primary">7.9/10</span>
+                  <span className="text-2xl font-bold text-primary">{formatCgpa(CURRENT_CGPA)}</span>
                 </div>
                 <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
                   <motion.div
