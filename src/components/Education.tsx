@@ -32,6 +32,8 @@ const courses = [
   "Linear Algebra",
 ];
 
+const CURRENT_CGPA = 7.9;
+
 const Education = () => {
   return (
     <section id="education" className="py-24 relative overflow-hidden">
