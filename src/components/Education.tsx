@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { GraduationCap, BookOpen, Calendar } from "lucide-react";
+import { formatCgpa, getCgpaPercentage } from "@/lib/cgpa";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
+
 
 const courses = [
   "Data Structures & Algorithms",
@@ -29,6 +31,8 @@ const courses = [
   "Probability & Statistics",
   "Linear Algebra",
 ];
+
+const CURRENT_CGPA = 7.9;
 
 const Education = () => {
   return (
@@ -91,13 +95,13 @@ const Education = () => {
               <div className="p-4 rounded-xl bg-gradient-to-r from-primary/10 to-project/10 border border-primary/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-muted-foreground">Current CGPA</span>
-                  <span className="text-2xl font-bold text-primary">7.9/10</span>
+                  <span className="text-2xl font-bold text-primary">{formatCgpa(CURRENT_CGPA)}</span>
                 </div>
                 <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-primary rounded-full"
                     initial={{ width: 0 }}
-                    whileInView={{ width: "78%" }}
+                    whileInView={{ width: getCgpaPercentage(CURRENT_CGPA) }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.5 }}
                   />
