@@ -101,7 +101,7 @@ const Education = () => {
                   <motion.div
                     className="h-full bg-gradient-primary rounded-full"
                     initial={{ width: 0 }}
-                    whileInView={{ width: "78%" }}
+                    whileInView={{ width: getCgpaPercentage(CURRENT_CGPA) }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.5 }}
                   />
