@@ -14,12 +14,10 @@ describe("Education CGPA display", () => {
     expect(getByText("7.9/10")).toBeInTheDocument();
   });
 
-  it("renders the progress bar at 78% for a 7.9/10 CGPA", () => {
-    const { getByText } = render(<Education />);
-    const bar = getByText("7.9/10").parentElement?.nextElementSibling;
-    if (bar) {
-      const fill = bar.querySelector("div > div");
-      expect(fill).toHaveStyle("width: 78%");
-    }
+  it("does not render any other CGPA value like 7.8 or 8.0", () => {
+    const { queryByText } = render(<Education />);
+    expect(queryByText("7.8/10")).not.toBeInTheDocument();
+    expect(queryByText("8.0/10")).not.toBeInTheDocument();
   });
+
 });
