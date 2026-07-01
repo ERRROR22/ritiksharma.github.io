@@ -106,6 +106,7 @@ const Certifications = () => {
                 {[
                   {
                     case: "Unique title",
+                    test: "formatCertLabel › returns bare title when the title is unique in the list",
                     list: [
                       { title: "Google Analytics Certification", issuer: "Google", color: "project" },
                       { title: "Amazon Interview Preparation", issuer: "Unstop", color: "skill" },
@@ -113,6 +114,7 @@ const Certifications = () => {
                   },
                   {
                     case: "Duplicate title → append issuer",
+                    test: "formatCertLabel › appends the issuer when multiple certs share the same title",
                     list: [
                       { title: "Prompt Engineering Masterclass", issuer: "Simplilearn", color: "primary" },
                       { title: "Prompt Engineering Masterclass", issuer: "Great Learning", color: "experience" },
@@ -120,6 +122,7 @@ const Certifications = () => {
                   },
                   {
                     case: "Same issuer, distinct titles → bare",
+                    test: "edge cases › handles issuer collisions — same issuer, distinct titles stay bare",
                     list: [
                       { title: "Intro to MCP", issuer: "Anthropic", color: "experience" },
                       { title: "Advanced MCP", issuer: "Anthropic", color: "skill" },
@@ -127,15 +130,17 @@ const Certifications = () => {
                   },
                   {
                     case: "Unicode dashes treated as ASCII hyphen",
+                    test: "edge cases › treats unicode dashes (en/em) as ASCII hyphen",
                     list: [
                       { title: "AI–Security", issuer: "Acme", color: "primary" },
                       { title: "AI-Security", issuer: "Beta", color: "skill" },
                       { title: "AI—Security", issuer: "Gamma", color: "experience" },
                     ] as Certification[],
                   },
-                ].map(({ case: label, list }) => (
+                ].map(({ case: label, test, list }) => (
                   <div key={label} className="border-b border-border/40 last:border-0 pb-3 last:pb-0">
                     <div className="text-xs text-muted-foreground mb-1.5 font-mono">{label}</div>
+                    <div className="text-[10px] text-muted-foreground/60 font-mono mb-2">{test}</div>
                     <div className="flex flex-wrap gap-2">
                       {list.map((c) => (
                         <span
