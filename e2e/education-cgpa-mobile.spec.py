@@ -33,17 +33,18 @@ async def run() -> None:
         await education.scroll_into_view_if_needed()
         await expect(education).to_be_visible(timeout=10_000)
 
-        label = education.get_by_text("Current CGPA", exact=True)
-        value = education.get_by_text("7.9/10", exact=True)
+        # Locate the CGPA card and assert the exact label/value pair inside it.
+        cgpa_card = education.locator(
+            "div.bg-gradient-to-r.from-primary\\/10.to-project\\/10.border-primary\\/20"
+        ).first
+        await expect(cgpa_card).to_be_visible(timeout=10_000)
+
+        label = cgpa_card.get_by_text("Current CGPA", exact=True)
+        value = cgpa_card.get_by_text("7.9/10", exact=True)
 
         await expect(label).to_be_visible(timeout=10_000)
         await expect(value).to_be_visible(timeout=10_000)
 
-        # Assert label and value live in the same CGPA card (shared parent row).
-        pair_container = education.locator(
-            "div", has=page.get_by_text("Current CGPA", exact=True)
-        ).filter(has=page.get_by_text("7.9/10", exact=True)).first
-        await expect(pair_container).to_be_visible()
 
         await education.screenshot(path=str(SCREENSHOTS / "education-mobile.png"))
         print(f"PASS: Education CGPA renders as 7.9/10 on mobile at {BASE_URL}")
