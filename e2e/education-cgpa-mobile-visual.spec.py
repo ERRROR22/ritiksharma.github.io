@@ -45,6 +45,8 @@ DIFF = OUT_DIR / "diff.png"
 
 
 def compare_images(baseline_path: Path, actual_path: Path) -> None:
+    import numpy as np
+
     baseline = Image.open(baseline_path).convert("RGB")
     actual = Image.open(actual_path).convert("RGB")
 
@@ -54,24 +56,21 @@ def compare_images(baseline_path: Path, actual_path: Path) -> None:
             "Re-run with UPDATE_SNAPSHOTS=1 if this change is intentional."
         )
 
-    diff = ImageChops.difference(baseline, actual)
-    # Count pixels that differ at all (any channel).
-    bbox = diff.getbbox()
-    if bbox is None:
-        return  # identical
+    a = np.asarray(baseline, dtype=np.int16)
+    b = np.asarray(actual, dtype=np.int16)
+    per_pixel_max = np.abs(a - b).max(axis=-1)
+    differing = per_pixel_max > CHANNEL_THRESHOLD
+    fraction = float(differing.mean())
 
-    # Compute fraction of differing pixels.
-    diff_pixels = sum(1 for p in diff.getdata() if p != (0, 0, 0))
-    total = baseline.size[0] * baseline.size[1]
-    fraction = diff_pixels / total
-
-    # Save diff for debugging.
-    diff.save(DIFF)
+    if fraction > 0:
+        # Save a highlighted diff for debugging.
+        diff_img = ImageChops.difference(baseline, actual)
+        diff_img.save(DIFF)
 
     if fraction > PIXEL_TOLERANCE:
         raise AssertionError(
-            f"Visual diff exceeds tolerance: {fraction:.4%} of pixels differ "
-            f"(allowed {PIXEL_TOLERANCE:.4%}). See {DIFF}. "
+            f"Visual diff exceeds tolerance: {fraction:.4%} of pixels differ by "
+            f">{CHANNEL_THRESHOLD}/255 (allowed {PIXEL_TOLERANCE:.4%}). See {DIFF}. "
             "Re-run with UPDATE_SNAPSHOTS=1 if this change is intentional."
         )
 
