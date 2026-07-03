@@ -60,8 +60,17 @@ def compare_images(baseline_path: Path, actual_path: Path) -> None:
             "Re-run with UPDATE_SNAPSHOTS=1 if this change is intentional."
         )
 
-    a = np.asarray(baseline, dtype=np.int16)
-    b = np.asarray(actual, dtype=np.int16)
+    # Blur both images equally so 1-2px antialiasing/layout shifts don't register
+    # as hard pixel differences.
+    if BLUR_RADIUS > 0:
+        blur = ImageFilter.GaussianBlur(radius=BLUR_RADIUS)
+        baseline_cmp = baseline.filter(blur)
+        actual_cmp = actual.filter(blur)
+    else:
+        baseline_cmp, actual_cmp = baseline, actual
+
+    a = np.asarray(baseline_cmp, dtype=np.int16)
+    b = np.asarray(actual_cmp, dtype=np.int16)
     per_pixel_max = np.abs(a - b).max(axis=-1)
     differing = per_pixel_max > CHANNEL_THRESHOLD
     fraction = float(differing.mean())
