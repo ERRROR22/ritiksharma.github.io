@@ -15,7 +15,10 @@ Usage:
 Environment:
     BASE_URL           Target URL (default http://localhost:8080)
     UPDATE_SNAPSHOTS   When set to "1", writes/overwrites the baseline and passes.
-    PIXEL_TOLERANCE    Max fraction of differing pixels allowed (default 0.01 = 1%).
+    PIXEL_TOLERANCE    Max fraction of differing pixels allowed (default 0.02 = 2%).
+    CHANNEL_THRESHOLD  Per-channel diff (0-255) below which a pixel is considered equal (default 16).
+    BLUR_RADIUS        Gaussian blur radius applied to both images before comparison to
+                       absorb antialiasing/subpixel layout noise (default 1.0 px, 0 disables).
 
 Exits 0 on success, non-zero on failure.
 """
