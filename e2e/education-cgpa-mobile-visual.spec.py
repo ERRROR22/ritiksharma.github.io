@@ -28,13 +28,14 @@ import os
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageFilter
 from playwright.async_api import async_playwright, expect
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:8080")
 UPDATE_SNAPSHOTS = os.environ.get("UPDATE_SNAPSHOTS") == "1"
 PIXEL_TOLERANCE = float(os.environ.get("PIXEL_TOLERANCE", "0.02"))
 CHANNEL_THRESHOLD = int(os.environ.get("CHANNEL_THRESHOLD", "16"))
+BLUR_RADIUS = float(os.environ.get("BLUR_RADIUS", "1.0"))
 
 E2E_DIR = Path(__file__).parent
 SNAPSHOT_DIR = E2E_DIR / "__snapshots__"
