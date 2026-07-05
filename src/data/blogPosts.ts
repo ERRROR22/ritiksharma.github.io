@@ -109,6 +109,7 @@ Groundedness, task success, and cost per task. Skip the vanity metrics — nobod
 The harness caught 4 prompt regressions and 2 retrieval bugs that would have shipped. Total build cost: one weekend. Best ROI in the codebase.
     `,
   },
+  {
     slug: "newsverify-multimodal-fake-news-2026",
     title: "Inside NewsVerify: Shipping a Multimodal Fake-News Detector with PAC + Gemini 2.5 Flash",
     excerpt: "How our Tech Titans team designed a dual-engine system pairing a 96%-accurate Passive Aggressive Classifier with Gemini 2.5 Flash live search grounding across text, URL, and image inputs.",
