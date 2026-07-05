@@ -6,17 +6,17 @@ const highlights = [
   {
     icon: Target,
     title: "Focus Areas",
-    description: "AI/ML, Cybersecurity, and Full-Stack Development with hands-on project experience and industry internships.",
+    description: "Applied AI/ML, agentic LLM systems, cybersecurity, and full-stack engineering across Python, TypeScript, and modern React.",
   },
   {
     icon: Lightbulb,
-    title: "Problem Solver",
-    description: "Passionate about building intelligent systems — from deepfake detection to malware analysis using cutting-edge ML techniques.",
+    title: "What I Build",
+    description: "RAG pipelines, MCP-powered agents, deepfake and malware detection models, and production-ready APIs with strong test coverage.",
   },
   {
     icon: Rocket,
     title: "Career Goal",
-    description: "Seeking entry-level roles as a Software Engineer, AI-ML Engineer, or Cybersecurity Analyst to drive real-world impact.",
+    description: "Open to 2026 new-grad roles as an AI/ML Engineer, Full-Stack Engineer, or Cybersecurity Analyst at product-led teams.",
   },
 ];
 
@@ -34,10 +34,11 @@ const Summary = () => {
             Professional <span className="text-gradient">Summary</span>
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg leading-relaxed">
-            B.Tech CSE graduate from Baba Ghulam Shah Badshah University (2022–2026) with a strong foundation in 
-            software engineering, artificial intelligence, and cybersecurity. Experienced through multiple internships 
-            at NIELIT, WinnoVation Labs, Bluestock Fintech, and LearnTube.ai — delivering production-ready solutions 
-            in machine learning, web development, and security analysis.
+            2026 B.Tech Computer Science graduate from Baba Ghulam Shah Badshah University with a strong foundation in
+            applied AI, cybersecurity, and full-stack engineering. Four internships across{" "}
+            <span className="text-foreground font-medium">NIELIT, WinnoVation, LearnTube.ai, and Bluestock Fintech</span> —
+            shipping ML models, agentic LLM workflows, security automations, and production backend features with a bias
+            for clean code, evaluation, and measurable impact.
           </p>
         </ScrollReveal>
 

@@ -30,10 +30,10 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Who I Am</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Completed B.Tech in Computer Science Engineering at Baba Ghulam Shah Badshah University (BGSBU), Rajouri (2022–2026). Passionate about cybersecurity, machine learning, AI, and emerging technologies like Stable Diffusion and generative models.
+                I'm Ritik Sharma — a 2026 B.Tech Computer Science graduate from Baba Ghulam Shah Badshah University (BGSBU), Rajouri, building at the intersection of <span className="text-foreground font-medium">applied AI, cybersecurity, and full-stack engineering</span>. I like turning messy problems into shipped, well-tested software: RAG pipelines, agentic LLM workflows, threat-detection tooling, and clean, accessible product UIs.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Excelled in academics with hands-on projects in image processing, data analysis using Python, TensorFlow, and scikit-learn, while earning certifications in Generative AI (Simplilearn), Python for Data Science, and TCS iON Career Edge. Actively explore gaming (BGMI) and tech innovations to fuel creative problem-solving.
+                Across four internships (NIELIT, WinnoVation, LearnTube.ai, Bluestock Fintech) I've shipped ML models, security automations, analytics dashboards, and production backend modules. Day-to-day I work in Python, TypeScript/React, TensorFlow, PyTorch, and modern LLM tooling (LangChain, MCP, Hugging Face) — and I obsess over reproducibility, evaluation, and developer experience. Off-screen: BGMI, generative art with Stable Diffusion, and reading up on trust &amp; safety.
               </p>
             </div>
           </ScrollReveal>
@@ -68,7 +68,10 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Experience Highlights</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed text-sm">
-                Built deep, cross-disciplinary experience across security, ML, data, and product engineering. As Cyber Security Intern at NIELIT, ran vulnerability assessments, threat-detection pipelines, and AI-enhanced security workflows with Hugging Face tooling, hardening reference apps against OWASP Top-10 risks. As ML Intern at WinnoVation, designed and trained predictive models end-to-end — from feature engineering to evaluation — and shipped reproducible notebooks. As Data Science Intern at LearnTube.ai, owned EDA, dashboarding, and ML-driven recommendations that lifted user engagement by 20%. As SDE Intern at Bluestock Fintech, engineered scalable backend modules in an agile fintech squad, delivered 2 production-ready features, cut defect rate by 25% through rigorous testing and peer review, and contributed to API design, observability, and CI/CD improvements. Alongside internships, built RAG systems, prompt-engineered LLM agents, and explored MCP-based tool orchestration for real-world automation.
+                <span className="text-foreground font-medium">NIELIT — Cyber Security Intern:</span> ran vulnerability assessments and built AI-assisted threat-detection workflows using Hugging Face tooling, hardening reference apps against OWASP Top-10 risks.{" "}
+                <span className="text-foreground font-medium">WinnoVation — ML Intern:</span> designed and trained predictive models end-to-end, from feature engineering to evaluation, and shipped reproducible notebooks.{" "}
+                <span className="text-foreground font-medium">LearnTube.ai — Data Science Intern:</span> owned EDA, dashboards, and ML-driven recommendations that lifted user engagement by <span className="text-foreground font-medium">20%</span>.{" "}
+                <span className="text-foreground font-medium">Bluestock Fintech — SDE Intern:</span> shipped 2 production backend features in an agile squad, cut defect rate by <span className="text-foreground font-medium">25%</span> via rigorous testing and reviews, and improved API design, observability, and CI/CD. On the side: RAG systems, LLM agents, and MCP-based tool orchestration for real-world automation.
               </p>
             </div>
           </ScrollReveal>
@@ -83,7 +86,7 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Future Goals</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Targeting roles as a Cybersecurity Analyst, ML Engineer, or AI/Full-Stack Engineer at product-led companies where I can ship AI-powered threat detection, agentic LLM systems, and scalable, well-tested platforms. Actively going deeper into MLOps, RAG and agent architectures (LangChain, MCP), cloud security on AWS/GCP, and applied research at the intersection of generative AI and trust & safety. Long-term, I want to contribute to open-source AI security tooling, mentor early-career engineers, and pursue advanced study in AI systems, blockchain-backed data governance, and neural networks. Let's connect to build the next generation of secure, intelligent products.
+                Now looking for new-grad roles as an <span className="text-foreground font-medium">AI/ML Engineer, Full-Stack Engineer, or Cybersecurity Analyst</span> at product-led teams — places where I can ship agentic LLM systems, AI-powered threat detection, and scalable, well-tested platforms end-to-end. I'm going deeper into MLOps, evaluation harnesses for LLMs, RAG and agent architectures (LangChain, MCP), and cloud security on AWS/GCP. Long-term, I want to contribute to open-source AI-security tooling, mentor early-career engineers, and pursue advanced study in AI systems and trust &amp; safety. If you're building something ambitious in AI or security — let's talk.
               </p>
             </div>
           </ScrollReveal>
