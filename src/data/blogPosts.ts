@@ -12,6 +12,103 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "mcp-agents-in-production-2026",
+    title: "Shipping MCP Agents in Production: Lessons from Mid-2026",
+    excerpt: "What actually works when you take Model Context Protocol agents past the demo — tool design, sandboxing, evals, and cost guardrails from a summer of shipping.",
+    date: "Jul 02, 2026",
+    readTime: "10 min read",
+    category: "Generative AI",
+    color: "primary",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
+    content: `
+## Why MCP Won the Tool-Use War
+
+By mid-2026, MCP became the de-facto contract between models and tools. One server, many clients — Claude, Gemini, local runners — all speaking the same schema. No more re-writing tool wrappers per provider.
+
+## Five Rules from Production
+
+1. **Design tools like APIs, not prompts.** Narrow inputs, typed outputs, idempotent where possible.
+2. **Sandbox every side effect.** File writes, shell, network — all behind an allowlist and a diff preview.
+3. **Cap the agent loop.** Hard limits on steps, tokens, and wall-clock. Kill switches beat clever planners.
+4. **Log traces, not just outputs.** OpenTelemetry spans per tool call — you'll need them the first time an agent goes off the rails.
+5. **Evaluate the loop, not the turn.** Golden trajectories with LLM-as-judge on final state, not per-message quality.
+
+## The Cost Trap
+
+Agentic loops burn tokens fast. Route planning to a cheap model, execution to the strong one, and cache tool results aggressively. A 40% cost cut is usually free.
+
+## What's Next
+
+Multi-agent MCP graphs, on-device tool servers, and standardized permission prompts. The plumbing is finally boring — that's the good part.
+    `,
+  },
+  {
+    slug: "portfolio-perf-budget-2026",
+    title: "A Performance Budget for Modern Portfolio Sites",
+    excerpt: "How I got a heavy React + framer-motion portfolio under 1s LCP on mobile — lazy sections, image budgets, and honest tradeoffs.",
+    date: "Jun 24, 2026",
+    readTime: "7 min read",
+    category: "Web Development",
+    color: "project",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop",
+    content: `
+## The Budget
+
+- **LCP** < 1.2s on 4G mobile
+- **JS shipped** < 180KB gzipped for the landing view
+- **Images** < 250KB above the fold
+- **CLS** < 0.02
+
+## What Actually Moved the Needle
+
+1. **Route-level lazy loading** with \`React.lazy\` + \`Suspense\`, plus a custom \`LazySection\` that mounts on \`IntersectionObserver\`.
+2. **framer-motion, on a diet.** Import only the primitives you use, and gate reveals behind \`prefers-reduced-motion\`.
+3. **Real image budgets.** Every hero/OG image passes through width caps and modern formats — no 2MB Unsplash originals.
+4. **Fonts:** one display + one body, \`font-display: swap\`, self-hosted where possible.
+
+## The Honest Tradeoffs
+
+Glassmorphism and blur filters are expensive on low-end Android. I kept them, but only above a device-memory threshold. Pretty is a feature; janky is not.
+
+## Measure or It Didn't Happen
+
+Lighthouse CI on every PR, plus a small script that fails the build if the JS bundle grows more than 5% week over week.
+    `,
+  },
+  {
+    slug: "llm-eval-harness-2026",
+    title: "Building an Eval Harness You'll Actually Use",
+    excerpt: "Most LLM eval setups die after two weeks. Here's the minimal, boring harness that survived six months of shipping.",
+    date: "Jun 10, 2026",
+    readTime: "8 min read",
+    category: "Machine Learning",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+    content: `
+## The Problem
+
+Fancy eval frameworks look great in a README and rot in a repo. The ones that survive are dumb, fast, and versioned next to the code they test.
+
+## The Minimum Viable Harness
+
+- **Golden set** as a JSON file in the repo (start with 30 examples, grow to 300).
+- **Runner** — a single script that loads the set, calls the pipeline, and writes a timestamped report.
+- **Judge** — LLM-as-judge with a rubric under 10 lines; log the rubric version in every report.
+- **Diff view** — HTML report showing regressions vs the last main-branch run.
+
+## Wiring It Into CI
+
+Run the harness on every PR that touches prompts, retrieval, or model config. Block merge on regressions above a threshold; auto-post the diff as a PR comment.
+
+## What to Measure
+
+Groundedness, task success, and cost per task. Skip the vanity metrics — nobody ships on BLEU anymore.
+
+## Six-Month Verdict
+
+The harness caught 4 prompt regressions and 2 retrieval bugs that would have shipped. Total build cost: one weekend. Best ROI in the codebase.
+    `,
+  },
     slug: "newsverify-multimodal-fake-news-2026",
     title: "Inside NewsVerify: Shipping a Multimodal Fake-News Detector with PAC + Gemini 2.5 Flash",
     excerpt: "How our Tech Titans team designed a dual-engine system pairing a 96%-accurate Passive Aggressive Classifier with Gemini 2.5 Flash live search grounding across text, URL, and image inputs.",
