@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Code, Shield, Brain, Database, Cloud, Cpu } from "lucide-react";
+import { Code, Shield, Brain, Database, Cloud } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
