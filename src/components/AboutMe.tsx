@@ -48,7 +48,7 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Interests</h3>
               </div>
               <ul className="space-y-3 text-muted-foreground text-sm">
-                {["Cybersecurity & Ethical Hacking", "Machine Learning & AI", "Generative Models & Stable Diffusion", "Blockchain & Data Governance", "Gaming (BGMI)", "Tech Innovations"].map((item) => (
+                {["Cybersecurity & Ethical Hacking", "Machine Learning & AI", "Generative Models & Stable Diffusion", "Data Governance", "Gaming (BGMI)", "Cricket — playing & watching IPL, BGT, International Cricket (Team India fan)", "Tech Innovations"].map((item) => (
                   <li key={item} className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                     {item}
