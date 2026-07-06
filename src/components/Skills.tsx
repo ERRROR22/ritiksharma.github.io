@@ -1,17 +1,23 @@
 import { motion } from "framer-motion";
-import { Code, Shield, Brain, Database, Cloud, Cpu } from "lucide-react";
+import { Code, Shield, Brain, Database, Cloud } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
 const skillCategories = [
   {
-    title: "Programming Languages",
+    title: "Frontend",
     icon: Code,
     color: "primary",
-    skills: ["Python", "C++", "Java", "JavaScript", "TypeScript", "SQL", "Bash"],
+    skills: ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"],
   },
   {
-    title: "Machine Learning & AI",
+    title: "Backend",
+    icon: Database,
+    color: "project",
+    skills: ["Node.js", "Express", "Flask", "FastAPI", "REST APIs", "Python"],
+  },
+  {
+    title: "AI/ML & Tools",
     icon: Brain,
     color: "experience",
     skills: [
@@ -27,28 +33,15 @@ const skillCategories = [
       "LLM Fine-tuning",
       "Prompt Engineering",
       "MCP (Model Context Protocol)",
+      "NumPy",
+      "Pandas",
+      "Matplotlib",
+      "Seaborn",
+      "Plotly",
+      "Statistical Modeling",
+      "Feature Engineering",
+      "A/B Testing",
     ],
-  },
-  {
-    title: "Web & Backend",
-    icon: Database,
-    color: "project",
-    skills: [
-      "Flask",
-      "FastAPI",
-      "Node.js",
-      "Express",
-      "React",
-      "Next.js",
-      "Tailwind CSS",
-      "REST APIs",
-    ],
-  },
-  {
-    title: "Databases & Storage",
-    icon: Database,
-    color: "primary",
-    skills: ["MySQL", "PostgreSQL", "MongoDB", "Supabase", "Vector DBs (Pinecone, FAISS)"],
   },
   {
     title: "Cybersecurity",
@@ -68,39 +61,16 @@ const skillCategories = [
     ],
   },
   {
-    title: "Data Science & Analytics",
-    icon: Cpu,
-    color: "experience",
-    skills: [
-      "NumPy",
-      "Pandas",
-      "Matplotlib",
-      "Seaborn",
-      "Plotly",
-      "Statistical Modeling",
-      "Feature Engineering",
-      "A/B Testing",
-    ],
+    title: "Databases & Storage",
+    icon: Database,
+    color: "primary",
+    skills: ["MySQL", "PostgreSQL", "MongoDB", "Supabase", "Vector DBs (Pinecone, FAISS)"],
   },
   {
     title: "Cloud & DevOps",
     icon: Cloud,
     color: "project",
     skills: ["AWS", "GCP", "Docker", "Kubernetes", "CI/CD (GitHub Actions)", "Git", "Linux"],
-  },
-  {
-    title: "Specializations",
-    icon: Cloud,
-    color: "skill",
-    skills: [
-      "Deep Learning",
-      "Generative AI",
-      "Computer Vision",
-      "NLP",
-      "Cloud Security",
-      "MLOps",
-      "Agentic AI",
-    ],
   },
 ];
 
