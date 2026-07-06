@@ -48,12 +48,39 @@ const AboutMe = () => {
                 <h3 className="text-xl font-bold">Interests</h3>
               </div>
               <ul className="space-y-3 text-muted-foreground text-sm">
-                {["Cybersecurity & Ethical Hacking", "Machine Learning & AI", "Generative Models & Stable Diffusion", "Data Governance", "Gaming (BGMI)", "Cricket — playing & watching IPL, BGT, International Cricket (Team India fan)", "Tech Innovations"].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    {item}
-                  </li>
-                ))}
+                {[
+                  "Cybersecurity & Ethical Hacking",
+                  "Machine Learning & AI",
+                  "Generative Models & Stable Diffusion",
+                  "Data Governance",
+                  "Gaming (BGMI)",
+                  { label: "Cricket — playing & watching", tags: ["IPL", "BGT", "International Cricket", "Team India fan"] },
+                  "Tech Innovations",
+                ].map((item) =>
+                  typeof item === "string" ? (
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ) : (
+                    <li key={item.label} className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+                      <div>
+                        <span className="block">{item.label}</span>
+                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                          {item.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2 py-0.5 text-xs rounded-md bg-primary/10 text-primary/90 border border-primary/20"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </li>
+                  )
+                )}
               </ul>
             </div>
           </ScrollReveal>
