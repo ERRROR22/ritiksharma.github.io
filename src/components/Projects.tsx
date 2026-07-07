@@ -22,6 +22,7 @@ const projects = [
     color: "experience",
     year: "2025",
     highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
+    githubLink: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
   },
   {
     title: "Text-to-Image Generator with Stable Diffusion",
