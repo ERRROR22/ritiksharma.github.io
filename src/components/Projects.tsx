@@ -16,6 +16,7 @@ const projects = [
     year: "2026",
     highlights: ["~96% accuracy · F1 96.0 on 6K test set", "Gemini 2.5 Flash + live Search grounding", "Text · URL · Image (OCR) input modes", "Phase-I → Phase-II real-time upgrade"],
     appLink: "https://truth-verifier--Techtitans999.replit.app",
+    category: "Full-Stack",
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
@@ -26,7 +27,9 @@ const projects = [
     year: "2025",
     highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
     githubLink: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
+    category: "Cybersecurity",
   },
+
   {
     title: "Text-to-Image Generator with Stable Diffusion",
     description: "Production-ready generative AI application leveraging Stable Diffusion v1.5 for text-to-image synthesis. Built a scalable Flask API with an asynchronous 4-worker queue, sustaining 100+ requests/hour at 2s average latency. Fine-tuned on a 2,000-image domain dataset with LoRA-based prompt calibration to lift output visual fidelity by 20%.",
