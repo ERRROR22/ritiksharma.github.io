@@ -1,7 +1,10 @@
-import { motion } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github } from "lucide-react";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github, Search } from "lucide-react";
+import { Input } from "./ui/input";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
+
 
 const projects = [
   {
@@ -13,6 +16,7 @@ const projects = [
     year: "2026",
     highlights: ["~96% accuracy · F1 96.0 on 6K test set", "Gemini 2.5 Flash + live Search grounding", "Text · URL · Image (OCR) input modes", "Phase-I → Phase-II real-time upgrade"],
     appLink: "https://truth-verifier--Techtitans999.replit.app",
+    category: "Full-Stack",
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
@@ -23,7 +27,9 @@ const projects = [
     year: "2025",
     highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
     githubLink: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
+    category: "Cybersecurity",
   },
+
   {
     title: "Text-to-Image Generator with Stable Diffusion",
     description: "Production-ready generative AI application leveraging Stable Diffusion v1.5 for text-to-image synthesis. Built a scalable Flask API with an asynchronous 4-worker queue, sustaining 100+ requests/hour at 2s average latency. Fine-tuned on a 2,000-image domain dataset with LoRA-based prompt calibration to lift output visual fidelity by 20%.",
@@ -33,6 +39,7 @@ const projects = [
     year: "2024",
     highlights: ["100+ requests/hour", "2s avg latency", "+20% visual fidelity"],
     githubLink: "https://github.com/ERRROR22/ML_Minor_Project",
+    category: "AI/ML",
   },
   {
     title: "IPL Score Prediction System",
@@ -43,6 +50,7 @@ const projects = [
     year: "2024",
     highlights: ["85% prediction accuracy", "18 engineered features", "Weekly auto-retraining"],
     githubLink: "https://github.com/ERRROR22/IPL-Score-Prediction-ML-Project",
+    category: "AI/ML",
   },
   {
     title: "Secure Web-Based E-Voting Platform",
@@ -52,8 +60,12 @@ const projects = [
     color: "primary",
     year: "2023",
     highlights: ["AES-256 + OAuth 2.0", "3-tier RBAC", "Zero OWASP Top 10"],
+    category: "Cybersecurity",
   },
 ];
+
+const categories = ["All", "AI/ML", "Cybersecurity", "Full-Stack"];
+
 
 const Projects = () => {
   const getColorClass = (color: string) => {
@@ -86,6 +98,27 @@ const Projects = () => {
     return colors[color] || colors.primary;
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredProjects = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return projects.filter((project) => {
+      const matchesCategory = activeCategory === "All" || project.category === activeCategory;
+      if (!matchesCategory) return false;
+      if (!query) return true;
+      const searchable = [
+        project.title,
+        project.description,
+        project.year,
+        project.category,
+        ...project.tech,
+        ...project.highlights,
+      ].join(" ").toLowerCase();
+      return searchable.includes(query);
+    });
+  }, [searchQuery, activeCategory]);
+
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
       {/* Background */}
@@ -105,95 +138,154 @@ const Projects = () => {
           </p>
         </ScrollReveal>
 
+        {/* Search & filters */}
+        <ScrollReveal className="mb-10" scale>
+          <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between max-w-5xl mx-auto">
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+              <Input
+                type="text"
+                placeholder="Search projects..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 h-11 glass glass-border bg-transparent text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/50 focus-visible:ring-offset-0"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
+              {categories.map((category) => {
+                const isActive = activeCategory === category;
+                return (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    role="tab"
+                    aria-selected={isActive}
+                    className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                    isActive
+                        ? "bg-primary text-primary-foreground glow-primary"
+                        : "glass glass-border text-muted-foreground hover:text-foreground hover:border-primary/40"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </ScrollReveal>
+
         {/* Projects grid */}
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto" staggerDelay={0.15}>
-          {projects.map((project) => {
-            const colorClasses = getColorClass(project.color);
+        <AnimatePresence mode="wait">
+          {filteredProjects.length > 0 ? (
+            <StaggerContainer
+              key={`${activeCategory}-${searchQuery}`}
+              className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+              staggerDelay={0.15}
+            >
+              {filteredProjects.map((project) => {
+                const colorClasses = getColorClass(project.color);
 
-            return (
-              <StaggerItem key={project.title}>
-                <motion.div
-                  className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full`}
-                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <motion.div 
-                      className={`p-3 rounded-xl ${colorClasses.bg}`}
-                      whileHover={{ scale: 1.1, rotate: 10 }}
-                      transition={{ type: "spring", stiffness: 400 }}
+                return (
+                  <StaggerItem key={project.title}>
+                    <motion.div
+                      className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full`}
+                      whileHover={{ y: -8, transition: { duration: 0.3 } }}
                     >
-                      <project.icon className={`w-6 h-6 ${colorClasses.text}`} />
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <motion.div 
+                          className={`p-3 rounded-xl ${colorClasses.bg}`}
+                          whileHover={{ scale: 1.1, rotate: 10 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <project.icon className={`w-6 h-6 ${colorClasses.text}`} />
+                        </motion.div>
+                        <span className="text-sm font-mono text-muted-foreground">{project.year}</span>
+                      </div>
+
+                      {/* Title & Description */}
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      {/* Highlights */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {project.highlights.map((highlight, index) => (
+                          <motion.span
+                            key={highlight}
+                            className={`px-2 py-1 text-xs font-medium rounded-md ${colorClasses.bg} ${colorClasses.text}`}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                          >
+                            {highlight}
+                          </motion.span>
+                        ))}
+                      </div>
+
+                      {/* Tech stack */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-2 py-1 text-xs font-mono text-muted-foreground bg-secondary/50 rounded-md"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Links */}
+                      <div className="flex flex-wrap items-center gap-4">
+                        {project.appLink && (
+                          <a
+                            href={project.appLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Open App (Expo Go)
+                          </a>
+                        )}
+                        {project.githubLink && (
+                          <a
+                            href={project.githubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          >
+                            <Github className="w-4 h-4" />
+                            View Code
+                          </a>
+                        )}
+                      </div>
                     </motion.div>
-                    <span className="text-sm font-mono text-muted-foreground">{project.year}</span>
-                  </div>
+                  </StaggerItem>
+                );
+              })}
+            </StaggerContainer>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-center py-20 max-w-5xl mx-auto glass glass-border rounded-2xl"
+            >
+              <p className="text-muted-foreground text-lg mb-2">No projects found</p>
+              <p className="text-sm text-muted-foreground/70">
+                Try a different search term or category filter.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-                  {/* Title & Description */}
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                    {project.description}
-                  </p>
-
-                  {/* Highlights */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {project.highlights.map((highlight, index) => (
-                      <motion.span
-                        key={highlight}
-                        className={`px-2 py-1 text-xs font-medium rounded-md ${colorClasses.bg} ${colorClasses.text}`}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        {highlight}
-                      </motion.span>
-                    ))}
-                  </div>
-
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 text-xs font-mono text-muted-foreground bg-secondary/50 rounded-md"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex flex-wrap items-center gap-4">
-                    {project.appLink && (
-                      <a
-                        href={project.appLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Open App (Expo Go)
-                      </a>
-                    )}
-                    {project.githubLink && (
-                      <a
-                        href={project.githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                      >
-                        <Github className="w-4 h-4" />
-                        View Code
-                      </a>
-                    )}
-                  </div>
-                </motion.div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
       </div>
     </section>
   );
