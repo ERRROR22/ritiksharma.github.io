@@ -47,7 +47,7 @@ const AboutMe = () => {
                 </div>
                 <h3 className="text-xl font-bold">Interests</h3>
               </div>
-              <ul className="space-y-3 text-muted-foreground text-sm">
+              <ul className="space-y-3 sm:space-y-4 text-muted-foreground text-sm">
                 {[
                   "Cybersecurity & Ethical Hacking",
                   "Machine Learning & AI",
@@ -59,19 +59,19 @@ const AboutMe = () => {
                 ].map((item) =>
                   typeof item === "string" ? (
                     <li key={item} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {item}
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                      <span className="leading-snug">{item}</span>
                     </li>
                   ) : (
                     <li key={item.label} className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
-                      <div>
-                        <span className="block">{item.label}</span>
-                        <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 sm:mt-2 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <span className="block leading-snug">{item.label}</span>
+                        <div className="flex flex-wrap gap-1 sm:gap-1.5 mt-1.5">
                           {item.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="px-2 py-0.5 text-xs rounded-md bg-primary/10 text-primary/90 border border-primary/20"
+                              className="px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs rounded-md bg-primary/10 text-primary/90 border border-primary/20 leading-tight"
                             >
                               {tag}
                             </span>
