@@ -32,6 +32,7 @@ const projects = [
     color: "project",
     year: "2024",
     highlights: ["100+ requests/hour", "2s avg latency", "+20% visual fidelity"],
+    githubLink: "https://github.com/ERRROR22/ML_Minor_Project",
   },
   {
     title: "IPL Score Prediction System",
