@@ -162,8 +162,8 @@ const Projects = () => {
                     role="tab"
                     aria-selected={isActive}
                     className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                      isActive
-                        ? "bg-primary text-primary-foreground shadow-glow"
+                    isActive
+                        ? "bg-primary text-primary-foreground glow-primary"
                         : "glass glass-border text-muted-foreground hover:text-foreground hover:border-primary/40"
                     }`}
                   >
