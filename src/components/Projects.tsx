@@ -39,6 +39,7 @@ const projects = [
     year: "2024",
     highlights: ["100+ requests/hour", "2s avg latency", "+20% visual fidelity"],
     githubLink: "https://github.com/ERRROR22/ML_Minor_Project",
+    category: "AI/ML",
   },
   {
     title: "IPL Score Prediction System",
@@ -49,6 +50,7 @@ const projects = [
     year: "2024",
     highlights: ["85% prediction accuracy", "18 engineered features", "Weekly auto-retraining"],
     githubLink: "https://github.com/ERRROR22/IPL-Score-Prediction-ML-Project",
+    category: "AI/ML",
   },
   {
     title: "Secure Web-Based E-Voting Platform",
@@ -58,8 +60,12 @@ const projects = [
     color: "primary",
     year: "2023",
     highlights: ["AES-256 + OAuth 2.0", "3-tier RBAC", "Zero OWASP Top 10"],
+    category: "Cybersecurity",
   },
 ];
+
+const categories = ["All", "AI/ML", "Cybersecurity", "Full-Stack"];
+
 
 const Projects = () => {
   const getColorClass = (color: string) => {
