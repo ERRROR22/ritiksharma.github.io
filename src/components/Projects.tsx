@@ -42,6 +42,7 @@ const projects = [
     color: "skill",
     year: "2024",
     highlights: ["85% prediction accuracy", "18 engineered features", "Weekly auto-retraining"],
+    githubLink: "https://github.com/ERRROR22/IPL-Score-Prediction-ML-Project",
   },
   {
     title: "Secure Web-Based E-Voting Platform",
