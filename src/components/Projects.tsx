@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink } from "lucide-react";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
@@ -22,6 +22,7 @@ const projects = [
     color: "experience",
     year: "2025",
     highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
+    githubLink: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
   },
   {
     title: "Text-to-Image Generator with Stable Diffusion",
@@ -161,18 +162,31 @@ const Projects = () => {
                     ))}
                   </div>
 
-                  {/* App Link */}
-                  {project.appLink && (
-                    <a
-                      href={project.appLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Open App (Expo Go)
-                    </a>
-                  )}
+                  {/* Links */}
+                  <div className="flex flex-wrap items-center gap-4">
+                    {project.appLink && (
+                      <a
+                        href={project.appLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Open App (Expo Go)
+                      </a>
+                    )}
+                    {project.githubLink && (
+                      <a
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <Github className="w-4 h-4" />
+                        View Code
+                      </a>
+                    )}
+                  </div>
                 </motion.div>
               </StaggerItem>
             );
