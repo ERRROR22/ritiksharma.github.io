@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink } from "lucide-react";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github } from "lucide-react";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
 
