@@ -1,7 +1,10 @@
-import { motion } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github } from "lucide-react";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github, Search } from "lucide-react";
+import { Input } from "./ui/input";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
+
 
 const projects = [
   {
