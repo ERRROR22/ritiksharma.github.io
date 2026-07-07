@@ -176,95 +176,116 @@ const Projects = () => {
         </ScrollReveal>
 
         {/* Projects grid */}
+        <AnimatePresence mode="wait">
+          {filteredProjects.length > 0 ? (
+            <StaggerContainer
+              key={`${activeCategory}-${searchQuery}`}
+              className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+              staggerDelay={0.15}
+            >
+              {filteredProjects.map((project) => {
+                const colorClasses = getColorClass(project.color);
 
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto" staggerDelay={0.15}>
-          {projects.map((project) => {
-            const colorClasses = getColorClass(project.color);
-
-            return (
-              <StaggerItem key={project.title}>
-                <motion.div
-                  className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full`}
-                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <motion.div 
-                      className={`p-3 rounded-xl ${colorClasses.bg}`}
-                      whileHover={{ scale: 1.1, rotate: 10 }}
-                      transition={{ type: "spring", stiffness: 400 }}
+                return (
+                  <StaggerItem key={project.title}>
+                    <motion.div
+                      className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full`}
+                      whileHover={{ y: -8, transition: { duration: 0.3 } }}
                     >
-                      <project.icon className={`w-6 h-6 ${colorClasses.text}`} />
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <motion.div 
+                          className={`p-3 rounded-xl ${colorClasses.bg}`}
+                          whileHover={{ scale: 1.1, rotate: 10 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <project.icon className={`w-6 h-6 ${colorClasses.text}`} />
+                        </motion.div>
+                        <span className="text-sm font-mono text-muted-foreground">{project.year}</span>
+                      </div>
+
+                      {/* Title & Description */}
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      {/* Highlights */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {project.highlights.map((highlight, index) => (
+                          <motion.span
+                            key={highlight}
+                            className={`px-2 py-1 text-xs font-medium rounded-md ${colorClasses.bg} ${colorClasses.text}`}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                          >
+                            {highlight}
+                          </motion.span>
+                        ))}
+                      </div>
+
+                      {/* Tech stack */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-2 py-1 text-xs font-mono text-muted-foreground bg-secondary/50 rounded-md"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Links */}
+                      <div className="flex flex-wrap items-center gap-4">
+                        {project.appLink && (
+                          <a
+                            href={project.appLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Open App (Expo Go)
+                          </a>
+                        )}
+                        {project.githubLink && (
+                          <a
+                            href={project.githubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          >
+                            <Github className="w-4 h-4" />
+                            View Code
+                          </a>
+                        )}
+                      </div>
                     </motion.div>
-                    <span className="text-sm font-mono text-muted-foreground">{project.year}</span>
-                  </div>
+                  </StaggerItem>
+                );
+              })}
+            </StaggerContainer>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-center py-20 max-w-5xl mx-auto glass glass-border rounded-2xl"
+            >
+              <p className="text-muted-foreground text-lg mb-2">No projects found</p>
+              <p className="text-sm text-muted-foreground/70">
+                Try a different search term or category filter.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-                  {/* Title & Description */}
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                    {project.description}
-                  </p>
-
-                  {/* Highlights */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {project.highlights.map((highlight, index) => (
-                      <motion.span
-                        key={highlight}
-                        className={`px-2 py-1 text-xs font-medium rounded-md ${colorClasses.bg} ${colorClasses.text}`}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        {highlight}
-                      </motion.span>
-                    ))}
-                  </div>
-
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 text-xs font-mono text-muted-foreground bg-secondary/50 rounded-md"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex flex-wrap items-center gap-4">
-                    {project.appLink && (
-                      <a
-                        href={project.appLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Open App (Expo Go)
-                      </a>
-                    )}
-                    {project.githubLink && (
-                      <a
-                        href={project.githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                      >
-                        <Github className="w-4 h-4" />
-                        View Code
-                      </a>
-                    )}
-                  </div>
-                </motion.div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
       </div>
     </section>
   );
