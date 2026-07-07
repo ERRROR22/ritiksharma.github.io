@@ -98,6 +98,27 @@ const Projects = () => {
     return colors[color] || colors.primary;
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredProjects = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return projects.filter((project) => {
+      const matchesCategory = activeCategory === "All" || project.category === activeCategory;
+      if (!matchesCategory) return false;
+      if (!query) return true;
+      const searchable = [
+        project.title,
+        project.description,
+        project.year,
+        project.category,
+        ...project.tech,
+        ...project.highlights,
+      ].join(" ").toLowerCase();
+      return searchable.includes(query);
+    });
+  }, [searchQuery, activeCategory]);
+
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
       {/* Background */}
@@ -117,7 +138,45 @@ const Projects = () => {
           </p>
         </ScrollReveal>
 
+        {/* Search & filters */}
+        <ScrollReveal className="mb-10" scale>
+          <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between max-w-5xl mx-auto">
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+              <Input
+                type="text"
+                placeholder="Search projects..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 h-11 glass glass-border bg-transparent text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/50 focus-visible:ring-offset-0"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
+              {categories.map((category) => {
+                const isActive = activeCategory === category;
+                return (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    role="tab"
+                    aria-selected={isActive}
+                    className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                      isActive
+                        ? "bg-primary text-primary-foreground shadow-glow"
+                        : "glass glass-border text-muted-foreground hover:text-foreground hover:border-primary/40"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </ScrollReveal>
+
         {/* Projects grid */}
+
         <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto" staggerDelay={0.15}>
           {projects.map((project) => {
             const colorClasses = getColorClass(project.color);
