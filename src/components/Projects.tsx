@@ -1,10 +1,18 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github, Search } from "lucide-react";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github, Search, Eye } from "lucide-react";
 import { Input } from "./ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
+import { ScrollArea } from "./ui/scroll-area";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./ui/carousel";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
-
 
 const projects = [
   {
@@ -17,6 +25,7 @@ const projects = [
     highlights: ["~96% accuracy · F1 96.0 on 6K test set", "Gemini 2.5 Flash + live Search grounding", "Text · URL · Image (OCR) input modes", "Phase-I → Phase-II real-time upgrade"],
     appLink: "https://truth-verifier--Techtitans999.replit.app",
     category: "Full-Stack",
+    screenshots: ["placeholder.svg", "placeholder.svg", "placeholder.svg"],
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
@@ -28,8 +37,8 @@ const projects = [
     highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
     githubLink: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
     category: "Cybersecurity",
+    screenshots: ["placeholder.svg", "placeholder.svg"],
   },
-
   {
     title: "Text-to-Image Generator with Stable Diffusion",
     description: "Production-ready generative AI application leveraging Stable Diffusion v1.5 for text-to-image synthesis. Built a scalable Flask API with an asynchronous 4-worker queue, sustaining 100+ requests/hour at 2s average latency. Fine-tuned on a 2,000-image domain dataset with LoRA-based prompt calibration to lift output visual fidelity by 20%.",
@@ -40,6 +49,7 @@ const projects = [
     highlights: ["100+ requests/hour", "2s avg latency", "+20% visual fidelity"],
     githubLink: "https://github.com/ERRROR22/ML_Minor_Project",
     category: "AI/ML",
+    screenshots: ["placeholder.svg", "placeholder.svg"],
   },
   {
     title: "IPL Score Prediction System",
@@ -51,6 +61,7 @@ const projects = [
     highlights: ["85% prediction accuracy", "18 engineered features", "Weekly auto-retraining"],
     githubLink: "https://github.com/ERRROR22/IPL-Score-Prediction-ML-Project",
     category: "AI/ML",
+    screenshots: ["placeholder.svg", "placeholder.svg"],
   },
   {
     title: "Secure Web-Based E-Voting Platform",
@@ -61,11 +72,11 @@ const projects = [
     year: "2023",
     highlights: ["AES-256 + OAuth 2.0", "3-tier RBAC", "Zero OWASP Top 10"],
     category: "Cybersecurity",
+    screenshots: ["placeholder.svg", "placeholder.svg"],
   },
 ];
 
 const categories = ["All", "AI/ML", "Cybersecurity", "Full-Stack"];
-
 
 const Projects = () => {
   const getColorClass = (color: string) => {
@@ -100,6 +111,7 @@ const Projects = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -189,12 +201,12 @@ const Projects = () => {
                 return (
                   <StaggerItem key={project.title}>
                     <motion.div
-                      className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full`}
+                      className={`group p-6 glass rounded-2xl border ${colorClasses.border} ${colorClasses.glow} transition-all duration-500 h-full flex flex-col`}
                       whileHover={{ y: -8, transition: { duration: 0.3 } }}
                     >
                       {/* Header */}
                       <div className="flex items-start justify-between mb-4">
-                        <motion.div 
+                        <motion.div
                           className={`p-3 rounded-xl ${colorClasses.bg}`}
                           whileHover={{ scale: 1.1, rotate: 10 }}
                           transition={{ type: "spring", stiffness: 400 }}
@@ -240,8 +252,8 @@ const Projects = () => {
                         ))}
                       </div>
 
-                      {/* Links */}
-                      <div className="flex flex-wrap items-center gap-4">
+                      {/* Links & detail trigger */}
+                      <div className="flex flex-wrap items-center gap-4 mt-auto">
                         {project.appLink && (
                           <a
                             href={project.appLink}
@@ -264,6 +276,13 @@ const Projects = () => {
                             View Code
                           </a>
                         )}
+                        <button
+                          onClick={() => setSelectedProject(project)}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          <Eye className="w-4 h-4" />
+                          View Details
+                        </button>
                       </div>
                     </motion.div>
                   </StaggerItem>
@@ -285,8 +304,130 @@ const Projects = () => {
             </motion.div>
           )}
         </AnimatePresence>
-
       </div>
+
+      {/* Project Detail Modal */}
+      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <DialogContent className="max-w-3xl max-h-[90vh] p-0 glass border-border/50 overflow-hidden">
+          {selectedProject && (
+            <>
+              <ScrollArea className="max-h-[90vh]">
+                <div className="p-6">
+                  <DialogHeader className="mb-6 pr-10">
+                    <div className="flex items-start gap-3 mb-2">
+                      <div className={`p-3 rounded-xl shrink-0 ${getColorClass(selectedProject.color).bg}`}>
+                        <selectedProject.icon className={`w-7 h-7 ${getColorClass(selectedProject.color).text}`} />
+                      </div>
+                      <div className="text-left min-w-0">
+                        <DialogTitle className="text-xl md:text-2xl leading-tight">
+                          {selectedProject.title}
+                        </DialogTitle>
+                        <DialogDescription className="text-sm font-mono mt-1">
+                          {selectedProject.year} · {selectedProject.category}
+                        </DialogDescription>
+                      </div>
+                    </div>
+                  </DialogHeader>
+
+                  {/* Screenshots carousel */}
+                  {selectedProject.screenshots && selectedProject.screenshots.length > 0 && (
+                    <div className="mb-6">
+                      <Carousel className="w-full">
+                        <CarouselContent>
+                          {selectedProject.screenshots.map((screenshot, index) => (
+                            <CarouselItem key={index}>
+                              <div className="relative aspect-video rounded-xl overflow-hidden border border-border/50 bg-secondary/30">
+                                <img
+                                  src={screenshot}
+                                  alt={`${selectedProject.title} screenshot ${index + 1}`}
+                                  className="w-full h-full object-cover"
+                                  loading="lazy"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <CarouselPrevious className="left-2 bg-background/80 hover:bg-background border-border/50" />
+                        <CarouselNext className="right-2 bg-background/80 hover:bg-background border-border/50" />
+                      </Carousel>
+                    </div>
+                  )}
+
+                  {/* Description */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                      About
+                    </h4>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {selectedProject.description}
+                    </p>
+                  </div>
+
+                  {/* Highlights */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                      Highlights
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.highlights.map((highlight) => (
+                        <span
+                          key={highlight}
+                          className={`px-3 py-1 text-sm font-medium rounded-md ${getColorClass(selectedProject.color).bg} ${getColorClass(selectedProject.color).text}`}
+                        >
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tech stack */}
+                  <div className="mb-8">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                      Tech Stack
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 text-sm font-mono text-muted-foreground bg-secondary/50 rounded-md"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action links */}
+                  <div className="flex flex-wrap items-center gap-4">
+                    {selectedProject.appLink && (
+                      <a
+                        href={selectedProject.appLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Open App
+                      </a>
+                    )}
+                    {selectedProject.githubLink && (
+                      <a
+                        href={selectedProject.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium glass glass-border rounded-lg hover:border-primary/40 transition-colors"
+                      >
+                        <Github className="w-4 h-4" />
+                        View Repository
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </ScrollArea>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
