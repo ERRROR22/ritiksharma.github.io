@@ -313,12 +313,12 @@ const Projects = () => {
             <>
               <ScrollArea className="max-h-[90vh]">
                 <div className="p-6">
-                  <DialogHeader className="mb-6">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className={`p-3 rounded-xl ${getColorClass(selectedProject.color).bg}`}>
+                  <DialogHeader className="mb-6 pr-10">
+                    <div className="flex items-start gap-3 mb-2">
+                      <div className={`p-3 rounded-xl shrink-0 ${getColorClass(selectedProject.color).bg}`}>
                         <selectedProject.icon className={`w-7 h-7 ${getColorClass(selectedProject.color).text}`} />
                       </div>
-                      <div className="text-left">
+                      <div className="text-left min-w-0">
                         <DialogTitle className="text-xl md:text-2xl leading-tight">
                           {selectedProject.title}
                         </DialogTitle>
