@@ -31,7 +31,7 @@ const projects = [
     highlights: ["~96% accuracy · F1 96.0 on 6K test set", "Gemini 2.5 Flash + live Search grounding", "Text · URL · Image (OCR) input modes", "Phase-I → Phase-II real-time upgrade"],
     appLink: "https://truth-verifier--Techtitans999.replit.app",
     category: "Full-Stack",
-    screenshots: ["placeholder.svg", "placeholder.svg", "placeholder.svg"],
+    screenshots: [newsverify1, newsverify2],
   },
   {
     title: "WAFinity - Advanced Web Application Firewall",
@@ -43,7 +43,7 @@ const projects = [
     highlights: ["50K-sample RF classifier", "Zero-day detection", "No-redeploy rule updates"],
     githubLink: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
     category: "Cybersecurity",
-    screenshots: ["placeholder.svg", "placeholder.svg"],
+    screenshots: [wafinityImg],
   },
   {
     title: "Text-to-Image Generator with Stable Diffusion",
@@ -55,7 +55,7 @@ const projects = [
     highlights: ["100+ requests/hour", "2s avg latency", "+20% visual fidelity"],
     githubLink: "https://github.com/ERRROR22/ML_Minor_Project",
     category: "AI/ML",
-    screenshots: ["placeholder.svg", "placeholder.svg"],
+    screenshots: [textToImageImg],
   },
   {
     title: "IPL Score Prediction System",
@@ -67,7 +67,7 @@ const projects = [
     highlights: ["85% prediction accuracy", "18 engineered features", "Weekly auto-retraining"],
     githubLink: "https://github.com/ERRROR22/IPL-Score-Prediction-ML-Project",
     category: "AI/ML",
-    screenshots: ["placeholder.svg", "placeholder.svg"],
+    screenshots: [iplScoreImg],
   },
   {
     title: "Secure Web-Based E-Voting Platform",
@@ -78,7 +78,7 @@ const projects = [
     year: "2023",
     highlights: ["AES-256 + OAuth 2.0", "3-tier RBAC", "Zero OWASP Top 10"],
     category: "Cybersecurity",
-    screenshots: ["placeholder.svg", "placeholder.svg"],
+    screenshots: [eVotingImg],
   },
 ];
 
