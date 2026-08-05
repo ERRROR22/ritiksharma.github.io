@@ -238,7 +238,7 @@ const Projects = () => {
                         ))}
                       </div>
 
-                      {/* Links & detail trigger */}
+                      {/* Links */}
                       <div className="flex flex-wrap items-center gap-4 mt-auto">
                         {project.appLink && (
                           <a
@@ -262,13 +262,6 @@ const Projects = () => {
                             View Code
                           </a>
                         )}
-                        <button
-                          onClick={() => setSelectedProject(project)}
-                          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                          <Eye className="w-4 h-4" />
-                          View Details
-                        </button>
                       </div>
                     </motion.div>
                   </StaggerItem>
