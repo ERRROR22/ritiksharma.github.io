@@ -13,6 +13,12 @@ import {
 } from "./ui/carousel";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
+import newsverify1 from "@/assets/projects/newsverify-1.jpg";
+import newsverify2 from "@/assets/projects/newsverify-2.jpg";
+import wafinityImg from "@/assets/projects/wafinity.jpg";
+import textToImageImg from "@/assets/projects/text-to-image.jpg";
+import iplScoreImg from "@/assets/projects/ipl-score.jpg";
+import eVotingImg from "@/assets/projects/e-voting.jpg";
 
 const projects = [
   {
