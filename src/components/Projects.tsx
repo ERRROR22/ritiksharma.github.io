@@ -97,7 +97,7 @@ const Projects = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
