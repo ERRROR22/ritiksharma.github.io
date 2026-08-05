@@ -12,6 +12,121 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "capstone-to-production-newsverify-2026",
+    title: "From Capstone to Production: Scaling NewsVerify Beyond Graduation",
+    excerpt: "Reflections on turning a final-year fake-news detector into a production-grade multimodal system — and what I learned about API design, monorepos, and shipping fast.",
+    date: "Aug 05, 2026",
+    readTime: "9 min read",
+    category: "Full-Stack",
+    color: "primary",
+    image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600&h=400&fit=crop",
+    content: `
+## The Capstone Crunch
+
+NewsVerify started as a proof-of-concept: train a Passive Aggressive Classifier, wrap it in Flask, and hope the demo works. By the final defense, it had become a real-time multimodal platform with a React Native app, Node.js/Express backend, and Gemini 2.5 Flash grounding.
+
+## What Actually Mattered
+
+1. **Typed contracts first.** Zod schemas between app and backend caught 80% of integration bugs before we saw them.
+2. **Health checks are non-negotiable.** Replit Cloud's deployment stayed reliable because the /health endpoint was tested first.
+3. **Monorepos save sanity.** pnpm workspaces kept the shared types and CI in one place.
+4. **Multimodal is harder than it looks.** OCR, URL fetching, and text each need separate validation paths.
+
+## What's Next
+
+Browser extension, multi-language support, and a public API for fact-checkers. The capstone ended, but the product didn't.
+    `,
+  },
+  {
+    slug: "waf-lessons-llm-attack-era-2026",
+    title: "What I Learned Shipping a WAF in the LLM-Generated Attack Era",
+    excerpt: "WAFinity was built for SQLi and XSS. In 2026, attackers are using LLMs to mutate payloads. Here's how the defense evolved.",
+    date: "Aug 01, 2026",
+    readTime: "8 min read",
+    category: "Cybersecurity",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop",
+    content: `
+## The Old Baseline
+
+WAFinity combined signature rules with a Random Forest classifier on 50K labeled HTTP samples. It worked well against known attack patterns.
+
+## The New Threat
+
+LLMs can generate polymorphic payloads that bypass static rules. They also produce benign-looking variations that confuse purely statistical models.
+
+## Three Upgrades
+
+1. **Embedding similarity layer** — score requests by semantic overlap with known attack families.
+2. **Session behavior profile** — track path, timing, and parameter entropy per IP.
+3. **Human-in-the-loop feedback** — nightly retraining from analyst verdicts on a red-team set.
+
+## The Lesson
+
+Security is now a race between attackers with LLMs and defenders with ML. The edge belongs to the side with cleaner data and faster eval loops.
+    `,
+  },
+  {
+    slug: "new-grad-engineering-playbook-2026",
+    title: "The 2026 New-Grad Engineering Playbook",
+    excerpt: "Lessons from internships, hackathons, and shipping real projects — what I'd tell myself at the start of my B.Tech.",
+    date: "Sep 12, 2026",
+    readTime: "7 min read",
+    category: "Career",
+    color: "skill",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop",
+    content: `
+## Build the Proof, Not the Resume
+
+Recruiters skim. Portfolios and GitHub repos show. Every project should have a live link, a README, and one clear metric.
+
+## Ship in Public
+
+Write about what breaks. The articles that get the most traction are the ones where you explain a real failure and fix.
+
+## The Stack Doesn't Matter (Until It Does)
+
+Pick one stack and get deep. Then learn enough about the others to reason across the whole system.
+
+## Internships Are R&D for Your Career
+
+Use them to test what you actually enjoy — security, ML, frontend, infrastructure — before committing to a full-time role.
+
+## Final Take
+
+The best engineers I met weren't the ones who knew the most. They were the ones who shipped, debugged, and wrote about it consistently.
+    `,
+  },
+  {
+    slug: "on-device-ml-next-frontier-2026",
+    title: "On-Device ML: The Next Frontier for Privacy-First Apps",
+    excerpt: "Why quantized models running on phones and edge devices are becoming the default for sensitive AI workloads in 2026.",
+    date: "Oct 08, 2026",
+    readTime: "10 min read",
+    category: "Machine Learning",
+    color: "project",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop",
+    content: `
+## The Privacy Shift
+
+Sending every user input to a cloud model is no longer acceptable for health, finance, and personal data apps. On-device inference is the answer.
+
+## What Changed
+
+- **Quantization** (INT8, INT4) makes transformer-sized models fit on phone RAM.
+- **Mobile runtimes** like Core ML, TensorFlow Lite, and ONNX Runtime matured in 2025-2026.
+- **NPU hardware** is now standard on mid-range Android and all iPhones.
+
+## Tradeoffs
+
+On-device models are smaller, so they're less capable. The hybrid pattern is: run classification locally, send only uncertain cases to the cloud.
+
+## Where I See It Next
+
+Fake-news detection in low-connectivity regions, offline voice assistants, and edge security sensors. The model size is the only limit — and it's shrinking fast.
+    `,
+  },
+  {
     slug: "mcp-agents-in-production-2026",
     title: "Shipping MCP Agents in Production: Lessons from Mid-2026",
     excerpt: "What actually works when you take Model Context Protocol agents past the demo — tool design, sandboxing, evals, and cost guardrails from a summer of shipping.",
