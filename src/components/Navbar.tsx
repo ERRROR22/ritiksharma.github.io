@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "./ThemeSwitcher";
+import resumeAsset from "@/assets/RitikResumeUpdated.pdf.asset.json";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -63,6 +64,22 @@ const Navbar = () => {
             
             <ThemeSwitcher />
             
+            <a
+              href={resumeAsset.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-border hover:bg-secondary/50 font-semibold"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                Resume
+              </Button>
+            </a>
+            
             <Button 
               size="sm"
               onClick={() => scrollToSection("#contact")}
@@ -105,6 +122,22 @@ const Navbar = () => {
               >
                 Hire Me
               </Button>
+              <a
+                href={resumeAsset.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="w-fit"
+              >
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-border hover:bg-secondary/50 font-semibold"
+                >
+                  <FileDown className="w-4 h-4 mr-2" />
+                  Resume
+                </Button>
+              </a>
             </div>
           </div>
         )}
