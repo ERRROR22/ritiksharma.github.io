@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "./ThemeSwitcher";
+import resumeAsset from "@/assets/RitikResumeUpdated.pdf.asset.json";
 
 const navLinks = [
   { label: "About", href: "#about" },
