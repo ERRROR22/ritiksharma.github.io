@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, FileDown } from "lucide-react";
 import ritikPhoto from "@/assets/ritik-photo.png";
+import resumeAsset from "@/assets/RitikResumeUpdated.pdf.asset.json";
 
 const roles = [
   "Software Engineer",
@@ -208,6 +209,23 @@ const Hero = () => {
             >
               Get In Touch
             </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <a
+              href={resumeAsset.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-border hover:bg-secondary/50 transition-all duration-300"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                Download Resume
+              </Button>
+            </a>
           </motion.div>
         </motion.div>
 
