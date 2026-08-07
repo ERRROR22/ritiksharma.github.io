@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "./ThemeSwitcher";
-import resumeAsset from "@/assets/RitikResumeUpdated.pdf.asset.json";
+import { resumeUrl, RESUME_FILENAME } from "@/lib/resume";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -65,10 +65,10 @@ const Navbar = () => {
             <ThemeSwitcher />
             
             <a
-              href={resumeAsset.url}
+              href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              download
+              download={RESUME_FILENAME}
             >
               <Button
                 size="sm"
@@ -123,10 +123,10 @@ const Navbar = () => {
                 Hire Me
               </Button>
               <a
-                href={resumeAsset.url}
+                href={resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                download
+                download={RESUME_FILENAME}
                 className="w-fit"
               >
                 <Button
