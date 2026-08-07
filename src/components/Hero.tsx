@@ -3,7 +3,7 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail, FileDown } from "lucide-react";
 import ritikPhoto from "@/assets/ritik-photo.png";
-import resumeAsset from "@/assets/RitikResumeUpdated.pdf.asset.json";
+import { resumeUrl, RESUME_FILENAME } from "@/lib/resume";
 
 const roles = [
   "Software Engineer",
@@ -212,10 +212,10 @@ const Hero = () => {
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <a
-              href={resumeAsset.url}
+              href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              download
+              download={RESUME_FILENAME}
             >
               <Button
                 variant="outline"
