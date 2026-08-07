@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/ritiksharma.github.io/',
+  base: process.env.VITE_BASE_URL || '/ritiksharma.github.io/',
   
   server: {
     host: "::",
