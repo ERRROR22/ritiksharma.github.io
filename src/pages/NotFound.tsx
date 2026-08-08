@@ -34,7 +34,15 @@ const NotFound = () => {
 
   useEffect(() => {
     console.error("404: route not found:", location.pathname);
+    return applyPageMeta({
+      title: "Page Not Found (404) | Ritik Sharma Portfolio",
+      description:
+        "This page doesn't exist. Search Ritik Sharma's articles on AI, cybersecurity and full-stack engineering, or jump to projects, skills, education and contact.",
+      path: "/404",
+      noindex: true,
+    });
   }, [location.pathname]);
+
 
   // Seed the search with words pulled from the broken URL.
   const urlWords = useMemo(
