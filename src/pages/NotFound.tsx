@@ -4,6 +4,8 @@ import { Search, Home, ArrowRight, Compass, FileQuestion } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { applyPageMeta } from "@/lib/pageMeta";
+
 
 const SECTIONS = [
   { id: "about", label: "About Me", hint: "Background, interests, cricket" },
