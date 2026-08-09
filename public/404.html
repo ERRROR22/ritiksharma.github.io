@@ -3,9 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Ritik Sharma | Portfolio</title>
+    <meta name="robots" content="noindex, follow">
     <script type="text/javascript">
-      // SPA redirect for client-side routing
-      var segmentCount = 0;
+      // GitHub Pages serves this file for unknown paths (with a 404 status).
+      // Encode the requested path into a query string and hand it to the SPA,
+      // which restores it via history.replaceState in index.html.
+      // segmentCount = number of path segments in the deploy base
+      // (1 for https://<user>.github.io/<repo>/, 0 for a custom domain root).
+      var segmentCount = 1;
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
