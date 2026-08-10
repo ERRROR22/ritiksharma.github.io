@@ -71,7 +71,7 @@ async def run() -> None:
 
             # SPA shell served: React mounted and the NotFound view rendered.
             await expect(page.locator("#root")).not_to_be_empty(timeout=10_000)
-            body = await page.locator("body").inner_text()
+            body = await page.locator("body").text_content() or ""
             check(
                 f"{target} renders NotFound view",
                 bool(re.search(r"404|not found", body, re.I)),
