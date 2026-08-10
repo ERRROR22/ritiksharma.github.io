@@ -70,13 +70,14 @@ async def run() -> None:
             check(f"GET {target} status", response.status if response else None, 404)
 
             # SPA shell served: React mounted and the NotFound view rendered.
-            await expect(page.locator("#root")).not_to_be_empty(timeout=10_000)
-            body = await page.locator("body").text_content() or ""
-            check(
-                f"{target} renders NotFound view",
-                bool(re.search(r"404|not found", body, re.I)),
-                True,
-            )
+            badge = page.get_by_text(re.compile(r"page not found", re.I)).first
+            rendered = True
+            try:
+                await badge.wait_for(state="attached", timeout=15_000)
+            except Exception:
+                rendered = False
+            check(f"{target} renders NotFound view", rendered, True)
+
             await page.screenshot(path=str(SCREENSHOTS / f"{path.replace('/', '_')}.png"))
 
         # 4. Static file requests are untouched (never rewritten to 404).
