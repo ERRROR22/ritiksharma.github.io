@@ -70,7 +70,7 @@ async def run() -> None:
             check(f"GET {target} status", response.status if response else None, 404)
 
             # SPA shell served: React mounted and the NotFound view rendered.
-            badge = page.get_by_text(re.compile(r"page not found", re.I)).first
+            badge = page.get_by_text(re.compile(r"(page|post) not found", re.I)).first
             rendered = True
             try:
                 await badge.wait_for(state="attached", timeout=15_000)
