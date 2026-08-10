@@ -1,0 +1,65 @@
+// Runs before `vite dev` and `vite build` (predev/prebuild hooks); writes public/sitemap.xml.
+
+import { writeFileSync } from "fs";
+import { resolve } from "path";
+
+import { blogPosts } from "../src/data/blogPosts";
+
+const BASE_URL = "https://ritiksharma.lovable.app";
+
+interface SitemapEntry {
+  path: string;
+  lastmod?: string;
+  changefreq?:
+    | "always"
+    | "hourly"
+    | "daily"
+    | "weekly"
+    | "monthly"
+    | "yearly"
+    | "never";
+  priority?: string;
+}
+
+/** "Aug 05, 2026" -> "2026-08-05" (authoritative per-post publish date). */
+const toIsoDate = (value: string): string | undefined => {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return undefined;
+  return parsed.toISOString().slice(0, 10);
+};
+
+const entries: SitemapEntry[] = [
+  { path: "/", changefreq: "weekly", priority: "1.0" },
+  { path: "/accessibility", changefreq: "yearly", priority: "0.3" },
+  ...blogPosts.map((post) => ({
+    path: `/blog/${post.slug}`,
+    lastmod: toIsoDate(post.date),
+    changefreq: "monthly" as const,
+    priority: "0.7",
+  })),
+];
+
+function generateSitemap(items: SitemapEntry[]) {
+  const urls = items.map((e) =>
+    [
+      `  <url>`,
+      `    <loc>${BASE_URL}${e.path}</loc>`,
+      e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>` : null,
+      e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
+      e.priority ? `    <priority>${e.priority}</priority>` : null,
+      `  </url>`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  );
+
+  return [
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+    ...urls,
+    `</urlset>`,
+  ].join("\n");
+}
+
+writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
+console.log(`sitemap.xml written (${entries.length} entries)`);
