@@ -3,6 +3,7 @@ import { Menu, X, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { resumeUrl, RESUME_FILENAME } from "@/lib/resume";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -18,6 +19,10 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -28,8 +33,22 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: "smooth" });
+    if (isHome) {
+      const element = document.querySelector(href);
+      element?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(`/${href}`);
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  const goToContact = () => {
+    if (isHome) {
+      const element = document.querySelector("#contact");
+      element?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/contact");
+    }
     setIsMobileMenuOpen(false);
   };
 
