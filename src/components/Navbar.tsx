@@ -63,7 +63,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => {
+              if (isHome) window.scrollTo({ top: 0, behavior: "smooth" });
+              else navigate("/");
+            }}
             className="text-xl font-bold tracking-tight hover:text-primary transition-colors"
           >
             <span className="text-gradient">RS</span>
@@ -101,7 +104,7 @@ const Navbar = () => {
             
             <Button 
               size="sm"
-              onClick={() => scrollToSection("#contact")}
+              onClick={goToContact}
               className="bg-gradient-primary text-primary-foreground font-semibold"
             >
               Hire Me
@@ -136,7 +139,7 @@ const Navbar = () => {
               ))}
               <Button 
                 size="sm"
-                onClick={() => scrollToSection("#contact")}
+                onClick={goToContact}
                 className="bg-gradient-primary text-primary-foreground font-semibold w-fit"
               >
                 Hire Me
