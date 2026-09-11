@@ -4,6 +4,8 @@ on:
     branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
@@ -37,7 +39,7 @@ jobs:
           VITE_BASE_URL: ${{ steps.base.outputs.base }}
       - name: Upload failure logs & artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build-failure-logs-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
@@ -46,18 +48,17 @@ jobs:
             ./dist
           if-no-files-found: ignore
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
   deploy:
     needs: build
-    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.event_name == 'pull_request' && format('github-pages-preview-{0}', github.event.pull_request.number) || 'github-pages' }}
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          preview: ${{ github.event_name == 'pull_request' }}
+        uses: actions/deploy-pages@v5
+
