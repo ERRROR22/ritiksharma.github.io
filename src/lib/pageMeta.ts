@@ -5,6 +5,8 @@ type MetaConfig = {
   description: string;
   path?: string;
   noindex?: boolean;
+  type?: "website" | "article";
+  image?: string;
 };
 
 const setTag = (selector: string, attrs: Record<string, string>) => {
@@ -14,10 +16,11 @@ const setTag = (selector: string, attrs: Record<string, string>) => {
     el = document.createElement(selector.startsWith("link") ? "link" : "meta");
     document.head.appendChild(el);
   }
+  if (!el) return () => undefined;
   const previous: Record<string, string | null> = {};
   Object.entries(attrs).forEach(([k, v]) => {
-    previous[k] = el!.getAttribute(k);
-    el!.setAttribute(k, v);
+    previous[k] = el.getAttribute(k);
+    el.setAttribute(k, v);
   });
   return () => {
     if (created) {
@@ -36,7 +39,7 @@ const setTag = (selector: string, attrs: Record<string, string>) => {
  * values on cleanup. Note: static crawlers only read index.html — this
  * benefits JS-executing crawlers (Googlebot) and browser tabs/history.
  */
-export const applyPageMeta = ({ title, description, path = "/", noindex }: MetaConfig) => {
+export const applyPageMeta = ({ title, description, path = "/", noindex, type = "website", image }: MetaConfig) => {
   const url = `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
   const previousTitle = document.title;
   document.title = title;
@@ -45,13 +48,18 @@ export const applyPageMeta = ({ title, description, path = "/", noindex }: MetaC
     setTag('meta[name="description"]', { name: "description", content: description }),
     setTag('meta[property="og:title"]', { property: "og:title", content: title }),
     setTag('meta[property="og:description"]', { property: "og:description", content: description }),
-    setTag('meta[property="og:type"]', { property: "og:type", content: "website" }),
+    setTag('meta[property="og:type"]', { property: "og:type", content: type }),
     setTag('meta[property="og:url"]', { property: "og:url", content: url }),
     setTag('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" }),
     setTag('meta[name="twitter:title"]', { name: "twitter:title", content: title }),
     setTag('meta[name="twitter:description"]', { name: "twitter:description", content: description }),
     setTag('link[rel="canonical"]', { rel: "canonical", href: url }),
   ];
+
+  if (image) {
+    restores.push(setTag('meta[property="og:image"]', { property: "og:image", content: image }));
+    restores.push(setTag('meta[name="twitter:image"]', { name: "twitter:image", content: image }));
+  }
 
   if (noindex) {
     restores.push(setTag('meta[name="robots"]', { name: "robots", content: "noindex, follow" }));

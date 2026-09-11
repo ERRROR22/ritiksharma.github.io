@@ -1,7 +1,10 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getBlogPostBySlug, blogPosts } from "@/data/blogPosts";
+import { getBlogSeo } from "@/data/blogSeo";
+import { usePosts } from "@/hooks/usePosts";
+import { applyPageMeta } from "@/lib/pageMeta";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReactMarkdown from "react-markdown";
@@ -10,7 +13,41 @@ import rehypeHighlight from "rehype-highlight";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = getBlogPostBySlug(slug || "");
+  const { data: posts = [] } = usePosts();
+  const post = posts.find((candidate) => candidate.slug === (slug || ""));
+
+  useEffect(() => {
+    if (!post) return;
+
+    const seo = getBlogSeo(post.slug, post.title, post.excerpt);
+    const restoreMeta = applyPageMeta({
+      title: seo.title,
+      description: seo.description,
+      path: `/blog/${post.slug}`,
+      type: "article",
+      image: post.image,
+    });
+    const structuredData = document.createElement("script");
+    structuredData.type = "application/ld+json";
+    structuredData.dataset.blogSeo = post.slug;
+    structuredData.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: seo.title,
+      description: seo.description,
+      image: post.image,
+      datePublished: post.date,
+      author: { "@type": "Person", name: "Ritik Sharma" },
+      publisher: { "@type": "Person", name: "Ritik Sharma" },
+      mainEntityOfPage: `https://ritiksharma.lovable.app/blog/${post.slug}`,
+    }).replace(/</g, "\\u003c");
+    document.head.appendChild(structuredData);
+
+    return () => {
+      restoreMeta();
+      structuredData.remove();
+    };
+  }, [post]);
 
   const getColorClass = (color: string) => {
     const colors: Record<string, { badge: string }> = {
@@ -45,7 +82,7 @@ const BlogPost = () => {
     );
   }
 
-  const relatedPosts = blogPosts
+  const relatedPosts = posts
     .filter((p) => p.slug !== post.slug)
     .slice(0, 2);
 
