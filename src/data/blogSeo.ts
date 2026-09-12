@@ -4,6 +4,18 @@ export interface BlogSeoEntry {
 }
 
 export const blogSeo: Record<string, BlogSeoEntry> = {
+  "building-agentic-rag-portfolio-cms-2026": {
+    title: "Adding a Live CMS and Edge 404s to a Static Portfolio",
+    description: "How a static portfolio gained a database-backed CMS, email-delivering contact form, and real HTTP 404 handling via edge middleware.",
+  },
+  "cricket-analytics-ipl-score-prediction-2026": {
+    title: "IPL Score Prediction: Sports ML Lessons from Cricket",
+    description: "Feature engineering ball-by-ball IPL data for score prediction, modeling momentum swings, and why domain knowledge beats bigger models.",
+  },
+  "llm-evaluation-fake-news-detection-2026": {
+    title: "Evaluating Fake News Detectors Beyond Accuracy",
+    description: "Per-class F1, calibration curves, and adversarial paraphrasing — how NewsVerify is evaluated on the LIAR dataset beyond vanity accuracy.",
+  },
   "capstone-to-production-newsverify-2026": {
     title: "Scaling NewsVerify from Capstone to Production",
     description: "How NewsVerify evolved into a production-ready multimodal fact-checking platform using React Native, Express, Gemini, and typed APIs.",
