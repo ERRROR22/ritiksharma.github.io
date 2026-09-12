@@ -12,6 +12,93 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "building-agentic-rag-portfolio-cms-2026",
+    title: "How I Added a Live CMS and Edge 404s to a Static Portfolio",
+    excerpt: "My portfolio now publishes posts without code edits, emails contact form submissions, and returns real HTTP 404s. Here's the architecture behind it.",
+    date: "Sep 10, 2026",
+    readTime: "8 min read",
+    category: "Full-Stack",
+    color: "primary",
+    image: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop",
+    content: `
+## The Problem With Static Portfolios
+
+A static site is fast — until you want to publish a post without a redeploy, or get contact form messages in your inbox. So I upgraded mine with three pieces:
+
+1. **A live CMS.** Posts live in a database with row-level security. An admin editor at /admin lets me write, publish, and unpublish without touching the repo.
+2. **An edge function for email.** Contact submissions hit a serverless function that validates input, stores the message, and forwards it to my Gmail via a connected email service.
+3. **Real HTTP 404s.** A route matcher in middleware returns genuine 404 status codes for unknown paths while still serving the SPA shell for valid ones — important for how search engines treat the site.
+
+## Lessons
+
+- Row-level security policies beat any client-side "hide the admin button" trick.
+- Zod validation at the function boundary caught malformed submissions on day one.
+- Generating sitemap.xml at build time from the same route list keeps SEO in sync automatically.
+
+Static sites can do a lot more than people assume.
+    `,
+  },
+  {
+    slug: "cricket-analytics-ipl-score-prediction-2026",
+    title: "What Building an IPL Score Predictor Taught Me About Sports ML",
+    excerpt: "Combining my love for cricket with machine learning: feature engineering on ball-by-ball data, and why momentum is the hardest signal to model.",
+    date: "Sep 02, 2026",
+    readTime: "7 min read",
+    category: "Machine Learning",
+    color: "skills",
+    image: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=600&h=400&fit=crop",
+    content: `
+## Why Cricket?
+
+I watch IPL, BGT, and international cricket obsessively — so building an IPL Score Prediction System was the most fun ML project I've done.
+
+## What the Model Sees
+
+Ball-by-ball data becomes features: current run rate, wickets in hand, overs remaining, venue history, and recent form. A regression model predicts the final innings score from the match state.
+
+## The Hard Part: Momentum
+
+Cricket has violent momentum swings — two quick wickets can change an innings. No static feature captures it well. What helped:
+
+1. **Rolling windows** — run rate over the last 3 overs, not the whole innings.
+2. **Phase splits** — powerplay, middle overs, and death overs behave differently; separate the signals.
+3. **Venue priors** — Wankhede and Chepauk are different planets.
+
+## Takeaway
+
+Domain knowledge is a feature engineering superpower. Knowing cricket made me a better modeler.
+    `,
+  },
+  {
+    slug: "llm-evaluation-fake-news-detection-2026",
+    title: "Evaluating LLM Detectors: Beyond Accuracy on the LIAR Dataset",
+    excerpt: "Accuracy is a vanity metric for fake news detection. Here's how I evaluate NewsVerify with per-class F1, calibration, and adversarial robustness.",
+    date: "Aug 26, 2026",
+    readTime: "9 min read",
+    category: "Machine Learning",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+    content: `
+## The Accuracy Trap
+
+A fake news classifier with 92% accuracy sounds great — until you realize it just labels everything "real" in a skewed dataset. On LIAR, per-class metrics tell the real story.
+
+## My Evaluation Stack for NewsVerify
+
+1. **Per-class precision/recall/F1** — catching "pants-on-fire" claims matters more than easy "true" ones.
+2. **Calibration curves** — when the model says 80% confident, is it right 80% of the time? Passive Aggressive classifiers need explicit calibration.
+3. **Adversarial paraphrasing** — I reword claims with an LLM and check whether predictions flip. Robustness gaps here predict production failures.
+
+## Results Worth Reporting
+
+The Passive Aggressive Classifier hit a 92%+ F1 on true/false classes but struggled on "half-true" — exactly the class fact-checkers care about most. That's why the Gemini grounding fallback exists for low-confidence cases.
+
+## Takeaway
+
+Pick metrics that match the cost of being wrong, not the ones that look best in a README.
+    `,
+  },
+  {
     slug: "capstone-to-production-newsverify-2026",
     title: "From Capstone to Production: Scaling NewsVerify Beyond Graduation",
     excerpt: "Reflections on turning a final-year fake-news detector into a production-grade multimodal system — and what I learned about API design, monorepos, and shipping fast.",
