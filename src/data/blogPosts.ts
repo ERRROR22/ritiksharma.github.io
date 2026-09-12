@@ -12,6 +12,72 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "prompt-injection-defense-checklist-2026",
+    title: "A Practical Prompt-Injection Defense Checklist for LLM Apps",
+    excerpt: "Prompt injection is the XSS of the LLM era. Here's the exact defense checklist I apply to agentic systems like NewsVerify before shipping.",
+    date: "Sep 12, 2026",
+    readTime: "10 min read",
+    category: "Cybersecurity",
+    color: "experience",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop",
+    content: `
+## Why This Matters Now
+
+Any app that feeds untrusted text into an LLM — user claims, fetched URLs, OCR output — has an injection surface. NewsVerify reads arbitrary articles, so this threat model wasn't optional.
+
+## The Checklist
+
+1. **Separate instructions from data.** System prompts stay system prompts. Untrusted content goes in clearly delimited, labeled blocks — never interpolated into instructions.
+2. **Validate structure, not just content.** Zod schemas on every tool input and model output. If the model returns something off-schema, it doesn't execute.
+3. **Least-privilege tools.** An agent that summarizes text doesn't need write access to anything. Scope every tool to the minimum capability.
+4. **Treat retrieval as hostile.** RAG documents are user input too. Strip or fence instruction-like text before it enters context.
+5. **Canary strings in tools.** Embed unique canaries in retrieved content; if one shows up in an outbound action, the injection worked — alert and block.
+6. **Log every tool call.** You can't debug an incident you can't replay.
+7. **Human approval for irreversible actions.** Sending emails, posting, deleting — always gated.
+
+## The Hard Truth
+
+No single layer is enough. Defense in depth — input fencing, output validation, scoped tools, and observability — is the only strategy that survives contact with real attackers.
+    `,
+  },
+  {
+    slug: "my-2026-ai-engineering-stack-full-breakdown",
+    title: "My 2026 AI Engineering Stack: A Full Breakdown",
+    excerpt: "Every tool, model, and framework I'm using in September 2026 — from LangChain and Gemini to ONNX runtimes — with honest notes on what earned its place.",
+    date: "Sep 12, 2026",
+    readTime: "11 min read",
+    category: "Machine Learning",
+    color: "skill",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop",
+    content: `
+## The Stack, Layer by Layer
+
+After a final year of shipping NewsVerify and a WAF, here's what actually survived production.
+
+### Models
+- **Gemini 2.5 Flash** — grounding and claim verification. Fast, cheap, and the grounding API is genuinely useful for fact-checking.
+- **ONNX Runtime** — running my trained classifiers in-browser and at the edge. Zero server cost for inference.
+
+### Training & Classical ML
+- **Scikit-learn + XGBoost** — the Passive Aggressive Classifier (92%+ F1 on LIAR) still outperforms heavier models for binary claim classification at my scale.
+- **TensorFlow / Keras** — the Text-to-Image experiments with Stable Diffusion fine-tuning.
+
+### Agent & Orchestration
+- **LangChain + LangSmith** — chains for the verification pipeline, LangSmith for tracing. Tracing is the killer feature; I'd drop the framework before the observability.
+- **Model Context Protocol (MCP)** — my pick for tool interoperability going forward.
+
+### Backend & Data
+- **Node.js + Express** for APIs, **PostgreSQL with row-level security** for anything user-facing, **Flask** for quick ML microservices.
+
+### Frontend
+- **React 18 + TypeScript + Vite**, Tailwind for styling, **React Native** for mobile.
+
+## What I'd Tell Past Me
+
+Start with the boring, well-documented option. Every time I chose the shiny new thing, I paid for it in debugging.
+    `,
+  },
+  {
     slug: "building-agentic-rag-portfolio-cms-2026",
     title: "How I Added a Live CMS and Edge 404s to a Static Portfolio",
     excerpt: "My portfolio now publishes posts without code edits, emails contact form submissions, and returns real HTTP 404s. Here's the architecture behind it.",
