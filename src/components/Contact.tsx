@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send, Linkedin, Github, Award, Trophy, Medal, Users, Shield, Target, Sparkles, type LucideIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import ScrollReveal from "./animations/ScrollReveal";
 
 import { getCertLabels } from "@/data/certifications";
@@ -113,17 +115,43 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
     setIsSubmitting(true);
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
-    });
-    
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+
+    try {
+      const { data: result, error } = await supabase.functions.invoke("send-contact-message", {
+        body: {
+          name: String(data.get("name") ?? ""),
+          email: String(data.get("email") ?? ""),
+          subject: String(data.get("subject") ?? ""),
+          message: String(data.get("message") ?? ""),
+        },
+      });
+
+      if (error) {
+        const details =
+          error instanceof FunctionsHttpError ? await error.context.text() : error.message;
+        console.error("send-contact-message failed:", details);
+        throw new Error(details);
+      }
+
+      toast({
+        title: "Message sent!",
+        description: result?.emailed
+          ? "Thanks for reaching out — it just landed in my inbox. I'll reply soon."
+          : "Thanks for reaching out! Your message is saved and I'll get back to you soon.",
+      });
+      form.reset();
+    } catch {
+      toast({
+        title: "Message not sent",
+        description: "Something went wrong. Please email ritiksharma4451@gmail.com directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
