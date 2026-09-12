@@ -310,6 +310,7 @@ const Contact = () => {
                 </label>
                 <Input
                   id="name"
+                  name="name"
                   placeholder="Your name"
                   required
                   className="bg-secondary/50 border-border focus:border-primary transition-colors"
@@ -322,6 +323,7 @@ const Contact = () => {
                 </label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="your.email@example.com"
                   required
@@ -335,6 +337,7 @@ const Contact = () => {
                 </label>
                 <Input
                   id="subject"
+                  name="subject"
                   placeholder="What's this about?"
                   required
                   className="bg-secondary/50 border-border focus:border-primary transition-colors"
@@ -347,6 +350,7 @@ const Contact = () => {
                 </label>
                 <Textarea
                   id="message"
+                  name="message"
                   placeholder="Tell me about your project or opportunity..."
                   rows={5}
                   required
