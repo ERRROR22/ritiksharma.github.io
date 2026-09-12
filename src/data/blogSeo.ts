@@ -4,6 +4,14 @@ export interface BlogSeoEntry {
 }
 
 export const blogSeo: Record<string, BlogSeoEntry> = {
+  "prompt-injection-defense-checklist-2026": {
+    title: "Prompt-Injection Defense Checklist for LLM Apps",
+    description: "A seven-point production checklist for defending agentic LLM apps against prompt injection: input fencing, schema validation, scoped tools, and canaries.",
+  },
+  "my-2026-ai-engineering-stack-full-breakdown": {
+    title: "My 2026 AI Engineering Stack: Full Breakdown",
+    description: "The complete AI engineering stack of a 2026 graduate — Gemini, ONNX, XGBoost, LangChain, MCP, and React — with honest notes on what survived production.",
+  },
   "building-agentic-rag-portfolio-cms-2026": {
     title: "Adding a Live CMS and Edge 404s to a Static Portfolio",
     description: "How a static portfolio gained a database-backed CMS, email-delivering contact form, and real HTTP 404 handling via edge middleware.",
