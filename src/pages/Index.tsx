@@ -8,6 +8,12 @@ const Index = () => {
       <Navbar />
       <Hero />
       <LazySection factory={() => import("@/components/AboutMe")} />
+      <section id="now" className="py-12 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
+        <div className="container mx-auto px-6 relative z-10 max-w-5xl">
+          <LazySection factory={() => import("@/components/NowStatus")} />
+        </div>
+      </section>
       <LazySection factory={() => import("@/components/Summary")} />
       <LazySection factory={() => import("@/components/Skills")} />
       <LazySection factory={() => import("@/components/Education")} />
