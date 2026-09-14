@@ -13,6 +13,7 @@ const navLinks = [
   { label: "Projects", href: "#projects" },
   { label: "Certifications", href: "#certifications" },
   { label: "Blog", href: "#blog" },
+  { label: "Now", href: "/now", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -32,8 +33,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    if (isHome) {
+  const scrollToSection = (href: string, isRoute?: boolean) => {
+    if (isRoute) {
+      navigate(href);
+    } else if (isHome) {
       const element = document.querySelector(href);
       element?.scrollIntoView({ behavior: "smooth" });
     } else {
@@ -77,7 +80,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => scrollToSection(link.href)}
+                onClick={() => scrollToSection(link.href, link.isRoute)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
@@ -131,7 +134,7 @@ const Navbar = () => {
               {navLinks.map((link) => (
                 <button
                   key={link.label}
-                  onClick={() => scrollToSection(link.href)}
+                  onClick={() => scrollToSection(link.href, link.isRoute)}
                   className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.label}
