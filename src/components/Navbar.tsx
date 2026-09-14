@@ -13,6 +13,7 @@ const navLinks = [
   { label: "Projects", href: "#projects" },
   { label: "Certifications", href: "#certifications" },
   { label: "Blog", href: "#blog" },
+  { label: "Now", href: "/now", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
