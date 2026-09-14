@@ -30,6 +30,7 @@ const App = () => (
               <Route path="/accessibility" element={<Accessibility />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/now" element={<NowPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
