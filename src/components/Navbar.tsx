@@ -33,8 +33,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    if (isHome) {
+  const scrollToSection = (href: string, isRoute?: boolean) => {
+    if (isRoute) {
+      navigate(href);
+    } else if (isHome) {
       const element = document.querySelector(href);
       element?.scrollIntoView({ behavior: "smooth" });
     } else {
