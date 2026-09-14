@@ -134,7 +134,7 @@ const Navbar = () => {
               {navLinks.map((link) => (
                 <button
                   key={link.label}
-                  onClick={() => scrollToSection(link.href)}
+                  onClick={() => scrollToSection(link.href, link.isRoute)}
                   className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.label}
