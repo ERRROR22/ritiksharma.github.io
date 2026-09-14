@@ -7,14 +7,14 @@ import { applyPageMeta } from "@/lib/pageMeta";
 
 const NowPage = () => {
   useEffect(() => {
-    setPageMeta({
+    const restore = applyPageMeta({
       title: "Now — Ritik Sharma",
       description:
         "What Ritik Sharma is working on right now: AI/ML projects, job search, learning goals, and current interests.",
-      ogType: "website",
-      noindex: false,
+      path: "/now",
+      type: "website",
     });
-    return () => restoreDefaultMeta();
+    return restore;
   }, []);
 
   return (
