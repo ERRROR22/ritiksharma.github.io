@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Radio, Calendar, MapPin, Briefcase, Code2, BookOpen, Sparkles, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NowStatus from "@/components/NowStatus";
-import { setPageMeta, restoreDefaultMeta } from "@/lib/pageMeta";
+import { applyPageMeta } from "@/lib/pageMeta";
 
 const NowPage = () => {
   useEffect(() => {
