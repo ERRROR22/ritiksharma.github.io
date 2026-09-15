@@ -380,37 +380,68 @@ Lighthouse CI on every PR, plus a small script that fails the build if the JS bu
   },
   {
     slug: "llm-eval-harness-2026",
-    title: "Building an Eval Harness You'll Actually Use",
-    excerpt: "Most LLM eval setups die after two weeks. Here's the minimal, boring harness that survived six months of shipping.",
+    title: "LLM Evaluation: How to Evaluate LLM Output Quality with a Simple Harness",
+    excerpt: "A practical guide to LLM evaluation — which metrics matter, how LLM-as-a-judge works, and the minimal eval harness that survived six months of shipping without rotting in the repo.",
     date: "Jun 10, 2026",
     readTime: "8 min read",
     category: "Machine Learning",
     color: "experience",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
     content: `
-## The Problem
+## What LLM Evaluation Actually Means
+
+LLM evaluation is measuring whether your model or pipeline produces the output your product needs — repeatably, on a fixed set of examples, before users find the failure. It is not the same as benchmarking a base model. You are evaluating *your* prompt, *your* retrieval, and *your* model config as one system.
 
 Fancy eval frameworks look great in a README and rot in a repo. The ones that survive are dumb, fast, and versioned next to the code they test.
 
-## The Minimum Viable Harness
+## LLM Evaluation Metrics Worth Tracking
+
+- **Groundedness** — is every claim in the answer supported by the retrieved context? The single most useful metric for [RAG systems](/blog/rag-with-gemini-flash-2026).
+- **Task success** — a binary, human-defined "did this do the job?" per example. Boring and irreplaceable.
+- **Citation accuracy** — do the cited sources actually contain the claim?
+- **Per-class precision and recall** — when the output is a label, aggregate accuracy hides the class you care about.
+- **Cost and latency per task** — a quality win that triples cost is a product decision, not a free upgrade.
+- **Refusal and format failure rate** — how often you get unusable output at all.
+
+Skip BLEU and ROUGE for generative product work; they measure surface overlap, not correctness.
+
+## How to Evaluate LLM Output Quality: The Minimum Viable Harness
 
 - **Golden set** as a JSON file in the repo (start with 30 examples, grow to 300).
 - **Runner** — a single script that loads the set, calls the pipeline, and writes a timestamped report.
 - **Judge** — LLM-as-judge with a rubric under 10 lines; log the rubric version in every report.
 - **Diff view** — HTML report showing regressions vs the last main-branch run.
 
+## Using LLM-as-a-Judge Without Fooling Yourself
+
+A judge model is a cheap grader, not ground truth. Three rules keep it honest: score one dimension at a time with a written rubric; calibrate the judge against ~50 human-labelled examples and report that agreement rate alongside your scores; and randomise answer order in pairwise comparisons, because judges favour whichever response came first.
+
 ## Wiring It Into CI
 
-Run the harness on every PR that touches prompts, retrieval, or model config. Block merge on regressions above a threshold; auto-post the diff as a PR comment.
-
-## What to Measure
-
-Groundedness, task success, and cost per task. Skip the vanity metrics — nobody ships on BLEU anymore.
+Run the harness on every PR that touches prompts, retrieval, or model config. Block merge on regressions above a threshold; auto-post the diff as a PR comment. Add adversarial cases from your [prompt-injection checklist](/blog/prompt-injection-defense-checklist-2026) so security regressions get caught by the same job.
 
 ## Six-Month Verdict
 
 The harness caught 4 prompt regressions and 2 retrieval bugs that would have shipped. Total build cost: one weekend. Best ROI in the codebase.
+
+## Frequently Asked Questions
+
+### How do I evaluate LLM output quality?
+Build a small golden set of real inputs with expected outcomes, score each run on groundedness and task success, and compare every change against the previous run instead of judging outputs one at a time.
+
+### How many test cases does an LLM eval set need?
+Start with 30 examples covering your real failure modes. Thirty curated cases beat 3,000 scraped ones; grow toward a few hundred as you find new bugs.
+
+### Is LLM-as-a-judge reliable?
+Reliable enough for regression detection if you use a short rubric, one dimension per call, and check judge-vs-human agreement on a labelled sample. Not reliable as an absolute quality score.
+
+### Do I need a framework like DeepEval or Langfuse?
+No. A JSON file, one runner script, and a diff report get you most of the value. Adopt a framework when you need shared dashboards or tracing across a team.
+
+### What's the difference between evals and unit tests?
+Unit tests assert exact outputs; evals score fuzzy ones against a threshold and expect some noise. Both belong in CI, but evals gate on aggregate scores, not single failures.
     `,
+
   },
   {
     slug: "newsverify-multimodal-fake-news-2026",
