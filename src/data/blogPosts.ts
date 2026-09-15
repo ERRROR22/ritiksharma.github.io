@@ -484,17 +484,19 @@ Multi-language (Hindi, Urdu, regional), a browser extension, and push alerts for
   },
   {
     slug: "rag-with-gemini-flash-2026",
-    title: "Production RAG with Gemini 2.5 Flash and Search Grounding",
-    excerpt: "Patterns for combining vector retrieval with live web grounding to ship factual, low-latency AI features in 2026.",
+    title: "How to Implement RAG in Production: Hybrid Retrieval + Search Grounding",
+    excerpt: "A production RAG guide: hybrid vector and keyword retrieval, when to use live search grounding instead of a vector store, latency budgets, and how to evaluate the pipeline.",
     date: "May 18, 2026",
     readTime: "9 min read",
     category: "Generative AI",
     color: "project",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=400&fit=crop",
     content: `
-## Beyond Vanilla RAG
+## What Production RAG Has to Solve
 
-Pure vector RAG breaks on freshness. Pure search grounding breaks on private data. The 2026 pattern is a hybrid: retrieve internal context from a vector store, then ask the model to verify time-sensitive claims with live search.
+Retrieval-augmented generation means giving a model the documents it needs at answer time instead of relying on what it memorised. In a demo that's one vector store and one prompt. In production you also have to handle freshness, private data, latency, citations, and untrusted document content.
+
+Pure vector RAG breaks on freshness — your index is always older than the world. Pure search grounding breaks on private data, because your internal docs aren't on the web. The 2026 pattern is a hybrid: retrieve internal context from a vector store, then ask the model to verify time-sensitive claims with live search.
 
 ## Architecture
 
@@ -504,16 +506,51 @@ User → Query Rewrite → Hybrid Retrieve (vectors + BM25)
      → Cited Answer + Confidence Score
 \`\`\`
 
+## Why Hybrid Search Beats Pure Vector Search
+
+Embeddings are great at paraphrase and terrible at exact tokens — error codes, part numbers, surnames, version strings. BM25 keyword search is the opposite. Run both, merge with reciprocal rank fusion, and the long tail of "why did it miss the obvious document?" complaints mostly disappears. Then rerank the merged top 30 down to the 5 chunks you actually send.
+
+## Chunking and Retrieval Choices That Matter
+
+- **Chunk on structure, not character count.** Headings and list boundaries beat a blind 512-token split.
+- **Keep a parent-document pointer** so a matched chunk can expand into surrounding context.
+- **Rewrite the query first.** Resolving pronouns and adding context from the last turn is the cheapest recall win in the whole pipeline.
+- **Store source metadata** — URL, title, date — so citations and freshness filters are possible at all.
+
 ## Latency Budget
 
 - Retrieval: < 120ms
 - LLM + grounding: < 1.4s
 - End-to-end p95: < 2s
 
+Buy that budget with parallel retrieval, a small reranker, and caching identical rewritten queries — not by shortening the prompt.
+
+## Treat Retrieved Documents as Untrusted
+
+A retrieved chunk is user input. Fence it, never let it look like an instruction, and validate the model's output against a schema — the same rules as the [prompt-injection checklist](/blog/prompt-injection-defense-checklist-2026).
+
 ## Eval Loop
 
-Track groundedness, citation accuracy, and answer F1 against a golden set. Re-run nightly in CI.
+Track groundedness, citation accuracy, and answer F1 against a golden set. Re-run nightly in CI using the [eval harness pattern](/blog/llm-eval-harness-2026), and log retrieval hits separately from generation quality so you know which half regressed.
+
+## Frequently Asked Questions
+
+### How do I implement RAG in production?
+Rewrite the query, retrieve with both vector and keyword search, rerank to a handful of chunks, generate with citations, and gate every change through an automated eval on a golden set.
+
+### Is RAG better than fine-tuning?
+For knowledge that changes or must be cited, yes — RAG updates by re-indexing. Fine-tuning is for format, tone, and task behaviour, not for facts.
+
+### Do most production LLM applications use RAG?
+Most knowledge-grounded ones do, in some form. Even agent systems that call tools usually retrieve documents somewhere in the loop.
+
+### When should I use search grounding instead of a vector database?
+Use search grounding for public, time-sensitive facts, and a vector store for private or proprietary documents. Fact-checking systems like [NewsVerify](/blog/newsverify-multimodal-fake-news-2026) need both.
+
+### Why does my RAG system miss obvious documents?
+Almost always retrieval, not the model: pure vector search failing on exact terms, chunks split mid-context, or no query rewriting. Add keyword search and inspect the retrieved chunks before touching the prompt.
     `,
+
   },
   {
     slug: "ai-firewall-llm-waf-2026",
