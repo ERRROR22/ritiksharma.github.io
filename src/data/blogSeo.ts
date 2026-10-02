@@ -1,12 +1,14 @@
 export interface BlogSeoEntry {
   title: string;
   description: string;
+  keywords?: string[];
 }
 
 export const blogSeo: Record<string, BlogSeoEntry> = {
   "prompt-injection-defense-checklist-2026": {
-    title: "Prompt-Injection Defense Checklist for LLM Apps",
-    description: "A seven-point production checklist for defending agentic LLM apps against prompt injection: input fencing, schema validation, scoped tools, and canaries.",
+    title: "Prompt Injection Examples and Prevention Guide",
+    description: "Learn what prompt injection is, see direct and indirect attack examples, and use a seven-step checklist to protect LLM apps and AI agents.",
+    keywords: ["prompt injection", "prompt injection examples", "how to prevent prompt injection", "LLM security", "AI agent security"],
   },
   "my-2026-ai-engineering-stack-full-breakdown": {
     title: "My 2026 AI Engineering Stack: Full Breakdown",
@@ -49,16 +51,18 @@ export const blogSeo: Record<string, BlogSeoEntry> = {
     description: "A practical guide to improving mobile LCP in a React portfolio with lazy loading, image budgets, measured animation, and bundle control.",
   },
   "llm-eval-harness-2026": {
-    title: "How to Build a Practical LLM Evaluation Harness",
-    description: "Build a maintainable LLM evaluation harness with useful test cases, repeatable scoring, regression checks, and a workflow teams will keep using.",
+    title: "LLM Evaluation: How to Evaluate Output Quality",
+    description: "Learn how to evaluate LLM output quality with practical metrics, a golden test set, LLM-as-a-judge, regression checks, and a simple CI harness.",
+    keywords: ["LLM evaluation", "how to evaluate LLM output quality", "LLM evaluation metrics", "LLM-as-a-judge", "LLM eval harness"],
   },
   "newsverify-multimodal-fake-news-2026": {
     title: "NewsVerify: Multimodal Fake-News Detection",
     description: "Inside NewsVerify's dual-engine fact-checking system using a 96%-accurate PAC model and Gemini 2.5 Flash across text, URLs, and images.",
   },
   "rag-with-gemini-flash-2026": {
-    title: "Production RAG with Gemini 2.5 Flash",
-    description: "Patterns for combining vector retrieval and live search grounding to build factual, responsive, and production-ready AI applications.",
+    title: "Production RAG: Hybrid Retrieval and Search Grounding",
+    description: "Learn how to implement production RAG with hybrid vector and keyword retrieval, reranking, search grounding, latency budgets, citations, and evaluation.",
+    keywords: ["production RAG", "how to implement RAG", "hybrid retrieval", "search grounding", "RAG evaluation"],
   },
   "ai-firewall-llm-waf-2026": {
     title: "Building an AI Firewall for LLM-Generated Attacks",
