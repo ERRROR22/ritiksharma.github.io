@@ -11,6 +11,37 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 
+const SITE_URL = "https://ritiksharma.lovable.app";
+
+const toIsoDate = (date: string) => {
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? date : parsed.toISOString().slice(0, 10);
+};
+
+const stripMarkdown = (value: string) =>
+  value
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[`*_>#-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const extractFaqs = (content: string) => {
+  const faqContent = content.split(/^## Frequently Asked Questions\s*$/m)[1];
+  if (!faqContent) return [];
+
+  return faqContent
+    .split(/^###\s+/m)
+    .slice(1)
+    .map((entry) => {
+      const [question = "", ...answerLines] = entry.trim().split("\n");
+      return {
+        question: stripMarkdown(question),
+        answer: stripMarkdown(answerLines.join(" ")),
+      };
+    })
+    .filter(({ question, answer }) => question.length > 0 && answer.length > 0);
+};
+
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: posts = [] } = usePosts();
@@ -27,19 +58,46 @@ const BlogPost = () => {
       type: "article",
       image: post.image,
     });
+    const articleUrl = `${SITE_URL}/blog/${post.slug}`;
+    const publishedDate = toIsoDate(post.date);
+    const faqs = extractFaqs(post.content);
+    const graph: Record<string, unknown>[] = [
+      {
+        "@type": "BlogPosting",
+        "@id": `${articleUrl}#article`,
+        url: articleUrl,
+        headline: seo.title,
+        description: seo.description,
+        image: [post.image],
+        datePublished: publishedDate,
+        dateModified: publishedDate,
+        inLanguage: "en",
+        articleSection: post.category,
+        ...(seo.keywords ? { keywords: seo.keywords.join(", ") } : {}),
+        author: { "@type": "Person", "@id": `${SITE_URL}/#person`, name: "Ritik Sharma", url: SITE_URL },
+        publisher: { "@type": "Person", "@id": `${SITE_URL}/#person`, name: "Ritik Sharma", url: SITE_URL },
+        mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+      },
+    ];
+
+    if (faqs.length > 0) {
+      graph.push({
+        "@type": "FAQPage",
+        "@id": `${articleUrl}#faq`,
+        mainEntity: faqs.map(({ question, answer }) => ({
+          "@type": "Question",
+          name: question,
+          acceptedAnswer: { "@type": "Answer", text: answer },
+        })),
+      });
+    }
+
     const structuredData = document.createElement("script");
     structuredData.type = "application/ld+json";
     structuredData.dataset.blogSeo = post.slug;
     structuredData.textContent = JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: seo.title,
-      description: seo.description,
-      image: post.image,
-      datePublished: post.date,
-      author: { "@type": "Person", name: "Ritik Sharma" },
-      publisher: { "@type": "Person", name: "Ritik Sharma" },
-      mainEntityOfPage: `https://ritiksharma.lovable.app/blog/${post.slug}`,
+      "@graph": graph,
     }).replace(/</g, "\\u003c");
     document.head.appendChild(structuredData);
 
