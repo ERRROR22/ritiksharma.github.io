@@ -13,6 +13,7 @@ const navLinks = [
   { label: "Projects", href: "#projects" },
   { label: "Certifications", href: "#certifications" },
   { label: "Blog", href: "#blog" },
+  { label: "GitHub", href: "/github", isRoute: true },
   { label: "Now", href: "/now", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
@@ -76,7 +77,7 @@ const Navbar = () => {
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-4 xl:gap-6">
             {navLinks.map((link) => (
               <button
                 key={link.label}
