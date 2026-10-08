@@ -6,3 +6,4 @@
 - [ ] Verify the three rewritten SEO articles render their new content and structured data.
 - [ ] Regenerate the sitemap and run project checks.
 - [ ] Add an AI-powered portfolio interest matcher for relevant projects and articles.
+- [ ] Add an AI-powered portfolio interest matcher for relevant projects and articles.
