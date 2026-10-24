@@ -363,7 +363,7 @@ const Accessibility = () => {
                 Keeps focus-return rings visible until dismissed. Saved per
                 overlay across refreshes.
               </span>
-              <div className="ml-auto flex gap-2">
+              <div className="ml-auto flex flex-wrap gap-2">
                 <Button
                   size="sm"
                   variant="outline"
