@@ -367,6 +367,13 @@
   @apply bg-transparent p-0 text-foreground text-sm;
 }
 
+/* On small screens, let code wrap instead of silently clipping long lines */
+@media (max-width: 767px) {
+  .blog-content pre code {
+    @apply whitespace-pre-wrap break-words text-xs;
+  }
+}
+
 /* Syntax highlighting colors */
 .blog-content .hljs-keyword,
 .blog-content .hljs-selector-tag,
