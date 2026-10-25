@@ -1,11 +1,15 @@
-import {
-  RecommendationCandidate,
-  recommendationProjects,
-} from "@/data/recommendationProjects";
+export interface RecommendationCandidate {
+  id: string;
+  kind: "project" | "article";
+  title: string;
+  category: string;
+  summary: string;
+  skills: string[];
+  /** Optional public link shown on match cards when the item is recommended. */
+  link?: string;
+}
 
-const GITHUB = "https://github.com/ERRROR22";
-
-export const recommendationProjectsWithLinks: RecommendationCandidate[] = [
+export const recommendationProjects: RecommendationCandidate[] = [
   {
     id: "newsverify",
     kind: "project",
@@ -30,7 +34,7 @@ export const recommendationProjectsWithLinks: RecommendationCandidate[] = [
       "machine learning",
       "threat detection",
     ],
-    link: `${GITHUB}/Advanced-WAF-WAFinity`,
+    link: "https://github.com/ERRROR22/Advanced-WAF-WAFinity",
   },
   {
     id: "text-to-image",
@@ -40,7 +44,7 @@ export const recommendationProjectsWithLinks: RecommendationCandidate[] = [
     summary:
       "A Stable Diffusion image-generation project with a Flask API, an asynchronous worker queue, and LoRA-based prompt calibration.",
     skills: ["generative AI", "PyTorch", "Stable Diffusion", "Flask", "LoRA"],
-    link: `${GITHUB}/ML_Minor_Project`,
+    link: "https://github.com/ERRROR22/ML_Minor_Project",
   },
   {
     id: "ipl-prediction",
@@ -50,7 +54,7 @@ export const recommendationProjectsWithLinks: RecommendationCandidate[] = [
     summary:
       "A cricket analytics project using ball-by-ball features and an LSTM model to estimate innings scores, with a FastAPI endpoint and monitoring.",
     skills: ["sports analytics", "cricket", "LSTM", "TensorFlow", "feature engineering"],
-    link: `${GITHUB}/IPL-Score-Prediction-ML-Project`,
+    link: "https://github.com/ERRROR22/IPL-Score-Prediction-ML-Project",
   },
   {
     id: "e-voting",
