@@ -21,6 +21,7 @@ const Index = () => {
       <LazySection factory={() => import("@/components/Projects")} />
       <LazySection factory={() => import("@/components/Certifications")} />
       <LazySection factory={() => import("@/components/Blog")} />
+      <LazySection factory={() => import("@/components/InterestMatcher")} />
       <LazySection factory={() => import("@/components/Contact")} />
       <LazySection factory={() => import("@/components/Footer")} />
     </div>
