@@ -34,10 +34,10 @@ const EXAMPLE_INTERESTS = [
   "how to start as an AI engineer in 2026",
 ];
 
-const MatchCard = ({ item, index }: { item: MatchedItem; index: number }) => {
+const MatchCard = ({ item }: { item: MatchedItem }) => {
   const Icon = item.kind === "article" ? Newspaper : FolderGit2;
   return (
-    <StaggerItem index={index}>
+    <StaggerItem>
       <div className="glass glass-border rounded-xl p-5 h-full flex flex-col gap-3 border transition-all duration-300 hover:-translate-y-1">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono border bg-primary/20 text-primary border-primary/30">
@@ -92,7 +92,7 @@ const InterestMatcher = () => {
         let message = "Something went wrong. Please try again.";
         if (error instanceof FunctionsHttpError) {
           try {
-            const body = await error.json();
+            const body = await error.context.json();
             if (body && typeof body.error === "string") message = body.error;
           } catch {
             // keep the default message
