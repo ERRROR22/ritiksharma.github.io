@@ -102,9 +102,11 @@ Deno.serve(async (req) => {
       candidates,
     });
 
-    let output;
+    // Accumulate the streamed text and parse it ourselves — the SDK's
+    // structured-output helper resolves empty with this responses model.
+    let text = "";
     try {
-      output = await result.object;
+      for await (const delta of result.textStream) text += delta;
     } catch (err) {
       const { status, message } = extractGatewayError(err);
       console.error(`Recommendation AI call failed [${status}]: ${message}`);
@@ -127,6 +129,20 @@ Deno.serve(async (req) => {
           429,
         );
       }
+      return json({ error: SAFE_GENERIC_ERROR }, 502);
+    }
+
+    let output: z.infer<typeof OutputSchema> | null = null;
+    try {
+      const stripped = text.replace(/^```(?:json)?\s*|\s*```$/g, "");
+      const start = stripped.indexOf("{");
+      const end = stripped.lastIndexOf("}");
+      output = OutputSchema.safeParse(JSON.parse(stripped.slice(start, end + 1))).data ?? null;
+    } catch {
+      output = null;
+    }
+    if (!output) {
+      console.error(`Recommendation output failed to parse: ${text.slice(0, 200)}`);
       return json({ error: SAFE_GENERIC_ERROR }, 502);
     }
 
