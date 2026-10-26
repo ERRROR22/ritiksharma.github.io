@@ -230,8 +230,8 @@ const InterestMatcher = () => {
             )}
             {results.length > 0 ? (
               <StaggerContainer className="grid gap-4 md:grid-cols-2">
-                {results.map((item, index) => (
-                  <MatchCard key={`${item.kind}:${item.id}`} item={item} index={index} />
+                {results.map((item) => (
+                  <MatchCard key={`${item.kind}:${item.id}`} item={item} />
                 ))}
               </StaggerContainer>
             ) : (
