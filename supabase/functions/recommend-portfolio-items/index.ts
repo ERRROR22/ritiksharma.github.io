@@ -25,6 +25,17 @@ const BodySchema = z.object({
   candidates: z.array(CandidateSchema).min(1).max(MAX_CANDIDATES),
 });
 
+const OutputSchema = z.object({
+  introduction: z.string(),
+  matches: z.array(
+    z.object({
+      id: z.string(),
+      kind: z.enum(["project", "article"]),
+      reason: z.string(),
+    }),
+  ),
+});
+
 const json = (payload: unknown, status = 200) =>
   new Response(JSON.stringify(payload), {
     status,
@@ -149,7 +160,7 @@ Deno.serve(async (req) => {
     // Only candidate ids the caller actually sent may come back; the UI joins
     // them against its own trusted local catalog.
     const allowed = new Set(candidates.map((c) => `${c.kind}:${c.id}`));
-    const matches = (output?.matches ?? [])
+    const matches = output.matches
       .filter((m) => allowed.has(`${m.kind}:${m.id}`))
       .slice(0, MAX_MATCHES)
       .map((m) => ({ id: m.id, kind: m.kind, reason: clampText(m.reason, 200) }));
@@ -166,7 +177,7 @@ Deno.serve(async (req) => {
 
     return json({
       ok: true,
-      introduction: clampText(output?.introduction ?? "", 240),
+      introduction: clampText(output.introduction ?? "", 240),
       matches,
     });
   } catch (err) {
