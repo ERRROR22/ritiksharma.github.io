@@ -72,13 +72,20 @@ const fetchGitHub = async <T,>(path: string): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
+const EVENT_PAGES = [1, 2, 3];
+
 const loadGitHubData = async (): Promise<GitHubData> => {
-  const [profile, repos, events] = await Promise.all([
+  const [profile, repos, eventPages] = await Promise.all([
     fetchGitHub<GitHubProfile>(GITHUB_API),
     fetchGitHub<GitHubRepo[]>(`${GITHUB_API}/repos?per_page=100&sort=updated`),
-    fetchGitHub<GitHubEvent[]>(`${GITHUB_API}/events/public?per_page=30`),
+    // Up to 300 events — the public API keeps roughly the last 90 days.
+    Promise.all(
+      EVENT_PAGES.map((page) =>
+        fetchGitHub<GitHubEvent[]>(`${GITHUB_API}/events/public?per_page=100&page=${page}`).catch(() => []),
+      ),
+    ),
   ]);
-  return { profile, repos, events };
+  return { profile, repos, events: eventPages.flat() };
 };
 
 const relativeDate = (value: string) => {
