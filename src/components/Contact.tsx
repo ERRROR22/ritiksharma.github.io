@@ -109,7 +109,9 @@ const colorMap: Record<AchievementColor, { bg: string; text: string; border: str
   skill: { bg: "bg-skill/10", text: "text-skill", border: "border-skill/20" },
 };
 
-const Contact = () => {
+const Contact = ({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) => {
+  const HeadingTag = headingLevel === "h1" ? "h1" : "h2";
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
