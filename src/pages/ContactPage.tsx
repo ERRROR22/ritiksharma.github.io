@@ -19,7 +19,7 @@ const ContactPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-24">
-        <Contact />
+        <Contact headingLevel="h1" />
       </main>
       <Footer />
     </div>
