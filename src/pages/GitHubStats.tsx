@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { applyPageMeta } from "@/lib/pageMeta";
+import { buildContributionHeatmap, type ContributionLevel } from "@/lib/contributions";
 
 const GITHUB_USER = "ERRROR22";
 const GITHUB_API = `https://api.github.com/users/${GITHUB_USER}`;
@@ -150,6 +151,15 @@ const GitHubStats = () => {
   const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
   const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
   const recentEvents = (data?.events ?? []).slice(0, 8);
+  const heatmap = buildContributionHeatmap(data?.events ?? []);
+
+  const heatmapCellClass: Record<ContributionLevel, string> = {
+    0: "bg-muted",
+    1: "bg-primary/25",
+    2: "bg-primary/50",
+    3: "bg-primary/75",
+    4: "bg-primary",
+  };
 
   return (
     <div className="min-h-screen bg-background">
