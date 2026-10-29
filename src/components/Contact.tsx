@@ -167,9 +167,9 @@ const Contact = ({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) => {
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-primary glass glass-border rounded-full">
             {"<Contact />"}
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <HeadingTag className="text-4xl md:text-5xl font-bold mb-4">
             Let's <span className="text-gradient">Connect</span>
-          </h2>
+          </HeadingTag>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind or want to discuss opportunities? I'd love to hear from you.
           </p>
