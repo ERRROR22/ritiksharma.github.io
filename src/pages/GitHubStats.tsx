@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { applyPageMeta } from "@/lib/pageMeta";
+import { buildContributionHeatmap, type ContributionLevel } from "@/lib/contributions";
 
 const GITHUB_USER = "ERRROR22";
 const GITHUB_API = `https://api.github.com/users/${GITHUB_USER}`;
@@ -72,13 +73,20 @@ const fetchGitHub = async <T,>(path: string): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
+const EVENT_PAGES = [1, 2, 3];
+
 const loadGitHubData = async (): Promise<GitHubData> => {
-  const [profile, repos, events] = await Promise.all([
+  const [profile, repos, eventPages] = await Promise.all([
     fetchGitHub<GitHubProfile>(GITHUB_API),
     fetchGitHub<GitHubRepo[]>(`${GITHUB_API}/repos?per_page=100&sort=updated`),
-    fetchGitHub<GitHubEvent[]>(`${GITHUB_API}/events/public?per_page=30`),
+    // Up to 300 events — the public API keeps roughly the last 90 days.
+    Promise.all(
+      EVENT_PAGES.map((page) =>
+        fetchGitHub<GitHubEvent[]>(`${GITHUB_API}/events/public?per_page=100&page=${page}`).catch(() => []),
+      ),
+    ),
   ]);
-  return { profile, repos, events };
+  return { profile, repos, events: eventPages.flat() };
 };
 
 const relativeDate = (value: string) => {
@@ -143,6 +151,15 @@ const GitHubStats = () => {
   const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
   const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
   const recentEvents = (data?.events ?? []).slice(0, 8);
+  const heatmap = buildContributionHeatmap(data?.events ?? []);
+
+  const heatmapCellClass: Record<ContributionLevel, string> = {
+    0: "bg-muted",
+    1: "bg-primary/25",
+    2: "bg-primary/50",
+    3: "bg-primary/75",
+    4: "bg-primary",
+  };
 
   return (
     <div className="min-h-screen bg-background">
