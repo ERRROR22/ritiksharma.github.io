@@ -109,7 +109,9 @@ const colorMap: Record<AchievementColor, { bg: string; text: string; border: str
   skill: { bg: "bg-skill/10", text: "text-skill", border: "border-skill/20" },
 };
 
-const Contact = () => {
+const Contact = ({ headingLevel = "h2" }: { headingLevel?: "h1" | "h2" }) => {
+  const HeadingTag = headingLevel === "h1" ? "h1" : "h2";
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -165,9 +167,9 @@ const Contact = () => {
           <span className="inline-block px-4 py-2 mb-4 text-sm font-mono text-primary glass glass-border rounded-full">
             {"<Contact />"}
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <HeadingTag className="text-4xl md:text-5xl font-bold mb-4">
             Let's <span className="text-gradient">Connect</span>
-          </h2>
+          </HeadingTag>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind or want to discuss opportunities? I'd love to hear from you.
           </p>
