@@ -228,6 +228,41 @@ const GitHubStats = () => {
                 ))}
               </section>
 
+              <section aria-label="Contribution activity" className="mb-12 rounded-lg border border-border bg-card p-5 shadow-card">
+                <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+                  <h2 className="text-2xl font-bold">Contribution activity</h2>
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {heatmap.total} {heatmap.total === 1 ? "contribution" : "contributions"} in the last 90 days
+                  </span>
+                </div>
+                <div className="overflow-x-auto pb-1">
+                  <div
+                    className="flex w-max gap-[3px]"
+                    role="img"
+                    aria-label={`Contribution heatmap showing ${heatmap.total} public GitHub contributions over the last 90 days`}
+                  >
+                    {heatmap.weeks.map((week, weekIndex) => (
+                      <div key={weekIndex} className="flex flex-col gap-[3px]">
+                        {week.map((day) => (
+                          <div
+                            key={day.date}
+                            title={day.count > 0 ? `${day.count} ${day.count === 1 ? "contribution" : "contributions"} on ${day.date}` : `No contributions on ${day.date}`}
+                            className={`h-3 w-3 rounded-[2px] ${heatmapCellClass[day.level]}`}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center justify-end gap-1.5 text-xs text-muted-foreground">
+                  Less
+                  {[0, 1, 2, 3, 4].map((level) => (
+                    <span key={level} className={`h-3 w-3 rounded-[2px] ${heatmapCellClass[level as ContributionLevel]}`} />
+                  ))}
+                  More
+                </div>
+              </section>
+
               <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
                 <section>
                   <div className="mb-5 flex items-baseline justify-between gap-4">

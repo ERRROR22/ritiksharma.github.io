@@ -28,8 +28,9 @@ export const levelForCount = (count: number): ContributionLevel => {
 /**
  * Builds a GitHub-style contribution heatmap from public events.
  * The unauthenticated events API only covers roughly the last 90 days,
- * so the default window is 91 days and the result is aligned into
- * full Sunday-started weeks up to today.
+ * so the default window is 91 days. The grid is built from whole
+ * Sunday-started week columns and always ends with the current
+ * (partial) week, so it never renders future days.
  */
 export function buildContributionHeatmap(
   events: Array<{ created_at: string }>,
@@ -49,11 +50,11 @@ export function buildContributionHeatmap(
   const today = new Date(now);
   today.setUTCHours(0, 0, 0, 0);
 
-  // Start of the window, then aligned back to the previous Sunday so
-  // every rendered column is a full 7-day week.
-  const windowStart = new Date(today.getTime() - (days - 1) * DAY_MS);
-  const firstDay = new Date(windowStart);
-  firstDay.setUTCDate(firstDay.getUTCDate() - firstDay.getUTCDay());
+  // The last column is the current week (starting on its Sunday), and
+  // enough full week columns precede it to cover the requested window.
+  const weekCount = Math.ceil(days / 7);
+  const firstDay = new Date(today);
+  firstDay.setUTCDate(firstDay.getUTCDate() - today.getUTCDay() - (weekCount - 1) * 7);
 
   const weeks: ContributionDay[][] = [];
   let total = 0;
