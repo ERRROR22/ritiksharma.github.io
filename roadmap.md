@@ -6,3 +6,4 @@
 - [x] Verify the three rewritten SEO articles render their new content and structured data.
 - [x] Regenerate the sitemap and run project checks.
 - [x] Add an AI-powered portfolio interest matcher for relevant projects and articles.
+- [ ] Build and verify the NewsVerify case study page, project link, and discoverability metadata.
