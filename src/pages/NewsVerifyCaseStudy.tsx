@@ -193,16 +193,16 @@ const NewsVerifyCaseStudy = () => {
               <h2 className="text-3xl font-bold md:text-4xl">Evaluated on 6,000 held-out articles.</h2>
               <p className="mt-4 leading-relaxed text-muted-foreground">The reported test set uses an 80/20 stratified split. The confusion-matrix counts below sum to all 6,000 test examples.</p>
             </div>
-            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-              <div className="grid grid-cols-2 gap-px self-start border border-border bg-border">
+            <div className="grid min-w-0 gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="grid min-w-0 grid-cols-2 gap-px self-start border border-border bg-border">
                 {[
                   ["96.0%", "Overall accuracy"], ["96.0%", "FAKE-class F1"],
                   ["95.1%", "FAKE precision"], ["97.0%", "FAKE recall"],
-                ].map(([value, label]) => <div key={label} className="bg-background p-5"><div className="text-3xl font-bold text-primary">{value}</div><div className="mt-2 text-xs text-muted-foreground">{label}</div></div>)}
+                ].map(([value, label]) => <div key={label} className="min-w-0 bg-background p-5"><div className="text-3xl font-bold text-primary">{value}</div><div className="mt-2 text-xs text-muted-foreground">{label}</div></div>)}
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="mb-4 text-lg font-semibold">Confusion matrix <span className="font-normal text-muted-foreground">· Actual vs predicted</span></h3>
-                <div className="overflow-x-auto border border-border">
+                <div className="max-w-full overflow-x-auto border border-border">
                   <table className="w-full min-w-[440px] border-collapse text-left text-sm">
                     <thead><tr className="border-b border-border text-xs text-muted-foreground"><th scope="col" className="p-3 font-medium">Actual class</th><th scope="col" className="p-3 font-medium">Predicted FAKE</th><th scope="col" className="p-3 font-medium">Predicted REAL</th></tr></thead>
                     <tbody>

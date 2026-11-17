@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github, Search } from "lucide-react";
+import { Shield, Image, Trophy, Vote, Newspaper, ExternalLink, Github, Search, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Input } from "./ui/input";
 import ScrollReveal from "./animations/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./animations/StaggerContainer";
@@ -15,6 +16,7 @@ const projects = [
     year: "2026",
     highlights: ["~96% accuracy · F1 96.0 on 6K test set", "Gemini 2.5 Flash + live Search grounding", "Text · URL · Image (OCR) input modes", "Phase-I → Phase-II real-time upgrade"],
     appLink: "https://truth-verifier--Techtitans999.replit.app",
+    caseStudyPath: "/projects/newsverify",
     category: "Full-Stack",
   },
   {
@@ -240,6 +242,15 @@ const Projects = () => {
 
                       {/* Links */}
                       <div className="flex flex-wrap items-center gap-4 mt-auto">
+                        {project.caseStudyPath && (
+                          <Link
+                            to={project.caseStudyPath}
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          >
+                            <ArrowUpRight className="w-4 h-4" />
+                            Read Case Study
+                          </Link>
+                        )}
                         {project.appLink && (
                           <a
                             href={project.appLink}

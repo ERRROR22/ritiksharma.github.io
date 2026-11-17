@@ -5,7 +5,14 @@
  */
 
 /** Static routes served by the SPA router (see src/App.tsx). */
-export const STATIC_ROUTES = ["/", "/accessibility", "/contact", "/github", "/now"] as const;
+export const STATIC_ROUTES = [
+  "/",
+  "/accessibility",
+  "/contact",
+  "/github",
+  "/now",
+  "/projects/newsverify",
+] as const;
 
 /** Anything with a file extension is an asset request, not an SPA navigation. */
 export const isFileRequest = (pathname: string): boolean =>

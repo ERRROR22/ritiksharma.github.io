@@ -14,6 +14,7 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 const Admin = lazy(() => import("./pages/Admin"));
 const NowPage = lazy(() => import("./pages/NowPage"));
 const GitHubStats = lazy(() => import("./pages/GitHubStats"));
+const NewsVerifyCaseStudy = lazy(() => import("./pages/NewsVerifyCaseStudy"));
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/now" element={<NowPage />} />
               <Route path="/github" element={<GitHubStats />} />
+              <Route path="/projects/newsverify" element={<NewsVerifyCaseStudy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

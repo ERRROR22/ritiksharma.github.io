@@ -46,9 +46,16 @@ async def run() -> None:
         page = await context.new_page()
 
         # 1. Known routes still respond 200.
-        for path in ("", "accessibility"):
+        for path in ("", "accessibility", "projects/newsverify"):
             response = await page.goto(url_for(path), wait_until="domcontentloaded")
             check(f"GET {url_for(path)} status", response.status if response else None, 200)
+            if path == "projects/newsverify":
+                try:
+                    await page.get_by_role("heading", name="NewsVerify.", level=1).wait_for(timeout=15_000)
+                    rendered = True
+                except Exception:
+                    rendered = False
+                check("NewsVerify case study renders its main heading", rendered, True)
 
         # 2. First blog slug from the rendered feed responds 200.
         blog_link = page.locator('a[href*="/blog/"]').first
