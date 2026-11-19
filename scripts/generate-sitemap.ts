@@ -34,6 +34,7 @@ const entries: SitemapEntry[] = [
   { path: "/contact", changefreq: "monthly", priority: "0.8" },
   { path: "/github", changefreq: "weekly", priority: "0.8" },
   { path: "/now", changefreq: "weekly", priority: "0.6" },
+  { path: "/roadmap", changefreq: "weekly", priority: "0.5" },
   { path: "/projects/newsverify", changefreq: "monthly", priority: "0.8" },
   ...blogPosts.map((post) => ({
     path: `/blog/${post.slug}`,

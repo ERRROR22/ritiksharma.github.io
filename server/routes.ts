@@ -12,6 +12,7 @@ export const STATIC_ROUTES = [
   "/github",
   "/now",
   "/projects/newsverify",
+  "/roadmap",
 ] as const;
 
 /** Anything with a file extension is an asset request, not an SPA navigation. */

@@ -7,3 +7,4 @@
 - [x] Regenerate the sitemap and run project checks.
 - [x] Add an AI-powered portfolio interest matcher for relevant projects and articles.
 - [x] Build and verify the NewsVerify case study page, project link, and discoverability metadata.
+- [x] Public roadmap page showing each task's status.
