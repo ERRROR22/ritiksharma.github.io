@@ -26,9 +26,9 @@ const SITE_URL = "https://ritiksharma.lovable.app";
 const NewsVerifyCaseStudy = () => {
   useEffect(() => {
     const restoreMeta = applyPageMeta({
-      title: "NewsVerify Case Study | Multimodal Fake News Detection",
+      title: "NewsVerify: Fake News Detection with ML & NLP | Case Study",
       description:
-        "How NewsVerify combines a TF-IDF and Passive Aggressive Classifier with Gemini 2.5 Flash and live search grounding to analyze news across text, links, and images.",
+        "NewsVerify detects fake news with Python, Flask, NLTK, TF-IDF and a Passive Aggressive Classifier (96% accuracy on 30,000+ Kaggle articles), plus Gemini-grounded claim checks.",
       path: "/projects/newsverify",
       type: "article",
     });
@@ -37,15 +37,39 @@ const NewsVerifyCaseStudy = () => {
     structuredData.dataset.newsverifyCaseStudy = "true";
     structuredData.textContent = JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Article",
-      headline: "NewsVerify: Multimodal Fake News Detection",
-      description:
-        "A case study of a dual-engine misinformation analysis app built by Team Tech Titans.",
-      url: `${SITE_URL}/projects/newsverify`,
-      image: [`${SITE_URL}${analyzerScreen}`],
-      author: { "@type": "Person", name: "Ritik Sharma", url: SITE_URL },
-      about: { "@type": "SoftwareApplication", name: "NewsVerify", applicationCategory: "NewsApplication" },
-      inLanguage: "en",
+      "@graph": [
+        {
+          "@type": "Article",
+          headline: "NewsVerify: Fake News Detection using Machine Learning and NLP",
+          description:
+            "Case study of NewsVerify, a fake news detection app using an NLP pipeline (regex cleaning, NLTK tokenization, stopword removal, lemmatization, TF-IDF) and a Passive Aggressive Classifier with ~96% accuracy.",
+          url: `${SITE_URL}/projects/newsverify`,
+          image: [`${SITE_URL}${analyzerScreen}`, `${SITE_URL}${pipelineScreen}`],
+          author: { "@type": "Person", name: "Ritik Sharma", url: SITE_URL },
+          keywords: "fake news detection, machine learning, NLP, TF-IDF, Passive Aggressive Classifier, Flask, NLTK, scikit-learn, Kaggle fake news dataset",
+          inLanguage: "en",
+          mainEntity: { "@id": `${SITE_URL}/projects/newsverify#app` },
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": `${SITE_URL}/projects/newsverify#app`,
+          name: "NewsVerify",
+          applicationCategory: "NewsApplication",
+          operatingSystem: "Web, Android, iOS",
+          url: "https://truth-verifier--Techtitans999.replit.app",
+          description:
+            "Real-time fake news detection that classifies news articles as REAL or FAKE from their content, built with Python, Flask, Pandas, NumPy, scikit-learn, NLTK, Seaborn and Matplotlib.",
+          featureList: [
+            "Text, URL and image input",
+            "NLP pipeline: regex cleaning, lowercasing, tokenization, stopword removal, lemmatization, TF-IDF",
+            "Passive Aggressive Classifier with ~96% accuracy (80/20 split)",
+            "Trained on 30,000+ Kaggle fake news articles",
+            "Mobile-responsive PWA",
+          ],
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          author: { "@type": "Person", name: "Ritik Sharma", url: SITE_URL },
+        },
+      ],
     }).replace(/</g, "\\u003c");
     document.head.appendChild(structuredData);
     return () => {
