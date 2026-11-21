@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, CircleDashed, Loader2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CircleDashed, ListTodo, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { applyPageMeta } from "@/lib/pageMeta";
-import { roadmapTasks, type RoadmapStatus } from "@/data/roadmap";
+import { type RoadmapStatus } from "@/data/roadmap";
+import { useRoadmapTasks } from "@/lib/useRoadmapTasks";
 
 const statusMeta: Record<RoadmapStatus, { label: string; icon: typeof CheckCircle2; className: string }> = {
   done: { label: "Done", icon: CheckCircle2, className: "text-primary border-primary/40 bg-primary/10" },
@@ -16,6 +17,8 @@ const statusMeta: Record<RoadmapStatus, { label: string; icon: typeof CheckCircl
 const order: RoadmapStatus[] = ["in-progress", "planned", "done"];
 
 const RoadmapPage = () => {
+  const tasks = useRoadmapTasks();
+
   useEffect(
     () =>
       applyPageMeta({
@@ -26,8 +29,8 @@ const RoadmapPage = () => {
     [],
   );
 
-  const done = roadmapTasks.filter((t) => t.status === "done").length;
-  const pct = Math.round((done / roadmapTasks.length) * 100);
+  const done = tasks.filter((task) => task.status === "done").length;
+  const pct = Math.round((done / tasks.length) * 100);
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,13 +42,18 @@ const RoadmapPage = () => {
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to GitHub
             </Button>
           </Link>
+          <div className="mb-6 flex justify-end">
+            <Link to="/github/tasks">
+              <Button variant="outline" size="sm"><ListTodo className="mr-2 h-4 w-4" /> Manage tasks</Button>
+            </Link>
+          </div>
           <header className="mb-10 border-b border-border pb-9">
             <p className="mb-3 font-mono text-sm text-primary">/roadmap</p>
             <h1 className="mb-4 text-4xl font-bold md:text-5xl">Roadmap</h1>
             <p className="max-w-2xl text-lg text-muted-foreground">Every task on this site and where it stands.</p>
             <div className="mt-6">
               <div className="mb-2 flex justify-between text-sm text-muted-foreground">
-                <span>{done} of {roadmapTasks.length} done</span>
+                <span>{done} of {tasks.length} done</span>
                 <span className="font-mono">{pct}%</span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
@@ -54,17 +62,17 @@ const RoadmapPage = () => {
             </div>
           </header>
           {order.map((status) => {
-            const tasks = roadmapTasks.filter((t) => t.status === status);
-            if (!tasks.length) return null;
+            const groupedTasks = tasks.filter((task) => task.status === status);
+            if (!groupedTasks.length) return null;
             const meta = statusMeta[status];
             return (
               <section key={status} className="mb-10">
-                <h2 className="mb-4 text-xl font-bold">{meta.label} <span className="text-muted-foreground font-normal">({tasks.length})</span></h2>
+                <h2 className="mb-4 text-xl font-bold">{meta.label} <span className="text-muted-foreground font-normal">({groupedTasks.length})</span></h2>
                 <ul className="divide-y divide-border rounded-lg border border-border bg-card">
-                  {tasks.map((task) => {
+                  {groupedTasks.map((task) => {
                     const Icon = meta.icon;
                     return (
-                      <li key={task.title} className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+                      <li key={task.id} className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex min-w-0 items-start gap-3">
                           <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${meta.className.split(" ")[0]}`} />
                           <div className="min-w-0">

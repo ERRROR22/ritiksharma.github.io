@@ -8,6 +8,7 @@ import {
   GitCommitHorizontal,
   GitFork,
   Github,
+  ListTodo,
   RefreshCw,
   Star,
 } from "lucide-react";
@@ -187,6 +188,7 @@ const GitHubStats = () => {
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
               <Link to="/roadmap"><Button variant="ghost" className="w-full sm:w-auto">Roadmap</Button></Link>
+              <Link to="/github/tasks"><Button variant="outline" className="w-full sm:w-auto"><ListTodo className="mr-2 h-4 w-4" /> Task tracker</Button></Link>
               <a href={`https://github.com/${GITHUB_USER}`} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="w-full sm:w-auto">
                   View profile <ArrowUpRight className="ml-2 h-4 w-4" />

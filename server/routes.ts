@@ -10,6 +10,7 @@ export const STATIC_ROUTES = [
   "/accessibility",
   "/contact",
   "/github",
+  "/github/tasks",
   "/now",
   "/projects/newsverify",
   "/roadmap",
